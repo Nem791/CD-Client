@@ -3,11 +3,7 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import CreateRoundedIcon from "@mui/icons-material/CreateRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import defaultImg from "../../assets/img/defaultImg/defaulImg.png";
-import {
-  deleteCard,
-  joinSet,
-  updateCard,
-} from "../../realtimeCommunication/socketConnection";
+
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setShowCreateCard } from "../../store/show/showSlice";
@@ -16,13 +12,6 @@ import { setCardInfo } from "../../store/card/slice";
 const SubCard = ({ subcard = [] }) => {
   const { setId } = useParams();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    joinSet(setId);
-  }, [setId]);
-  const handleDeleteCard = () => {
-    deleteCard({ cardId: subcard?._id, setId });
-  };
 
   const handleUpdateCard = () => {
     dispatch(setCardInfo(subcard));
@@ -34,7 +23,6 @@ const SubCard = ({ subcard = [] }) => {
     const cardDataUpdate = {
       isLearned: !subcard?.isLearned,
     };
-    updateCard({ cardDataUpdate, cardId, setId });
   };
   return (
     <div className="p-[16px] shadow-flashcard bg-white rounded-lg cursor-pointer">
@@ -69,10 +57,7 @@ const SubCard = ({ subcard = [] }) => {
           >
             <CreateRoundedIcon className="text-[24px]" />
           </div>
-          <div
-            className="p-2 hover:bg-[#eceff4] hover:text-red-400 hover:mb-[8px] rounded-full transition-all linear duration-75 cursor-pointer"
-            onClick={handleDeleteCard}
-          >
+          <div className="p-2 hover:bg-[#eceff4] hover:text-red-400 hover:mb-[8px] rounded-full transition-all linear duration-75 cursor-pointer">
             <DeleteRoundedIcon className="text-[24px]" />
           </div>
         </div>

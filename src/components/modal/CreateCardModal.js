@@ -14,10 +14,7 @@ import {
   setShowAlert,
   setType,
 } from "../../store/alert/alertSlice";
-import {
-  createCard,
-  updateCard,
-} from "../../realtimeCommunication/socketConnection";
+
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import { useParams } from "react-router-dom";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
@@ -109,12 +106,8 @@ const CreateCardModal = ({ closeModel }) => {
             meaningUsers: values.definition,
             images: cardInfo?.images,
           };
-
-          // console.log("cardDataUpdate", cardDataUpdate);
-          updateCard({ cardDataUpdate, cardId, setId });
         } else {
           if (imageCover) {
-            createCard({ cardData, setId });
           } else {
             dispatch(setShowAlert(true));
             dispatch(setMessage("You must choose image for the card"));

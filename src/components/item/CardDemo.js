@@ -1,5 +1,4 @@
 import React from "react";
-import useGetImageUrl from "../../hooks/useGetImageUrl";
 
 const CardDemo = ({ setId, card, index, deleteCard = () => {} }) => {
   const handleDeleteCard = () => {

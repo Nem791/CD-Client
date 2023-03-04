@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React from "react";
 import Header from "../components/common/Header";
 import HomePoster from "../components/home/HomePoster";
 

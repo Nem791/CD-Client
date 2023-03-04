@@ -15,13 +15,7 @@ import CardDetails from "../components/card/CardDetails";
 
 import ArrowBackIosRoundedIcon from "@mui/icons-material/ArrowBackIosRounded";
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
-import {
-  connectWithSocketServer,
-  getCard,
-  getNotStudied,
-  getStudied,
-  joinSet,
-} from "../realtimeCommunication/socketConnection";
+
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getSetInfo } from "../store/set/slice";
@@ -34,7 +28,6 @@ import {
 import TypeTestModal from "../components/modal/TypeTestModal";
 import ReviewModal from "../components/modal/ReviewModal";
 import { getCardList } from "../store/card/slice";
-import useAuthStateChanged from "../hooks/useAuthStateChanged";
 
 const SetPage = () => {
   const { setId } = useParams();
@@ -42,11 +35,6 @@ const SetPage = () => {
   const [swiper, setSwiper] = React.useState();
   const prevRef = React.useRef();
   const nextRef = React.useRef();
-  const { user } = useAuthStateChanged();
-
-  useEffect(() => {
-    connectWithSocketServer(user, dispatch);
-  }, [user, dispatch]);
 
   const { cardList } = useSelector((state) => state.card);
   const { cardShow } = useSelector((state) => state.cardDetail);
@@ -55,18 +43,8 @@ const SetPage = () => {
   );
 
   useEffect(() => {
-    joinSet(setId);
-  }, [setId]);
-
-  useEffect(() => {
     dispatch(getCardList(setId));
   }, [dispatch, setId]);
-
-  useEffect(() => {
-    getCard(setId);
-    getStudied(setId);
-    getNotStudied(setId);
-  }, [setId]);
 
   useEffect(() => {
     dispatch(getSetInfo(setId));

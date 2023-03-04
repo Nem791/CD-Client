@@ -3,7 +3,6 @@ export { default as SignUpPage } from "./auth/SignUpPage";
 export { default as ErrorPage } from "./ErrorPage";
 export { default as HomePage } from "./HomePage";
 export { default as UserProfile } from "./UserProfile";
-export { default as ClassPage } from "./class/ClassPage";
 export { default as ForgotPasswordPage } from "./ForgotPasswordPage";
 export { default as CheckMailPage } from "./CheckMailPage";
 export { default as SetNewPasswordPage } from "./SetNewPasswordPage";

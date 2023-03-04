@@ -6,12 +6,8 @@ import * as yup from "yup";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCardList, setCardList, setSetId } from "../../store/card/slice";
-import {
-  deleteCard,
-  getCardOfSet,
-  joinSet,
-} from "../../realtimeCommunication/socketConnection";
+import { getCardList, setSetId } from "../../store/card/slice";
+
 import {
   setMessage,
   setShowAlert,
@@ -39,13 +35,7 @@ const CreateSetPage = () => {
 
   const { cardList } = useSelector((state) => state.card);
 
-  // console.log(cardList.map);
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    joinSet(setId);
-  }, [setId]);
 
   useEffect(() => {
     dispatch(getCardList(setId));
@@ -61,7 +51,7 @@ const CreateSetPage = () => {
 
   const {
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid },
     control,
     reset,
   } = useForm({
@@ -113,7 +103,6 @@ const CreateSetPage = () => {
 
   const handleDeleteCard = (cardId) => {
     try {
-      deleteCard(cardId);
     } catch (err) {
       dispatch(setShowAlert(true));
       dispatch(setMessage("Something wrong."));

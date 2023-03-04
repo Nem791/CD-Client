@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import {
   CheckMailPage,
-  ClassPage,
   ErrorPage,
   ForgotPasswordPage,
   HomePage,
@@ -26,15 +25,12 @@ import { getIsLogin } from "./store/auth/slice";
 const Router = () => {
   const dispatch = useDispatch();
   const { isLogin } = useSelector((state) => state.auth);
-  // console.log(isLogin);
   useEffect(() => {
     dispatch(getIsLogin(isLogin));
   }, [dispatch, isLogin]);
   return (
     <Routes>
-      {/* Đường dẫn / sẽ tự động dc chuyển sang /home */}
       <Route path="/" element={<Navigate to="/home" />}></Route>
-      {/* Làm trang Error 404 */}
       <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
       <Route path="/home" element={<HomePage></HomePage>}></Route>
 
@@ -61,10 +57,7 @@ const Router = () => {
             path="/profile/:userId/*"
             element={<UserProfile></UserProfile>}
           ></Route>
-          {/* <Route
-            path="/class/:classId/*"
-            element={<ClassPage></ClassPage>}
-          ></Route> */}
+
           <Route path="/settings" element={<SettingPage></SettingPage>}></Route>
           <Route
             path="/createSet/:setId"
