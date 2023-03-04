@@ -11,7 +11,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
 } from "firebase/auth";
-import { auth } from "../../firebase.config";
+import { auth } from "../../shared/config/firebase.config";
 import { Link, useNavigate } from "react-router-dom";
 import { ButtonSocial, ButtonSubmit } from "../../components/button";
 
@@ -31,7 +31,7 @@ import {
 } from "../../components/layout/auth/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const SignInPage = () => {
   const { value: open, handleToggleValue: handleToggleEyeIcon } =
@@ -77,14 +77,13 @@ const SignInPage = () => {
   });
 
   const onSubmitHandler = async (values) => {
-    console.log(values);
     if (isValid) {
       try {
         const user = await axios.post(`${domain}/api/v1/users/login`, {
           email: values.email,
           password: values.password,
         });
-        // console.log(user);
+
         handleAlert();
         if (user) {
           navigate("/home");
@@ -100,7 +99,6 @@ const SignInPage = () => {
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response?.user;
-      console.log(user);
 
       const newUser = await axios.post(
         `${domain}/api/v1/users/signUpWithGoogle`,
@@ -126,7 +124,6 @@ const SignInPage = () => {
       const provider = new FacebookAuthProvider();
       const response = await signInWithPopup(auth, provider);
       const user = response.user;
-      console.log(user);
     } catch (err) {
       console.log(err);
     }

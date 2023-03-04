@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase.config";
+import { storage } from "../shared/config/firebase.config";
 
 export default function useGetImageUrl() {
   const [imageCover, setImageCover] = useState("");
@@ -8,7 +8,6 @@ export default function useGetImageUrl() {
     const file = e.target.files[0];
 
     // Tạo tham chiếu đến nơi lưu trữ ảnh trên firebase-storage
-    console.log(file);
     const storageRef = ref(storage, file.name);
     // Upload ảnh lên firebase
     const uploadTask = uploadBytesResumable(storageRef, file);

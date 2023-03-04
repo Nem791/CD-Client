@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { getSchedule, setMonthIndex } from "../../store/schedule/scheduleSlice";
 
-import { getMonth } from "../../utils/date";
+import { getMonth } from "../../shared/utils/date";
 import CalendarHeader from "./CalendarHeader";
 import EventModal from "./EventModal";
 import Month from "./Month";

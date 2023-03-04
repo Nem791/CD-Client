@@ -15,8 +15,6 @@ const SpeakRoom = () => {
 
   const [textToSpeech, setTextToSpeech] = useState("");
 
-  console.log(transcript);
-  console.log(textToSpeech);
   const selector = useCallback(
     (voices) => [...voices].find((v) => v.lang === "en-GB"),
     []
@@ -75,7 +73,7 @@ const SpeakRoom = () => {
         </button>
 
         <SayButton
-          onClick={(event) => console.log(event)}
+          onClick={(event) => {}}
           text={transcript}
           voice={selector}
           pitch={1.1}

@@ -14,7 +14,7 @@ const AnswerItem = ({ option, index, control, name, value }) => {
     [...choiceItem].forEach((item) => {
       item.classList.remove("active-question");
     });
-    console.log(option);
+
     if (e.target.value === option) {
       e.target.parentNode.classList.add("active-question");
     }

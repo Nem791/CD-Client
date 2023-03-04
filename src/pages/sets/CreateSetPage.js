@@ -23,7 +23,7 @@ import axios from "axios";
 
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import slugify from "react-slugify";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const CreateSetPage = () => {
   const navigate = useNavigate();
@@ -70,14 +70,6 @@ const CreateSetPage = () => {
     if (isValid) {
       try {
         if (imageCover) {
-          console.log({
-            name: values.setname,
-            description: values.description,
-            createdBy: user._id,
-            numCards: cardList.length,
-            image: imageCover,
-            slug: slugify(values.setname),
-          });
           const sets = await axios.patch(`${domain}/api/v1/sets/${setId}`, {
             name: values.setname,
             description: values.description,

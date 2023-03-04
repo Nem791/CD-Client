@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 import { ButtonModal } from "../button";
 import SetOption from "./SetOption";

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import DragHandleRoundedIcon from "@mui/icons-material/DragHandleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 
 import {
   setSavedEvent,
@@ -13,7 +12,7 @@ import SegmentIcon from "@mui/icons-material/Segment";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 import { useParams } from "react-router-dom";
 
@@ -22,8 +21,6 @@ const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 const EventModal = () => {
   const { daySelected, selectedEvent } = useSelector((state) => state.schedule);
   const { userId } = useParams();
-
-  console.log({ daySelected, selectedEvent });
 
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
   const [description, setDiscription] = useState(

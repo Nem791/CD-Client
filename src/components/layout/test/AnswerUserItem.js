@@ -6,9 +6,7 @@ import { useParams } from "react-router-dom";
 
 const AnswerUserItem = ({ result }) => {
   const { type } = useParams();
-  console.log(type);
 
-  // console.log(result);
   return (
     <div className="bg-white p-[32px] max-w-[700px] w-full rounded-xl relative mt-[20px]">
       <div>

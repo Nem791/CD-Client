@@ -16,7 +16,7 @@ import {
   AuthRight,
   HaveAccount,
 } from "../../components/layout/auth/index";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const SignUpPage = () => {
   const { value: open, handleToggleValue: handleToggleEyeIcon } =
@@ -68,8 +68,6 @@ const SignUpPage = () => {
         console.log(err);
       }
     }
-
-    // console.log(values);
   };
 
   return (

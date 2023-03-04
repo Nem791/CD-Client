@@ -93,7 +93,6 @@ const SetPage = () => {
 
   React.useEffect(() => {
     if (swiper) {
-      console.log("Swiper instance:", swiper);
       swiper.params.navigation.prevEl = prevRef.current;
       swiper.params.navigation.nextEl = nextRef.current;
       swiper.navigation.destroy();

@@ -19,7 +19,7 @@ import {
   setType,
 } from "../../store/alert/alertSlice";
 
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const Header = () => {
   const dispatch = useDispatch();

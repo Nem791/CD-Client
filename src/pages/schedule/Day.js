@@ -44,7 +44,6 @@ const Day = ({ day, rowIndex }) => {
         }}
       >
         {dayEvents.map((evt, idx) => {
-          console.log(evt);
           return (
             <div
               key={idx}

@@ -21,7 +21,6 @@ import useGetImageUrl from "../../hooks/useGetImageUrl";
 
 const CreateCardModal = ({ closeModel }) => {
   const { setId } = useParams();
-  // console.log(setId);
   const schema = yup.object({
     term: yup.string().required("Please enter your term."),
   });
@@ -52,7 +51,6 @@ const CreateCardModal = ({ closeModel }) => {
   const onSubmitHandler = async (values) => {
     if (isValid) {
       const searchWord = values.term;
-      // console.log(fileRef.current.value);
       try {
         const getDefinitonCard = await axios.get(
           `https://api.dictionaryapi.dev/api/v2/entries/en_US/${searchWord}`,
@@ -62,7 +60,6 @@ const CreateCardModal = ({ closeModel }) => {
           }
         );
 
-        // console.log(getDefinitonCard.data);
         const { word, phonetic, meanings, phonetics } =
           getDefinitonCard.data[0];
 

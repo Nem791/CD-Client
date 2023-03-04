@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ButtonSubmit } from "../components/button";
-import { domain } from "../utils/common";
+import { domain } from "../shared/utils/common";
 const ForgotPasswordPage = () => {
   let navigate = useNavigate();
   const schema = yup.object({

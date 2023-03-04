@@ -6,12 +6,12 @@ import { ButtonSubmit } from "../../button";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import moment from "moment";
+
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthStateChanged from "../../../hooks/useAuthStateChanged";
 import axios from "axios";
-import { domain } from "../../../utils/common";
+import { domain } from "../../../shared/utils/common";
 
 const TestEssayList = () => {
   const { testId, setId } = useParams();
@@ -43,7 +43,6 @@ const TestEssayList = () => {
   });
 
   const onSubmitHandler = async (values) => {
-    console.log(values);
     const answer = Object.values(values).map((el, index) => {
       return {
         question: index + 1,
@@ -72,7 +71,6 @@ const TestEssayList = () => {
           `${domain}/api/v1/answer-history`,
           data
         );
-        console.log(answerHistory);
         if (answerHistory) {
           navigate(`/set/${setId}/result/${testId}/essay`);
         }

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import multipleChoice from "../../../assets/img/typeTest/multiple-choice.png";
 import useAuthStateChanged from "../../../hooks/useAuthStateChanged";
 import { setQuestions, setTest } from "../../../store/test/testSlice";
-import { domain } from "../../../utils/common";
+import { domain } from "../../../shared/utils/common";
 const MultipleChoice = ({ questionMulty }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

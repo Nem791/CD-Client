@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const UserBox = ({ isOpen = false }) => {
   const { user } = useAuthStateChanged();

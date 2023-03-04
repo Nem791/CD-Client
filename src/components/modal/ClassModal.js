@@ -10,7 +10,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
-import { domain } from "../../utils/common";
+import { domain } from "../../shared/utils/common";
 
 const ClassModal = () => {
   const { imageCover, getImageUrl } = useGetImageUrl();

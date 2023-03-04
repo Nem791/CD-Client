@@ -3,7 +3,6 @@ import requestGetTest from "./callApi";
 import { setTest } from "./testSlice";
 
 export default function* handleGetTest(actions) {
-  // console.log(actions);
   try {
     const response = yield call(requestGetTest, actions.payload);
 

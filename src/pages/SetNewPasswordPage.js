@@ -10,7 +10,7 @@ import * as yup from "yup";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
-import { domain } from "../utils/common";
+import { domain } from "../shared/utils/common";
 
 const SetNewPasswordPage = () => {
   let navigate = useNavigate();

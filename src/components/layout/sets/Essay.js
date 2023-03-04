@@ -6,7 +6,7 @@ import essay from "../../../assets/img/typeTest/essay.png";
 
 import useAuthStateChanged from "../../../hooks/useAuthStateChanged";
 import { setQuestions, setTest } from "../../../store/test/testSlice";
-import { domain } from "../../../utils/common";
+import { domain } from "../../../shared/utils/common";
 
 const Essay = ({ questionEssay }) => {
   const navigate = useNavigate();
@@ -27,7 +27,6 @@ const Essay = ({ questionEssay }) => {
         testId: testId,
         type: "essay",
       });
-      console.log(question);
       dispatch(setQuestions(question.data.data.questions));
       dispatch(setTest(test.data.data.tests));
       navigate(`/set/${setId}/essay/${testId}`);

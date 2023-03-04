@@ -6,7 +6,6 @@ import UserBox from "./UserBox";
 const UserIcon = () => {
   const { value: show, handleToggleValue: handleClick } = useToggleValue();
   const { user } = useAuthStateChanged();
-  // console.log(user);
   return (
     <div className="box-wrapper relative" onClick={handleClick}>
       <img
