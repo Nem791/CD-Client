@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { storage } from "../shared/config/firebase.config";
+import useFireBase from "../shared/helper/useFireBase";
 
 export default function useGetImageUrl() {
+  const { storage } = useFireBase();
   const [imageCover, setImageCover] = useState("");
   const getImageUrl = (e) => {
     const file = e.target.files[0];

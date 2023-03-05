@@ -10,11 +10,11 @@ const InputForm = ({
   control,
   error = false,
 }) => {
-  const { field } = useController({
-    control,
-    name: id,
-    defaultValue: "",
-  });
+  // const { field } = useController({
+  //   control,
+  //   name: id,
+  //   defaultValue: "",
+  // });
   return (
     <div
       className={`flex px-[20px] py-[14px] bg-[#f3f3f3] rounded-xl items-center mt-[40px] relative z-10 border-[2px] solid border-transparent ${
@@ -35,7 +35,7 @@ const InputForm = ({
             id={id}
             name={id}
             className="outline-0 bg-[#f3f3f3] text-lg w-full"
-            {...field}
+            // {...field}
           ></input>
         </div>
       </div>

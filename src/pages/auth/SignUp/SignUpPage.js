@@ -1,78 +1,25 @@
 import React from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
-
-import IconEyeToggle from "../../components/icons/IconEyeToggle";
-import useToggleValue from "../../hooks/useToggleValue";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { ButtonSubmit } from "../../components/button";
-import InputForm from "../../components/input/InputForm";
-import InputError from "../../components/input/InputError";
-
-import {
-  AuthLeft,
-  AuthRight,
-  HaveAccount,
-} from "../../components/layout/auth/index";
-import { domain } from "../../shared/utils/common";
+import { ButtonSubmit } from "../../../components/button";
+import IconEyeToggle from "../../../components/icons/IconEyeToggle";
+import AuthRight from "../components/AuthRight";
+import HaveAccount from "../components/HaveAccount";
+import InputError from "../components/InputError";
+import InputForm from "../components/InputForm";
+import Layout from "../components/Layout";
+import useSignUpPage from "./useSignUpPage";
 
 const SignUpPage = () => {
-  const { value: open, handleToggleValue: handleToggleEyeIcon } =
-    useToggleValue();
-
-  let navigate = useNavigate();
-
-  const schema = yup.object({
-    username: yup.string().required("Please enter your username."),
-    email: yup
-      .string()
-      .required("Please enter your email address.")
-      .email("Invalid email."),
-    password: yup
-      .string()
-      .required("Please enter your password.")
-      .min(8, "Your password must have at least 8 characters."),
-    confirm: yup
-      .string()
-      .required("Please enter confirm password.")
-      .oneOf(
-        [yup.ref("password"), null],
-        "Please make sure your password match."
-      ),
-  });
   const {
+    open,
+    handleToggleEyeIcon,
+    onSubmitHandler,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting },
     control,
-  } = useForm({
-    resolver: yupResolver(schema),
-    mode: "onChange",
-    //mode: onChange để sử dụng đc thằng isValid (ko nó sẽ mãi mãi là false)
-  });
-
-  const onSubmitHandler = async (values) => {
-    // values: dữ liệu trong form
-    if (isValid) {
-      try {
-        await axios.post(`${domain}/api/v1/users/signup`, {
-          name: values.username,
-          email: values.email,
-          password: values.password,
-          passwordConfirm: values.confirm,
-        });
-
-        navigate("/sign-in");
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
-
+    errors,
+    isSubmitting,
+  } = useSignUpPage();
   return (
-    <div className="w-full grid lg:grid-cols-2 grid-cols-1 overflow-hidden">
-      <AuthLeft></AuthLeft>
+    <Layout>
       <AuthRight
         title="Sign up to Mindcard"
         subtitle="Sign up and start learning. It's free"
@@ -147,7 +94,7 @@ const SignUpPage = () => {
           ></HaveAccount>
         </div>
       </AuthRight>
-    </div>
+    </Layout>
   );
 };
 

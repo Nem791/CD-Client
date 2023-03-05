@@ -1,5 +1,3 @@
-export { default as SignInPage } from "./auth/SignInPage";
-export { default as SignUpPage } from "./auth/SignUpPage";
 export { default as ErrorPage } from "./ErrorPage";
 export { default as HomePage } from "./HomePage";
 export { default as UserProfile } from "./UserProfile";

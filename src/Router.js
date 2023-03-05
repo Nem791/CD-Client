@@ -9,12 +9,12 @@ import {
   HomePage,
   SetNewPasswordPage,
   SettingPage,
-  SignInPage,
-  SignUpPage,
   UserProfile,
   CreateSetPage,
   SetPage,
 } from "./pages";
+import SignInPage from "./pages/auth/SignIn/SignInPage";
+import SignUpPage from "./pages/auth/SignUp/SignUpPage";
 import SchedulePage from "./pages/schedule/SchedulePage";
 import EssayPage from "./pages/test/EssayPage";
 import MultipleChoicePage from "./pages/test/MultipleChoicePage";
