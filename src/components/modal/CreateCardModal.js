@@ -15,6 +15,11 @@ import {
   setType,
 } from "../../store/alert/alertSlice";
 
+import {
+  createCard,
+  updateCard,
+} from "../../realtimeCommunication/socketConnection";
+
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import { useParams } from "react-router-dom";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
@@ -103,14 +108,15 @@ const CreateCardModal = ({ closeModel }) => {
             meaningUsers: values.definition,
             images: cardInfo?.images,
           };
+          updateCard({ cardDataUpdate, cardId, setId });
+        } else if (imageCover) {
+          createCard({ cardData, setId });
         } else {
-          if (imageCover) {
-          } else {
-            dispatch(setShowAlert(true));
-            dispatch(setMessage("You must choose image for the card"));
-            dispatch(setType("error"));
-          }
+          dispatch(setShowAlert(true));
+          dispatch(setMessage("You must choose image for the card"));
+          dispatch(setType("error"));
         }
+
         // reset form
         reset();
         fileRef.current.value = null;

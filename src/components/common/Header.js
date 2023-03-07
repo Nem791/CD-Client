@@ -6,11 +6,11 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 
+import { SmallButton } from "../button";
+import { Notification, UserIcon } from "../box";
 import logo from "../../assets/img/home/logo.png";
 
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
-import { SmallButton } from "../button";
-import { UserIcon } from "../box";
 import axios from "axios";
 
 import {
@@ -18,6 +18,10 @@ import {
   setShowAlert,
   setType,
 } from "../../store/alert/alertSlice";
+import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection";
+import FriendInvitation from "../box/FriendInvitation";
+import MessageList from "../box/MessageList";
+import { setShowInvitationBox } from "../../store/show/showSlice";
 
 import { domain } from "../../shared/utils/common";
 
@@ -44,7 +48,9 @@ const Header = () => {
     email: yup.string().email().required("Please enter your email."),
   });
   const {
-    formState: { isValid },
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+    control,
   } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
@@ -65,6 +71,36 @@ const Header = () => {
     dispatch(setShowAlert(true));
     dispatch(setMessage("You are not logged in! Please log in to get access."));
     dispatch(setType("notice"));
+  };
+
+  useEffect(() => {
+    if (!isLogin) {
+    } else {
+      connectWithSocketServer(user, dispatch);
+    }
+  }, [isLogin, user, dispatch]);
+
+  const onSubmitHandler = async (values) => {
+    if (isValid) {
+      try {
+        await axios.post(`${domain}/api/v1/friend-invitation/invite`, {
+          targetMailAddress: values.email,
+        });
+
+        dispatch(setShowInvitationBox(false));
+        setShowInvitationBox(false);
+        dispatch(setShowAlert(true));
+        dispatch(setMessage("Invitation has been sent"));
+        dispatch(setType("success"));
+      } catch (err) {
+        console.log(err);
+        dispatch(setShowInvitationBox(false));
+        setShowInvitationBox(false);
+        dispatch(setShowAlert(true));
+        dispatch(setMessage(err.response.data.message));
+        dispatch(setType("error"));
+      }
+    }
   };
 
   const goToSetPage = async () => {
@@ -120,6 +156,9 @@ const Header = () => {
           )}
           {isLogin && (
             <>
+              <FriendInvitation></FriendInvitation>
+              <MessageList></MessageList>
+              <Notification></Notification>
               <SmallButton
                 className="bg-[#ffcd1f] hover:bg-[#ffdc62]"
                 onClick={handleLogout}

@@ -13,9 +13,16 @@ import resultSlice from "./results/slice";
 import scheduleSlice from "./schedule/scheduleSlice";
 import setOfUserSlice from "./setOfUser/slice";
 
+import memberSlice from "./member/memberSlice";
+import chatSlice from "./chat/slice";
+import friendSlice from "./friend/friendSlice";
+
 export const reducer = combineReducers({
   auth: authSlice,
   alert: alertSlice,
+  member: memberSlice,
+  chat: chatSlice,
+  friend: friendSlice,
   card: cardSlice,
   set: setSlice,
   cardDetail: cardDetailSlice,

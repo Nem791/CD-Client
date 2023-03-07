@@ -7,6 +7,11 @@ import useGetImageUrl from "../../hooks/useGetImageUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCardList, setSetId } from "../../store/card/slice";
+import {
+  deleteCard,
+  getCardOfSet,
+  joinSet,
+} from "../../realtimeCommunication/socketConnection";
 
 import {
   setMessage,
@@ -36,6 +41,10 @@ const CreateSetPage = () => {
   const { cardList } = useSelector((state) => state.card);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    joinSet(setId);
+  }, [setId]);
 
   useEffect(() => {
     dispatch(getCardList(setId));
@@ -94,6 +103,7 @@ const CreateSetPage = () => {
   };
 
   const handleDeleteCard = (cardId) => {
+    deleteCard(cardId);
     try {
     } catch (err) {
       dispatch(setShowAlert(true));

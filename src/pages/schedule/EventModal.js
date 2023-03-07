@@ -16,6 +16,12 @@ import { domain } from "../../shared/utils/common";
 
 import { useParams } from "react-router-dom";
 
+import {
+  createSchedule,
+  deleteSchedule,
+  updateSchedule,
+} from "../../realtimeCommunication/socketConnection";
+
 const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 
 const EventModal = () => {
@@ -46,11 +52,11 @@ const EventModal = () => {
 
     if (selectedEvent) {
       const selectedEventId = selectedEvent._id;
-      // updateSchedule({ calendarEvent, selectedEventId });
+      updateSchedule({ calendarEvent, selectedEventId });
       dispatch(setShowEventModal(false));
     } else {
       try {
-        // createSchedule(calendarEvent);
+        createSchedule(calendarEvent);
         dispatch(setShowEventModal(false));
       } catch (err) {
         dispatch(setShowEventModal(false));
@@ -73,7 +79,7 @@ const EventModal = () => {
                     // );
                     const selectedEventId = selectedEvent._id;
 
-                    // deleteSchedule(selectedEventId);
+                    deleteSchedule(selectedEventId);
                     dispatch(setShowEventModal(false));
                   } catch (err) {
                     console.log(err);

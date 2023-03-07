@@ -25,6 +25,15 @@ import {
   setShowReview,
   setShowTestModel,
 } from "../store/show/showSlice";
+import {
+  connectWithSocketServer,
+  getCard,
+  getNotStudied,
+  getStudied,
+  joinSet,
+} from "../realtimeCommunication/socketConnection";
+
+import useAuthStateChanged from "../hooks/useAuthStateChanged";
 import TypeTestModal from "../components/modal/TypeTestModal";
 import ReviewModal from "../components/modal/ReviewModal";
 import { getCardList } from "../store/card/slice";
@@ -42,6 +51,16 @@ const SetPage = () => {
     (state) => state.show
   );
 
+  const { user } = useAuthStateChanged();
+
+  useEffect(() => {
+    connectWithSocketServer(user, dispatch);
+  }, [user, dispatch]);
+
+  useEffect(() => {
+    joinSet(setId);
+  }, [setId]);
+
   useEffect(() => {
     dispatch(getCardList(setId));
   }, [dispatch, setId]);
@@ -49,6 +68,12 @@ const SetPage = () => {
   useEffect(() => {
     dispatch(getSetInfo(setId));
   }, [dispatch, setId]);
+
+  useEffect(() => {
+    getCard(setId);
+    getStudied(setId);
+    getNotStudied(setId);
+  }, [setId]);
 
   // B1: Lấy tất cả các từ vựng tiếng việt trong Card
   const allWordVN = cardList?.map((card) => {
