@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { SmallButton } from "../button";
+import { Modal } from "../modal";
+
+import { ButtonModal, SmallButton } from "../button";
 import { Notification, UserIcon } from "../box";
 import logo from "../../assets/img/home/logo.png";
 
@@ -24,10 +26,13 @@ import MessageList from "../box/MessageList";
 import { setShowInvitationBox } from "../../store/show/showSlice";
 
 import { domain } from "../../shared/utils/common";
+import { InputModal } from "../input";
 
 const Header = () => {
   const dispatch = useDispatch();
   const { isLogin, user } = useAuthStateChanged();
+
+  const { showInvitationBox } = useSelector((state) => state.show);
 
   const ListLink = [
     {
@@ -169,6 +174,30 @@ const Header = () => {
             </>
           )}
         </div>
+        <Modal
+          showModal={showInvitationBox}
+          handleClose={() => dispatch(setShowInvitationBox(false))}
+          title="Add Friend"
+        >
+          <form onSubmit={handleSubmit(onSubmitHandler)}>
+            <InputModal
+              id="email"
+              placeHolder="Enter your friend's email"
+              text="email"
+              control={control}
+            ></InputModal>
+            <p className="text-red-400 font-semibold mb-[10px]">
+              {errors.email?.message}
+            </p>
+            <ButtonModal>
+              {isSubmitting ? (
+                <div className="w-10 h-10 rounded-full border-4 border-white border-t-transparent border-b-transparent animate-spin mx-auto"></div>
+              ) : (
+                "Invite member"
+              )}
+            </ButtonModal>
+          </form>
+        </Modal>
       </header>
     </>
   );

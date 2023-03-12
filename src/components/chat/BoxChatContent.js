@@ -17,7 +17,7 @@ const BoxChatContent = () => {
     return format.replace(/mm|dd|yy|yyy/gi, (matched) => map[matched]);
   };
   return (
-    <div className="w-full grow p-5 overflow-x-auto">
+    <div className="w-full grow p-5 overflow-y-auto max-h-[385px]">
       {messages?.map((msg, index) => {
         const sameAuthor =
           index > 0 &&

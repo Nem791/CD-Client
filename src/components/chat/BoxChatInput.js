@@ -8,7 +8,7 @@ const BoxChatInput = ({
   value = "",
 }) => {
   return (
-    <div className="p-[20px] border-t-[1px] border-b-[1px] flex items-center">
+    <div className="p-[20px] border-t-[1px] flex items-center">
       <input
         type="text"
         placeholder="Enter your message"
@@ -17,8 +17,7 @@ const BoxChatInput = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
       />
-
-      <SendIcon className="ml-[10px]"></SendIcon>
+      <SendIcon className="ml-[10px] cursor-pointer"></SendIcon>
     </div>
   );
 };

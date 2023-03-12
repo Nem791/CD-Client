@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ChatList from "./ChatList";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import { setChosenChatDetails } from "../../store/chat/slice";
-import { setShowCardBox } from "../../store/show/showSlice";
+import { setShowCardBox, setShowIconChat } from "../../store/show/showSlice";
 
 const MessageListBox = ({ isOpen, onClick = () => {} }) => {
   const dispatch = useDispatch();
@@ -44,6 +44,7 @@ const MessageListBox = ({ isOpen, onClick = () => {} }) => {
               key={room?._id}
               room={room}
               onClick={() => {
+                dispatch(setShowIconChat(true));
                 dispatch(setShowCardBox(true));
                 onClick(false);
                 handleChooseActiveConversation(

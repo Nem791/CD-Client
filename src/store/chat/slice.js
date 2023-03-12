@@ -7,6 +7,7 @@ const chatSlice = createSlice({
     chosenChatDetails: {},
     chatType: "",
     messages: [],
+    vocabularyChat: [],
   },
   reducers: {
     setChatRooms: (state, action) => ({
@@ -25,10 +26,19 @@ const chatSlice = createSlice({
       ...state,
       messages: action.payload,
     }),
+    setVocabularyChat: (state, action) => ({
+      ...state,
+      vocabularyChat: action.payload,
+    }),
   },
 });
 
-export const { setChosenChatDetails, setChatType, setMessages, setChatRooms } =
-  chatSlice.actions;
+export const {
+  setChosenChatDetails,
+  setChatType,
+  setMessages,
+  setChatRooms,
+  setVocabularyChat,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

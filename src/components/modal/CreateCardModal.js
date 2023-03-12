@@ -77,7 +77,7 @@ const CreateCardModal = ({ closeModel }) => {
           audio = "";
         }
 
-        const meanArr = meanings.map((mean) => {
+        const meanArr = meanings?.map((mean) => {
           let meanObj = {};
           meanObj["partOfSpeech"] = mean.partOfSpeech;
           meanObj["definitions"] = mean.definitions;

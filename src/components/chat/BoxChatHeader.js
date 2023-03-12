@@ -17,7 +17,7 @@ const BoxChatHeader = () => {
   };
 
   return (
-    <div className="p-[20px] bg-[#4a8063] max-h-[130px] h-full rounded-t-lg flex justify-between flex-none ">
+    <div className="p-[20px] bg-[#4a8063] max-h-[130px] h-full rounded-tl-lg flex justify-between flex-none ">
       <div className="">
         <p className="text-white font-semibold text-[16px]">
           {chosenChatDetails?.name}

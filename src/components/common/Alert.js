@@ -16,7 +16,7 @@ const Alert = ({ show, message = "", type = "notice" }) => {
   };
   return ReactDOM.createPortal(
     <div
-      className={`alert z-50 flex overflow-hidden ${type} ty py-[20px] px-[40px] min-w-[420px] fixed right-0 top-[74px] rounded-[4px] border-l-[8px] ${
+      className={`alert z-[60] flex overflow-hidden ${type} ty py-[20px] px-[40px] min-w-[420px] fixed right-0 top-[74px] rounded-[4px] border-l-[8px] ${
         show ? "show-slide" : "hidden"
       }`}
     >

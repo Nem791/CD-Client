@@ -64,7 +64,6 @@ const useSignInPage = () => {
           password: values.password,
         });
 
-        handleAlert();
         if (user) {
           navigate("/home");
         }
@@ -79,6 +78,7 @@ const useSignInPage = () => {
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response?.user;
+      console.log(user);
 
       const newUser = await axios.post(
         `${domain}/api/v1/users/signUpWithGoogle`,
@@ -89,7 +89,7 @@ const useSignInPage = () => {
           name: user.displayName,
         }
       );
-      handleAlert();
+
       if (newUser) {
         navigate("/home");
       }

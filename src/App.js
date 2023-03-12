@@ -4,21 +4,20 @@ import axios from "axios";
 import Router from "./Router";
 import Alert from "./components/common/Alert";
 import { useSelector } from "react-redux";
-import useAuthStateChanged from "./hooks/useAuthStateChanged";
 import IconChat from "./components/chat/IconChat";
 
 axios.defaults.withCredentials = true;
 
 function App() {
   const { showAlert, message, type } = useSelector((state) => state.alert);
-  const { isLogin } = useAuthStateChanged();
+  const { showIconChat } = useSelector((state) => state.show);
 
   return (
-    <>
+    <div className="relative">
       <Router></Router>
       <Alert show={showAlert} message={message} type={type}></Alert>
-      {isLogin && <IconChat></IconChat>}
-    </>
+      {showIconChat && <IconChat></IconChat>}
+    </div>
   );
 }
 
