@@ -15,6 +15,8 @@ import {
 } from "./pages";
 import SignInPage from "./pages/auth/SignIn/SignInPage";
 import SignUpPage from "./pages/auth/SignUp/SignUpPage";
+import LeaderBoardPage from "./pages/leaderboard";
+import DetalLeaderBoard from "./pages/leaderboard/[id]";
 import SchedulePage from "./pages/schedule/SchedulePage";
 import EssayPage from "./pages/test/EssayPage";
 import MultipleChoicePage from "./pages/test/MultipleChoicePage";
@@ -49,6 +51,8 @@ const Router = () => {
           path="/setNewPassword"
           element={<SetNewPasswordPage></SetNewPasswordPage>}
         ></Route>
+        <Route path="/leaderboard" element={<LeaderBoardPage />} />
+        <Route path="/leaderboard/:quizId" element={<DetalLeaderBoard />} />
       </>
 
       {isLogin && (
