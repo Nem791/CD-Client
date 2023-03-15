@@ -17,6 +17,8 @@ import SignInPage from "./pages/auth/SignIn/SignInPage";
 import SignUpPage from "./pages/auth/SignUp/SignUpPage";
 import LeaderBoardPage from "./pages/leaderboard";
 import DetalLeaderBoard from "./pages/leaderboard/[id]";
+import Quiz from "./pages/quiz";
+import QuizzesPage from "./pages/quizzes";
 import SchedulePage from "./pages/schedule/SchedulePage";
 import EssayPage from "./pages/test/EssayPage";
 import MultipleChoicePage from "./pages/test/MultipleChoicePage";
@@ -67,6 +69,8 @@ const Router = () => {
             path="/createSet/:setId"
             element={<CreateSetPage></CreateSetPage>}
           ></Route>
+          <Route path="/quiz" element={<QuizzesPage />} />
+          <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/set/:setId" element={<SetPage></SetPage>}></Route>
           <Route
             path="/set/:setId/multiple-choice/:testId"
