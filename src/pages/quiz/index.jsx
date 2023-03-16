@@ -1,105 +1,123 @@
-import { useState } from "react";
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../../components/common/Header";
-import Countdown from "../../components/countdown";
-import { quiz } from "./quiz.config";
-import "./quiz.css";
-
+import { useForm } from "react-hook-form";
 const Quiz = () => {
-  const [activeQuestion, setActiveQuestion] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState("");
-  const [showResult, setShowResult] = useState(false);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
-  const [result, setResult] = useState({
-    score: 0,
-    correctAnswers: 0,
-    wrongAnswers: 0,
-  });
-
-  const { questions } = quiz;
-  const { question, choices, correctAnswer } = questions[activeQuestion];
-
-  const onClickNext = () => {
-    setSelectedAnswerIndex(null);
-    setResult((prev) =>
-      selectedAnswer
-        ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.correctAnswers + 1,
-          }
-        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
-    );
-    if (activeQuestion !== questions.length - 1) {
-      setActiveQuestion((prev) => prev + 1);
-    } else {
-      setActiveQuestion(0);
-      setShowResult(true);
+  const { quizId } = useParams();
+  const [questionsList, setQuestionsList] = useState();
+  const [currentQuestIndex, setCurrentQuestIndex] = useState();
+  const [workingTime, setWorkingTime] = useState();
+  const [intervalId, setIntervalId] = useState();
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    clearInterval(intervalId);
+    console.log({data,workingTime});
+  };
+  const handleNext = () => {
+    clearInterval(intervalId);
+    setCurrentQuestIndex(currentQuestIndex + 1);
+  };
+  const handlePrev = () => {
+    clearInterval(intervalId);
+    setCurrentQuestIndex(currentQuestIndex - 1);
+  };
+  const getQuizess = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/v1/quiz/${quizId}`
+      );
+      setQuestionsList(res.data.data.test);
+      setWorkingTime(new Array(res.data.data.test.length).fill(0));
+      setCurrentQuestIndex(0);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const onAnswerSelected = (answer, index) => {
-    setSelectedAnswerIndex(index);
-    if (answer === correctAnswer) {
-      setSelectedAnswer(true);
-    } else {
-      setSelectedAnswer(false);
-    }
+  const countTime = () => {
+    const id = setInterval(() => {
+      setWorkingTime((prev) =>
+        prev.map((item, index) => {
+          if (index !== currentQuestIndex) return item;
+          return item + 1;
+        })
+      );
+    }, 1000);
+    setIntervalId(id);
   };
 
-  const addLeadingZero = (number) => (number > 9 ? number : `0${number}`);
+  useEffect(() => {
+    if (!quizId) return;
+    getQuizess();
+  }, [quizId]);
+
+  useEffect(() => {
+    if (typeof currentQuestIndex === "undefined") return;
+    countTime();
+  }, [currentQuestIndex]);
+
+
+  if (!questionsList) return <>loading...</>;
 
   return (
     <>
-      {/* <Header /> */}
-      <div className="quiz-container">
-        {!showResult ? (
-          <div>
-            <Countdown timeRemaing={10} isInterval={true} handleFinish={onClickNext}/>
-            <div>
-              <span className="active-question-no">
-                {addLeadingZero(activeQuestion + 1)}
-              </span>
-              <span className="total-question">
-                /{addLeadingZero(questions.length)}
-              </span>
-            </div>
-            <h2>{question}</h2>
-            <ul>
-              {choices.map((answer, index) => (
-                <li
-                  onClick={() => onAnswerSelected(answer, index)}
-                  key={answer}
-                  className={
-                    selectedAnswerIndex === index ? "selected-answer" : null
-                  }
+      <Header />
+      <div className="pt-[64px]">
+        <div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {questionsList.map((ques, index) => {
+              return (
+                <div
+                  style={{
+                    display: `${
+                      index === currentQuestIndex ? "block" : "none"
+                    }`,
+                  }}
                 >
-                  {answer}
-                </li>
-              ))}
-            </ul>
-            <div className="flex-right">
-              <button onClick={onClickNext}>
-                {activeQuestion === questions.length - 1 ? "Finish" : "Next"}
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="result">
-            <h3>Result</h3>
-            <p>
-              Total Question: <span>{questions.length}</span>
-            </p>
-            <p>
-              Total Score:<span> {result.score}</span>
-            </p>
-            <p>
-              Correct Answers:<span> {result.correctAnswers}</span>
-            </p>
-            <p>
-              Wrong Answers:<span> {result.wrongAnswers}</span>
-            </p>
-          </div>
-        )}
+                  <FormLabel> {ques.question}</FormLabel>
+                  {ques.options.map((item) => {
+                    return (
+                      <div>
+                        <input
+                          type="radio"
+                          value={item}
+                          {...register(ques._id)}
+                        />
+                        {item}
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })}
+            {currentQuestIndex === questionsList.length - 1 && (
+              <Button type="submit">Finish</Button>
+            )}
+            {currentQuestIndex !== questionsList.length - 1 && (
+              <div className="flex">
+                <Button
+                  type="button"
+                  onClick={handlePrev}
+                  disabled={currentQuestIndex === 0}
+                >
+                  Back
+                </Button>
+                <Button type="button" onClick={handleNext}>
+                  Next
+                </Button>
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </>
   );

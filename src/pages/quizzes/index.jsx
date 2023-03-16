@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, Typography } from "@mui/material";
+import { Button, Card, CardActions, Chip, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
@@ -22,12 +22,13 @@ const QuizzesPage = () => {
     }
     setLoading(false);
   };
+
   useEffect(() => {
     getLeaderBoardData();
   }, []);
   console.log(catergori);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading ||!catergori) return <div>Loading...</div>;
 
   return (
     <>
@@ -45,23 +46,26 @@ const QuizzesPage = () => {
                       color="text.secondary"
                       gutterBottom
                     >
-                      Word of the Day
+                      {item.title}
                     </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      adjective
+                    {item.tags.map((tag) => (
+                      <Chip label={tag} key={tag} />
+                    ))}
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {item.description}
                     </Typography>
-                    <Typography variant="body2">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
-                    </Typography>
+
                   </CardContent>
                   <CardActions>
                     <Button
                       size="small"
                       onClick={() => navigate(`/quiz/${item._id}`)}
                     >
-                      Learn More
+                      Do quizz
                     </Button>
                   </CardActions>
                 </Card>
