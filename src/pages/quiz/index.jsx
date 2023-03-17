@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../components/common/Header";
 import { useForm } from "react-hook-form";
+import { store } from "../../store/configureStore";
 const Quiz = () => {
   const { quizId } = useParams();
   const [questionsList, setQuestionsList] = useState();
@@ -18,9 +19,37 @@ const Quiz = () => {
   const [workingTime, setWorkingTime] = useState();
   const [intervalId, setIntervalId] = useState();
   const { register, handleSubmit } = useForm();
-  const onSubmit = (data) => {
+
+  const sendAnswer = async (formData) => {
+    const userId = store.getState().auth.user?._id;
+    const questionIds = Object.keys(formData);
+    const formDataValues = Object.values(formData);
+    const answerList = questionsList.map((item, index) => {
+      return {
+        question: questionIds[index],
+        answer: formDataValues[index],
+        user: userId,
+        time: workingTime[index],
+      };
+    });
+    console.log(answerList);
+    try {
+      const response = axios.put(
+        `http://localhost:3000/api/v1/review-question`,
+        {
+          data: answerList,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSubmit = async (data) => {
     clearInterval(intervalId);
-    console.log({data,workingTime});
+    console.log({ data, workingTime });
+    sendAnswer(data);
   };
   const handleNext = () => {
     clearInterval(intervalId);
@@ -65,7 +94,6 @@ const Quiz = () => {
     countTime();
   }, [currentQuestIndex]);
 
-
   if (!questionsList) return <>loading...</>;
 
   return (
@@ -86,7 +114,7 @@ const Quiz = () => {
                   <FormLabel> {ques.question}</FormLabel>
                   {ques.options.map((item) => {
                     return (
-                      <div>
+                      <div key={item}>
                         <input
                           type="radio"
                           value={item}
