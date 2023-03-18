@@ -16,6 +16,10 @@ import {
 import SignInPage from "./pages/auth/SignIn/SignInPage";
 import SignUpPage from "./pages/auth/SignUp/SignUpPage";
 import PaymentView from "./pages/payment/PaymentView";
+import LeaderBoardPage from "./pages/leaderboard";
+import DetalLeaderBoard from "./pages/leaderboard/[id]";
+import Quiz from "./pages/quiz";
+import QuizzesPage from "./pages/quizzes";
 import SchedulePage from "./pages/schedule/SchedulePage";
 import EssayPage from "./pages/test/EssayPage";
 import MultipleChoicePage from "./pages/test/MultipleChoicePage";
@@ -50,6 +54,8 @@ const Router = () => {
           path="/setNewPassword"
           element={<SetNewPasswordPage></SetNewPasswordPage>}
         ></Route>
+        <Route path="/leaderboard" element={<LeaderBoardPage />} />
+        <Route path="/leaderboard/:quizId" element={<DetalLeaderBoard />} />
       </>
 
       {isLogin && (
@@ -64,6 +70,8 @@ const Router = () => {
             path="/createSet/:setId"
             element={<CreateSetPage></CreateSetPage>}
           ></Route>
+          <Route path="/quiz" element={<QuizzesPage />} />
+          <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/set/:setId" element={<SetPage></SetPage>}></Route>
           <Route
             path="/set/:setId/multiple-choice/:testId"
