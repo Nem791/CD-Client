@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { getCardList, setSetId } from "../../store/card/slice";
 import {
   deleteCard,
-  getCardOfSet,
   joinSet,
 } from "../../realtimeCommunication/socketConnection";
 

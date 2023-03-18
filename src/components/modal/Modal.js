@@ -11,7 +11,7 @@ const Modal = ({
   return ReactDOM.createPortal(
     <>
       <div
-        className={`fixed w-full h-full z-40 flex justify-center items-center visible opacity-100 transition ease-in duration-200 ${
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full z-40 flex justify-center items-center visible opacity-100 transition ease-in duration-200 ${
           showModal ? "" : "opacity-0 invisible"
         }`}
       >
@@ -34,7 +34,7 @@ const Modal = ({
         </div>
       </div>
     </>,
-    document.querySelector("#root")
+    document.querySelector("body")
   );
 };
 

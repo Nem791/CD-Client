@@ -3,7 +3,7 @@ import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { useDispatch, useSelector } from "react-redux";
 import { setShowCardBox } from "../../store/show/showSlice";
 
-const BoxChatHeader = () => {
+const BoxChatHeader = ({ time }) => {
   const dispatch = useDispatch();
   const { friends, onlineUsers } = useSelector((state) => state.friend);
   const { chosenChatDetails } = useSelector((state) => state.chat);
@@ -26,7 +26,7 @@ const BoxChatHeader = () => {
           {chosenChatDetails?.participants?.length} Member
         </p>
 
-        <div className="mt-[8px] grid grid-cols-5 gap-[10px] items-center">
+        <div className="mt-[8px] grid grid-cols-5 gap-[10px] items-center justify-between">
           {/* <div className="relative">
             <img
               src={user?.avatarUrl}
@@ -51,6 +51,7 @@ const BoxChatHeader = () => {
           )}
         </div>
       </div>
+      <div className="text-right font-semibold text-white">Time: {time}</div>
       <div
         className="cursor-pointer hover:text-[white] transition linear duration-200"
         onClick={() => {

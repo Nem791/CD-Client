@@ -17,14 +17,18 @@ import {
   setShowAlert,
   setType,
 } from "../../store/alert/alertSlice";
+import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 
 const BoxChat = () => {
   const [message, setMessageChat] = useState("");
+
+  const { user } = useAuthStateChanged();
   const { showCardBox } = useSelector((state) => state.show);
   const { chosenChatDetails, messages } = useSelector((state) => state.chat);
   const [time, setTime] = useState(15);
   const [gameOver, setGameOver] = useState(false);
   const [turn, setTurn] = useState(1);
+  const [startGame, setStartGame] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -33,6 +37,8 @@ const BoxChat = () => {
     setMessageChat(e.target.value);
   };
 
+  console.log(messages);
+
   const handleKeyPressed = lodash.debounce((e) => {
     if (e.key === "Enter") {
       handleSendMessage();
@@ -40,26 +46,53 @@ const BoxChat = () => {
   }, 200);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (time > 0) {
-        setTime(time - 1);
-      } else {
-        clearInterval(timer);
-        setGameOver(true);
-      }
-    }, 1000);
+    if (messages?.length === 0) {
+      setTurn(1);
+      return;
+    }
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [time]);
+    const maxTurn = messages?.reduce(
+      (max, obj) => (obj.turn > max ? obj.turn : max),
+      -Infinity
+    );
 
-  console.log(time);
+    setTurn(maxTurn);
+  }, [messages?.length]);
+
+  useEffect(() => {
+    if (startGame && time > 0) {
+      const timer = setInterval(() => {
+        setTime((prevTime) => prevTime - 1);
+      }, 1000);
+
+      // if(messages.)
+
+      return () => clearInterval(timer);
+    } else if (time <= 0) {
+      setGameOver(true);
+      setStartGame(false);
+    }
+  }, [time, startGame]);
+
+  useEffect(() => {
+    if (gameOver) {
+      sendDirectMessage({
+        roomChatId: chosenChatDetails.id,
+        content: "Game over 🏳️",
+        turn: turn + 1,
+      });
+    }
+    setGameOver(false);
+  }, [gameOver]);
 
   const handleSendMessage = async () => {
+    const filteredData = messages?.filter((msg) => {
+      return msg.content !== "Game over 🏳️";
+    });
+
     try {
       if (message.length > 0) {
-        const lastItem = messages[messages.length - 1]; // Lấy phần tử cuối cùng
+        const lastItem = filteredData[filteredData.length - 1]; // Lấy phần tử cuối cùng
         const lastChar = lastItem?.content?.charAt(lastItem.content.length - 1);
 
         const firstCharMessage = message.charAt(0);
@@ -73,7 +106,17 @@ const BoxChat = () => {
         );
 
         if (getDefinitionCard?.data) {
-          if (lastChar !== firstCharMessage && messages?.length > 0) {
+          if (
+            filteredData[filteredData?.length - 1]?.author?._id === user?._id
+          ) {
+            dispatch(setShowAlert(true));
+            dispatch(setMessage("Bạn phải chờ đến lượt của mình nhé"));
+            dispatch(setType("notice"));
+            setMessageChat("");
+            return;
+          } else {
+          }
+          if (lastChar !== firstCharMessage && filteredData?.length > 0) {
             dispatch(setShowAlert(true));
             dispatch(
               setMessage(
@@ -84,10 +127,14 @@ const BoxChat = () => {
             setMessageChat("");
             return;
           }
+          setStartGame(true);
+          setTime(15);
           sendDirectMessage({
             roomChatId: chosenChatDetails.id,
             content: message,
+            turn,
           });
+
           setMessageChat("");
         }
       }
@@ -125,7 +172,7 @@ const BoxChat = () => {
         style={{ gridTemplateColumns: "70% 30%" }}
       >
         <div className="flex flex-col h-full">
-          <BoxChatHeader></BoxChatHeader>
+          <BoxChatHeader time={time}></BoxChatHeader>
           <BoxChatContent></BoxChatContent>
           <BoxChatInput
             value={message}
@@ -139,7 +186,7 @@ const BoxChat = () => {
         </div>
       </div>
     </>,
-    document.querySelector("body")
+    document.querySelector("#root")
   );
 };
 

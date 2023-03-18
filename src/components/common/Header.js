@@ -79,8 +79,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    if (!isLogin) {
-    } else {
+    if (isLogin) {
       connectWithSocketServer(user, dispatch);
     }
   }, [isLogin, user, dispatch]);

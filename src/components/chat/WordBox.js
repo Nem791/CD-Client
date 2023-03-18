@@ -24,18 +24,11 @@ const WordBox = () => {
     (val) => val !== undefined
   );
 
-  let audio = "";
-
-  if (vocabularyChat?.word && vocabularyChat?.word[0]?.phonetics) {
-    const filteredPhonetics = vocabularyChat.word[0].phonetics.filter(
-      (phonetic) => phonetic.audio
-    );
-    if (filteredPhonetics.length > 0) {
-      audio = filteredPhonetics[0].audio;
-    }
-  }
-
   playAudio.current = () => {
+    let audio = vocabularyChat?.word[0]?.phonetics?.filter(
+      (phonetic) => phonetic.audio
+    )[0]?.audio;
+
     if (audio) {
       const audioObj = new Audio(audio);
       audioObj.play();
@@ -66,11 +59,11 @@ const WordBox = () => {
               {vocabularyChat?.word ? vocabularyChat?.word[0]?.phonetic : ""}
             </div>
           </div>
-          <div className="hover:bg-[#eff5f2] border-[1px] rounded-lg p-5 inline-block cursor-pointer">
-            <SpeakerWaveIcon
-              ref={speakRef}
-              className="w-6 h-6 text-[#9eb8ac]"
-            ></SpeakerWaveIcon>
+          <div
+            className="hover:bg-[#eff5f2] border-[1px] rounded-lg p-5 inline-block cursor-pointer"
+            ref={speakRef}
+          >
+            <SpeakerWaveIcon className="w-6 h-6 text-[#9eb8ac]"></SpeakerWaveIcon>
           </div>
         </div>
         <div className="mt-8 font-semibold text-[15px]">Means</div>
