@@ -106,8 +106,10 @@ const BoxChat = () => {
   };
 
   useEffect(() => {
+    console.log("chosenChatDetails: ", chosenChatDetails);
     getDirectChatHistory({
       roomId: chosenChatDetails.id,
+      participants: chosenChatDetails.participants,
     });
   }, [chosenChatDetails]);
   return ReactDOM.createPortal(

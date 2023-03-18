@@ -15,6 +15,7 @@ import {
 import { setPendingMemberInvitations } from "../store/member/memberSlice";
 import { setSavedEvent } from "../store/schedule/scheduleSlice";
 import { updateDirectChatHistoryIfActive } from "../shared/utils/chat";
+import ObjectId from "../service/createObjectId";
 
 let socket = null;
 
@@ -69,6 +70,10 @@ export const connectWithSocketServer = (user, dispatch) => {
     dispatch(setMessages(data.messages));
   });
 
+  socket.on("receive-invite", (data) => {
+    console.log("receive-invite data: ", data);
+  });
+
   socket.on("sendCardToClient", (data) => {
     dispatch(setCardList(data));
   });
@@ -89,6 +94,11 @@ export const connectWithSocketServer = (user, dispatch) => {
 
   socket.on("sendScheduleToClient", (data) => {
     dispatch(setSavedEvent(data));
+  });
+
+  socket.on("notify-reject-invite", (data) => {
+    console.log("notify-reject-invite data: ", data);
+    // dispatch(setSavedEvent(data));
   });
 };
 
@@ -129,6 +139,14 @@ export const sendDirectMessage = (data) => {
 
 export const getDirectChatHistory = (data) => {
   socket?.emit("direct-chat-history", data);
+  // console.log({ inviteId: ObjectId(), ...data });
+  // socket?.emit("invite-to-play", { inviteId: ObjectId(), ...data });
+  // socket?.emit("response-invitation", {
+  //   accept: true,
+  //   _id: "64158607c9a6a3c30565c31c",
+  //   senderId: "6408a62db7dd21613bf4ddb6",
+  //   receiverId: "64147ec38583d8a13c2a7f2a",
+  // });
 };
 
 export const createNewRoom = () => {
