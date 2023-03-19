@@ -310,6 +310,17 @@ html {
   background-color: #fa7c89;
 }
 
+// Invite
+
+.alert.invite {
+  background-color: white;
+  border-left-color: #303545;
+}
+
+.alert.invite > * {
+  color: #303545;
+}
+
 // Làm text thành 3 dòng và dấu 3 chấm
 .text-short {
   max-width: 130px;

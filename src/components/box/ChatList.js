@@ -4,7 +4,7 @@ import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 const ChatList = ({ room = {}, onClick = () => {} }) => {
   const { user } = useAuthStateChanged();
 
-  const friend = room.participants.filter((el) => el._id !== user._id);
+  const friend = room?.participants?.filter((el) => el._id !== user._id);
 
   return (
     <div

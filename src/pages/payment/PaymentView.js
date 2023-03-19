@@ -25,9 +25,9 @@ const PaymentView = () => {
       </div>
       {/* Plan */}
       <div className="flex items-center justify-center gap-5">
-        <PlanItems></PlanItems>
-        <PlanItems></PlanItems>
-        <PlanItems></PlanItems>
+        <PlanItems type="basic"></PlanItems>
+        <PlanItems isPopular type="pro"></PlanItems>
+        <PlanItems type="enterprise"></PlanItems>
       </div>
     </div>
   );

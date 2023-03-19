@@ -37,8 +37,6 @@ const BoxChat = () => {
     setMessageChat(e.target.value);
   };
 
-  console.log(messages);
-
   const handleKeyPressed = lodash.debounce((e) => {
     if (e.key === "Enter") {
       handleSendMessage();
@@ -154,6 +152,9 @@ const BoxChat = () => {
 
   useEffect(() => {
     getDirectChatHistory({
+      participants: chosenChatDetails?.participants?.map(
+        (person) => person._id
+      ),
       roomId: chosenChatDetails.id,
     });
   }, [chosenChatDetails]);

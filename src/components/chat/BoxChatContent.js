@@ -1,3 +1,4 @@
+import { Divider } from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
 import MessageItem from "./MessageItem";
@@ -19,26 +20,45 @@ const BoxChatContent = () => {
   return (
     <div className="w-full grow p-5 overflow-y-auto max-h-[385px]">
       {messages?.map((msg, index) => {
-        const sameAuthor =
-          index > 0 &&
-          messages[index]?.author._id === messages[index - 1]?.author._id;
-        const sameDay =
-          index > 0 &&
-          convertDateToHumanReadable(new Date(msg.date), "dd/mm/yy") ===
-            convertDateToHumanReadable(
-              new Date(messages[index - 1]?.date),
-              "dd/mm/yy"
-            );
+        const turn = index + 1;
+        return msg?.map((item, index2) => {
+          const sameAuthor =
+            index2 > 0 &&
+            msg[index2]?.author._id === msg[index2 - 1]?.author._id;
+          const sameDay =
+            index2 > 0 &&
+            convertDateToHumanReadable(new Date(item.date), "dd/mm/yy") ===
+              convertDateToHumanReadable(
+                new Date(msg[index2 - 1]?.date),
+                "dd/mm/yy"
+              );
 
-        return (
-          <MessageItem
-            key={msg?._id}
-            msg={msg}
-            sameAuthor={sameAuthor}
-            sameDay={sameDay}
-            date={convertDateToHumanReadable(new Date(msg?.date), "dd/mm/yy")}
-          ></MessageItem>
-        );
+          return (
+            <React.Fragment key={item?._id}>
+              {index2 === 0 && (
+                <Divider
+                  textAlign="left"
+                  style={{
+                    marginBottom: "10px",
+                    marginTop: "10px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {`Turn ${turn}`}
+                </Divider>
+              )}
+              <MessageItem
+                msg={item}
+                sameAuthor={sameAuthor}
+                sameDay={sameDay}
+                date={convertDateToHumanReadable(
+                  new Date(item?.date),
+                  "dd/mm/yy"
+                )}
+              />
+            </React.Fragment>
+          );
+        });
       })}
     </div>
   );

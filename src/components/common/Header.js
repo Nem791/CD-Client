@@ -10,6 +10,7 @@ import { Modal } from "../modal";
 
 import { ButtonModal, SmallButton } from "../button";
 import { Notification, UserIcon } from "../box";
+// import logo from "../../assets/img/home/logo-wordup.png";
 import logo from "../../assets/img/home/logo.png";
 
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
@@ -129,6 +130,7 @@ const Header = () => {
         <div className="flex items-center">
           <Link to="/">
             <img src={logo} alt="logo" className="h-[48px]" />
+            {/* <img src={logo} alt="logo" className="h-[120px]" /> */}
           </Link>
           <ul className="lg:flex hidden text-[16px] font-medium text-[#2e3856] items-center">
             {ListLink.map((link) => (
