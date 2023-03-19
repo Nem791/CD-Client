@@ -1,11 +1,11 @@
-import { Button, Card, CardActions, Chip, Typography } from "@mui/material";
+import { Button, Card, CardActions, Chip, LinearProgress, Typography } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Header from "../../components/common/Header";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useNavigate } from "react-router-dom";
-
+import "./quizzes.scss";
 const QuizzesPage = () => {
   const navigate = useNavigate();
 
@@ -26,46 +26,47 @@ const QuizzesPage = () => {
   useEffect(() => {
     getLeaderBoardData();
   }, []);
-  console.log(catergori);
 
-  if (loading ||!catergori) return <div>Loading...</div>;
+  if (loading || !catergori) return <LinearProgress />;
 
   return (
     <>
       <Header />
       <div className="pt-[64px]">
-        <div>Quizz Title</div>
+        <h4 class="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center">
+          Quiz Time!
+        </h4>
         <Grid container spacing={4}>
           {catergori?.map((item) => {
             return (
               <Grid xs={3} key={item._id}>
                 <Card sx={{ minWidth: 275 }}>
                   <CardContent>
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {item.title}
+                    <div className="flex justify-between items-center mb-3">
+                      <Typography
+                        sx={{ fontSize: 15 }}
+                        color="text.primary"
+                        gutterBottom
+                        noWrap
+                      >
+                        {item.title}
+                      </Typography>
+                      {item.tags.map((tag) => (
+                        <Chip label={tag} key={tag} color="warning" />
+                      ))}
+                    </div>
+                    <Typography sx={{ fontSize: 14 }} color="text.secondary">
+                      <div className="font-medium leading-tight text-primary">Description</div>
+                      <div className="quiz-describle">{item.description}</div>
                     </Typography>
-                    {item.tags.map((tag) => (
-                      <Chip label={tag} key={tag} />
-                    ))}
-                    <Typography
-                      sx={{ fontSize: 14 }}
-                      color="text.secondary"
-                      gutterBottom
-                    >
-                      {item.description}
-                    </Typography>
-
                   </CardContent>
                   <CardActions>
                     <Button
-                      size="small"
+                      fullWidth
+                      size="medium"
                       onClick={() => navigate(`/quiz/${item._id}`)}
                     >
-                      Do quizz
+                      Do quizz!
                     </Button>
                   </CardActions>
                 </Card>
