@@ -5,7 +5,7 @@ import {
   setCardStudied,
   setNoCardStudied,
 } from "../store/card/slice";
-import { setChatRooms, setMessages } from "../store/chat/slice";
+import { setChatRooms, setMessages, setRoomId } from "../store/chat/slice";
 import {
   setFriends,
   setOnlineUsers,
@@ -65,8 +65,15 @@ export const connectWithSocketServer = (user, dispatch) => {
   });
 
   socket.on("direct-chat-history", (data) => {
-    updateDirectChatHistoryIfActive(data);
-    dispatch(setMessages(data.messages));
+    // updateDirectChatHistoryIfActive(data);
+    const messageConvert = data?.conversations?.map((conversation, index) => {
+      return conversation?.messages.map((msg) => {
+        return { ...msg, turn: index + 1 };
+      });
+    });
+
+    dispatch(setMessages(messageConvert));
+    dispatch(setRoomId(data?.conversations.at(-1)._id));
   });
 
   socket.on("sendCardToClient", (data) => {
@@ -162,4 +169,17 @@ export const updateSchedule = (data) => {
 
 export const deleteSchedule = (data) => {
   socket?.emit("delete-schedule", data);
+};
+
+// Invite to Word Chain Game
+export const inviteToPlay = (data) => {
+  socket?.emit("invite-to-play", data);
+};
+
+export const cancelInviteToPlay = (data) => {
+  socket?.emit("cancel-invite", data);
+};
+
+export const responseInvitation = (data) => {
+  socket?.emit("response-invitation", data);
 };

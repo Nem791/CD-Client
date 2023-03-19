@@ -26,6 +26,7 @@ import MultipleChoicePage from "./pages/test/MultipleChoicePage";
 import ResultPage from "./pages/test/ResultPage";
 
 import { getIsLogin } from "./store/auth/slice";
+import PaymentSuccess from "./pages/payment-success/PaymentSuccess";
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -90,6 +91,10 @@ const Router = () => {
             element={<SchedulePage></SchedulePage>}
           ></Route>
           <Route path="/payment" element={<PaymentView></PaymentView>}></Route>
+          <Route
+            path="/payment-success"
+            element={<PaymentSuccess></PaymentSuccess>}
+          ></Route>
         </>
       )}
     </Routes>

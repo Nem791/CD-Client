@@ -6,6 +6,7 @@ export const updateDirectChatHistoryIfActive = (data) => {
 
   // 1. Tìm Id ng dùng dựa vào token và Id ng dùng từ active conversation
   const participant = store.getState().chat.chosenChatDetails.participants;
+
   // const userid = store.getState().auth.user?._id;
 
   // if (receiverId && userid) {
