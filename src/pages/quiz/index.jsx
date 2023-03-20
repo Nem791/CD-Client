@@ -2,9 +2,14 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  Chip,
   FormControl,
   FormControlLabel,
   FormLabel,
+  Grid,
   LinearProgress,
   Radio,
   RadioGroup,
@@ -30,13 +35,26 @@ const Quiz = () => {
   const [currentQuestIndex, setCurrentQuestIndex] = useState();
   const [workingTime, setWorkingTime] = useState();
   const [intervalId, setIntervalId] = useState();
-  const { handleSubmit, formState, getValues, setValue } = useForm();
-  console.log({ formState, value: getValues() });
-  console.log(intervalId)
+  const [recommendQuizzes, setRecommendQuizzes] = useState();
+  const { handleSubmit, getValues, setValue } = useForm();
+
   const sendAnswer = async (formData) => {
     const userId = store.getState().auth.user?._id;
     const questionIds = Object.keys(formData);
     const formDataValues = Object.values(formData);
+
+    const getRecommendQuiz = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/v1/quiz/recommend/${quizId}`
+        );
+        setRecommendQuizzes(response.data.data.quizzes);
+        console.log({ response });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     const answerList = questionsList.map((item, index) => {
       return {
         question: questionIds[index],
@@ -45,7 +63,6 @@ const Quiz = () => {
         time: workingTime[index],
       };
     });
-    console.log(answerList);
     try {
       const response = axios.put(
         `http://localhost:3000/api/v1/review-question`,
@@ -53,6 +70,7 @@ const Quiz = () => {
           data: answerList,
         }
       );
+      await getRecommendQuiz();
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -61,7 +79,6 @@ const Quiz = () => {
 
   const onSubmit = async (data) => {
     clearInterval(intervalId);
-    console.log({ data, workingTime });
     sendAnswer(data);
   };
   const handleSetValue = (name, value) => {
@@ -127,46 +144,49 @@ const Quiz = () => {
         </div>
         <div className=" grid grid-cols-4 mx-auto min-w-[776px] w-[50%] ">
           <div className="px-6 py-4 col-span-3">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                {questionsList.map((ques, index) => {
-                  return (
-                    <div
-                      className="w-full"
-                      style={{
-                        display: `${
-                          index === currentQuestIndex ? "block" : "none"
-                        }`,
-                      }}
-                    >
-                      <Typography sx={{ fontSize: 15, fontWeight: "bold" }}>
-                        {ques.question}
-                      </Typography>
-                      <div className="grid grid-cols-2 gap-x-6">
-                        {ques.options.map((item) => {
-                          return (
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {questionsList.map((ques, index) => {
+                return (
+                  <div
+                    className="w-full"
+                    style={{
+                      display: `${
+                        index === currentQuestIndex ? "block" : "none"
+                      }`,
+                    }}
+                  >
+                    <Typography sx={{ fontSize: 15, fontWeight: "bold" }}>
+                      {ques.question}
+                    </Typography>
+                    <div className="grid grid-cols-2 gap-x-6">
+                      {ques.options.map((item) => {
+                        return (
+                          <div
+                            className=" border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
+                            key={item}
+                            onClick={() => handleSetValue(ques._id, item)}
+                          >
                             <div
-                              className=" border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
-                              key={item}
-                              onClick={() => handleSetValue(ques._id, item)}
+                              className="text-gray-500 min-w-[144px] w-full"
+                              style={{ fontSize: 13, fontWeight: "bold" }}
                             >
-                              <div
-                                className="text-gray-500 min-w-[144px] w-full"
-                                style={{ fontSize: 13, fontWeight: "bold" }}
-                              >
-                                {item}
-                              </div>
+                              {item}
                             </div>
-                          );
-                        })}
-                      </div>
+                          </div>
+                        );
+                      })}
                     </div>
-                  );
-                })}
-              </form>
+                  </div>
+                );
+              })}
+            </form>
             {currentQuestIndex === questionsList.length && (
-              <div>
-                <div>You Got 50000 point congratuation</div>
-                <div>Here is some relative quize</div>
+              <div className=" px-8 pb-8">
+                <div className="text-blue-500 font-mono text-lg">Congratuation you tried your best !</div>
+                <div className="text-sm font-bold">Here is some relative quize</div>
+                {recommendQuizzes?.map((item) => {
+                  return <div className="border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full">{item}</div>;
+                })}
               </div>
             )}
           </div>
@@ -177,25 +197,25 @@ const Quiz = () => {
             >
               Quiz result
             </Typography>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3">
               {questionsList.map((ques) => {
                 const ansewr = Object.values(getValues());
                 const key = Object.keys(getValues());
                 if (!key.includes(ques._id))
-                  return <QuestionMarkCircleIcon width={18} height={18} />;
+                  return <QuestionMarkCircleIcon width={30} height={30} />;
                 if (ansewr.includes(ques.answer))
                   return (
                     <CheckCircleIcon
-                      width={18}
-                      height={18}
+                      width={30}
+                      height={30}
                       className="text-green-500"
                     />
                   );
                 if (!ansewr.includes(ques.answer))
                   return (
                     <XCircleIcon
-                      width={18}
-                      height={18}
+                      width={30}
+                      height={30}
                       className="text-red-500"
                     />
                   );

@@ -27,6 +27,7 @@ import ResultPage from "./pages/test/ResultPage";
 
 import { getIsLogin } from "./store/auth/slice";
 import PaymentSuccess from "./pages/payment-success/PaymentSuccess";
+import ReviewQuizzes from "./pages/review-set";
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -72,6 +73,8 @@ const Router = () => {
             element={<CreateSetPage></CreateSetPage>}
           ></Route>
           <Route path="/quiz" element={<QuizzesPage />} />
+          <Route path="/review-set" element={<ReviewQuizzes />} />
+
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/set/:setId" element={<SetPage></SetPage>}></Route>
           <Route
