@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../components/common/Header";
 import { useForm } from "react-hook-form";
 import { store } from "../../store/configureStore";
@@ -30,6 +30,7 @@ import {
   XCircleIcon,
 } from "@heroicons/react/24/solid";
 const Quiz = () => {
+  const navigate = useNavigate();
   const { quizId } = useParams();
   const [questionsList, setQuestionsList] = useState();
   const [currentQuestIndex, setCurrentQuestIndex] = useState();
@@ -49,7 +50,6 @@ const Quiz = () => {
           `http://localhost:3000/api/v1/quiz/recommend/${quizId}`
         );
         setRecommendQuizzes(response.data.data.quizzes);
-        console.log({ response });
       } catch (error) {
         console.log(error);
       }
@@ -129,7 +129,6 @@ const Quiz = () => {
   }, [currentQuestIndex]);
 
   if (!questionsList) return <LinearProgress />;
-
   return (
     <div className="">
       <Header />
@@ -182,10 +181,22 @@ const Quiz = () => {
             </form>
             {currentQuestIndex === questionsList.length && (
               <div className=" px-8 pb-8">
-                <div className="text-blue-500 font-mono text-lg">Congratuation you tried your best !</div>
-                <div className="text-sm font-bold">Here is some relative quize</div>
+                <div className="text-blue-500 font-mono text-lg">
+                  Congratuation you tried your best !
+                </div>
+                <div className="text-sm font-bold">
+                  Here is some relative quize
+                </div>
                 {recommendQuizzes?.map((item) => {
-                  return <div className="border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full">{item}</div>;
+                  return (
+                    <div
+                      onClick={() => navigate(`/quiz/${item._id}`)}
+                      className="flex items-center border-2 border-gray-300 cursor-pointer hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
+                    >
+                      <div className=""></div>
+                      <div>{item.title}</div>
+                    </div>
+                  );
                 })}
               </div>
             )}
