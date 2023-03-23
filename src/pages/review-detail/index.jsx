@@ -34,7 +34,7 @@ const DetailReview = () => {
         };
       });
       try {
-        const response = axios.put(
+        await axios.put(
           `http://localhost:3000/api/v1/review-question`,
           {
             data: answerList,
@@ -92,10 +92,11 @@ const DetailReview = () => {
       if (currentQuestIndex === questionsList.length) {
         const data = getValues();
         onSubmit(data);
+        return;
       }
       countTime();
     }, [currentQuestIndex]);
-  
+    
     if (!questionsList) return <LinearProgress />;
   
     return (

@@ -3,9 +3,7 @@ import {
   Card,
   CardActions,
   CardContent,
-  Chip,
   Grid,
-  LinearProgress,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -22,7 +20,6 @@ const ReviewQuizzes = () => {
         "http://localhost:3000/api/v1/review-question"
       );
       setReviewQuizzes(res.data.data)
-      console.log(res.data.data);
     } catch (error) {}
   };
   useEffect(() => {
@@ -33,12 +30,12 @@ const ReviewQuizzes = () => {
     <div>
       <Header />
       <div className="pt-[64px]">
-        <h4 class="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
+        <h4 class="mt-4 mb-4 text-2xl font-medium leading-tight text-primary text-center py-4">
           Review Your Mermory!
         </h4>
-        <div className="w-[75%] mx-auto">
+        <div className="w-[75%] mx-auto p-4">
           {reviewQuizzes.length > 0 && (
-            <Grid container spacing={4}>
+            <Grid container spacing={3} gap={4}>
               {reviewQuizzes?.map((item) => {
                 return (
                   <Grid xs={3} key={item._id}>
