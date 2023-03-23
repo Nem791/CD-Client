@@ -22,6 +22,8 @@ const BoxChatHeader = ({ time }) => {
   const { chosenChatDetails, roomId, isInvite } = useSelector(
     (state) => state.chat
   );
+
+  console.log("chosenChatDetails", chosenChatDetails);
   const { user } = useAuthStateChanged();
 
   const checkOnlineUsers = (friends = [], onlineUsers = []) => {
@@ -33,15 +35,15 @@ const BoxChatHeader = ({ time }) => {
   };
 
   const handleInviteToPlay = () => {
-    const receiverId = chosenChatDetails?.participants?.filter(
+    const receiverUser = chosenChatDetails?.participants?.filter(
       (person) => person._id !== user?._id
-    )?.[0]._id;
+    );
 
-    const isYourPartnerOnline = checkOnlineUsers([receiverId], onlineUsers)?.[0]
+    const isYourPartnerOnline = checkOnlineUsers(receiverUser, onlineUsers)?.[0]
       ?.isOnline;
 
     if (isYourPartnerOnline) {
-      inviteToPlay({ roomId });
+      inviteToPlay({ roomId: chosenChatDetails?.id });
       dispatch(setIsInvite(true));
       dispatch(setShowAlert(true));
       dispatch(setMessage("Waiting for your partner accept invitation!"));

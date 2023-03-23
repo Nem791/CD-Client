@@ -9,18 +9,32 @@ import {
 import SafetyDividerTwoToneIcon from "@mui/icons-material/SafetyDividerTwoTone";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setShowAlert } from "../../store/alert/alertSlice";
 import { motion } from "framer-motion";
+import { responseInvitation } from "../../realtimeCommunication/socketConnection";
 
 const Alert = ({ show, message = "", type = "notice" }) => {
   const dispatch = useDispatch();
+  const { invitationComing } = useSelector((state) => state.chat);
   const handleAlertClose = () => {
     dispatch(setShowAlert(false));
   };
+
+  const handleAcceptInvite = () => {
+    const senderId = invitationComing[0]?.senderId[0]?._id ?? "";
+    const receiverId = invitationComing[0]?.receiverId ?? "";
+    responseInvitation({ accept: true, senderId, receiverId });
+  };
+  const handleRejectInvite = () => {
+    const senderId = invitationComing[0]?.senderId[0]?._id ?? "";
+    const receiverId = invitationComing[0]?.receiverId ?? "";
+    responseInvitation({ accept: false, senderId, receiverId });
+  };
+
   return ReactDOM.createPortal(
     <div
-      className={`alert z-[60] flex items-center overflow-hidden ${type} ty py-[20px] px-[40px] min-w-[420px] fixed right-0 top-[74px] rounded-[4px] border-l-[8px] shadow-flashcard ${
+      className={`alert z-[60] flex items-center overflow-hidden ${type} ty py-[20px] px-[40px] min-w-[420px] fixed right-0 top-[35px] rounded-[4px] border-l-[8px] shadow-flashcard ${
         show ? "show-slide" : "hidden"
       }`}
     >
@@ -66,23 +80,32 @@ const Alert = ({ show, message = "", type = "notice" }) => {
             {message}
           </span>
           <div className="flex gap-[2px]">
-            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleAcceptInvite}
+            >
               <CheckCircleRoundedIcon
                 style={{
                   fontSize: "32px",
                   color: "#9eb8ac",
+                  cursor: "pointer",
                 }}
               />
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={handleAlertClose}
+              onClick={() => {
+                handleRejectInvite();
+                handleAlertClose();
+              }}
             >
               <CancelRoundedIcon
                 style={{
                   fontSize: "32px",
                   color: "#de8d7e",
+                  cursor: "pointer",
                 }}
               />
             </motion.div>

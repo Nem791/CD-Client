@@ -74,6 +74,7 @@ const BoxChat = () => {
 
   useEffect(() => {
     if (gameOver) {
+      // Gui them participants
       sendDirectMessage({
         roomChatId: chosenChatDetails.id,
         content: "Game over 🏳️",
@@ -158,13 +159,14 @@ const BoxChat = () => {
       roomId: chosenChatDetails.id,
     });
   }, [chosenChatDetails]);
+
   return ReactDOM.createPortal(
     <>
       <div
         className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[rgba(0,0,0,0.25)] z-40 ${
           showCardBox ? "visible opacity-1" : "invisible opacity-0"
         }`}
-        onClick={handleClose}
+        // onClick={handleClose}
       ></div>
       <div
         className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white w-[1000px] h-[580px] z-[52] shadow-card transition-all linear rounded-lg grid grid-cols-2 ${

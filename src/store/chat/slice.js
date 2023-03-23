@@ -10,6 +10,7 @@ const chatSlice = createSlice({
     vocabularyChat: [],
     roomId: "",
     isInvite: false,
+    invitationComing: undefined,
   },
   reducers: {
     setChatRooms: (state, action) => ({
@@ -40,6 +41,10 @@ const chatSlice = createSlice({
       ...state,
       isInvite: action.payload,
     }),
+    setInvitationComing: (state, action) => ({
+      ...state,
+      invitationComing: action.payload,
+    }),
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   setVocabularyChat,
   setRoomId,
   setIsInvite,
+  setInvitationComing,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -5,7 +5,12 @@ import {
   setCardStudied,
   setNoCardStudied,
 } from "../store/card/slice";
-import { setChatRooms, setMessages, setRoomId } from "../store/chat/slice";
+import {
+  setChatRooms,
+  setInvitationComing,
+  setMessages,
+  setRoomId,
+} from "../store/chat/slice";
 import {
   setFriends,
   setOnlineUsers,
@@ -15,6 +20,8 @@ import {
 import { setPendingMemberInvitations } from "../store/member/memberSlice";
 import { setSavedEvent } from "../store/schedule/scheduleSlice";
 import { updateDirectChatHistoryIfActive } from "../shared/utils/chat";
+import { setShowCardBox, setShowIconChat } from "../store/show/showSlice";
+import { setMessage, setShowAlert, setType } from "../store/alert/alertSlice";
 
 let socket = null;
 
@@ -73,7 +80,7 @@ export const connectWithSocketServer = (user, dispatch) => {
     });
 
     dispatch(setMessages(messageConvert));
-    dispatch(setRoomId(data?.conversations.at(-1)._id));
+    // dispatch(setRoomId(data?.conversations.at(-1)._id));
   });
 
   socket.on("sendCardToClient", (data) => {
@@ -96,6 +103,33 @@ export const connectWithSocketServer = (user, dispatch) => {
 
   socket.on("sendScheduleToClient", (data) => {
     dispatch(setSavedEvent(data));
+  });
+
+  // Word chain
+  socket.on("receive-invite", (data) => {
+    dispatch(setInvitationComing(data));
+  });
+
+  socket.on("notify-reject-invite", (data) => {
+    console.log("nam1", data);
+    dispatch(setShowAlert(false));
+    setTimeout(() => {
+      dispatch(setShowAlert(true));
+      dispatch(setMessage(`${data.receiverName} has declined your invitation`));
+      dispatch(setType("notice"));
+    }, 500);
+  });
+
+  socket.on("invitation-expired", (data) => {
+    console.log("nam-loz", data);
+  });
+
+  socket.on("initiate-game", (data) => {
+    if (data) {
+      dispatch(setShowIconChat(true));
+      dispatch(setShowCardBox(true));
+      dispatch(setShowAlert(false));
+    }
   });
 };
 
