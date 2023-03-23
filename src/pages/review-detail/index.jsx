@@ -3,13 +3,14 @@ import { BottomNavigation, BottomNavigationAction, LinearProgress, Paper, Typogr
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/common/Header';
 import { store } from '../../store/configureStore';
 
 const DetailReview = () => {
     const { reviewId } = useParams();
     const [questionsList, setQuestionsList] = useState();
+    const [data, setData] = useState();
     const [currentQuestIndex, setCurrentQuestIndex] = useState();
     const [workingTime, setWorkingTime] = useState();
     const [intervalId, setIntervalId] = useState();
@@ -19,15 +20,17 @@ const DetailReview = () => {
       const userId = store.getState().auth.user?._id;
       const questionIds = Object.keys(formData);
       const formDataValues = Object.values(formData);
-  
-     
-  
+      const extraInfo = data.questions
       const answerList = questionsList.map((item, index) => {
         return {
           question: questionIds[index],
           answer: formDataValues[index],
           user: userId,
           time: workingTime[index],
+          rating: extraInfo[index].rating,
+          repetitions: extraInfo[index].repetitions,
+          easiness: extraInfo[index].easiness,
+          interval: extraInfo[index].interval
         };
       });
       try {
@@ -37,9 +40,7 @@ const DetailReview = () => {
             data: answerList,
           }
         );
-        console.log(response);
       } catch (error) {
-        console.log(error);
       }
     };
   
@@ -58,11 +59,10 @@ const DetailReview = () => {
     const getQuizess = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/v1/review-question/64186e2f4ae33903c85e6f54`
+          `http://localhost:3000/api/v1/review-question/${reviewId}`
         );
-        console.log(res)
-        console.log(res.data.data[0].questionInfo)
         setQuestionsList(res.data.data[0].questionInfo);
+        setData(res.data.data[0])
         setWorkingTime(new Array(res.data.data[0].questionInfo).fill(0));
         setCurrentQuestIndex(0);
       } catch (error) {
