@@ -46,6 +46,21 @@ const Header = () => {
       to: `/schedule/${user?._id}`,
       title: "Schedule",
     },
+    {
+      id: 3,
+      to: `/leaderboard`,
+      title: "Leaderboard",
+    },
+    {
+      id: 4,
+      to: `/quiz`,
+      title: "Quiz",
+    },
+    {
+      id: 5,
+      to: `/review-set`,
+      title: "Review",
+    },
   ];
 
   let navigate = useNavigate();
