@@ -28,6 +28,7 @@ import axios from "axios";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import slugify from "react-slugify";
 import { domain } from "../../shared/utils/common";
+import { socket } from "../../App";
 
 const CreateSetPage = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const CreateSetPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    joinSet(setId);
+    socket?.emit("join-set", setId);
   }, [setId]);
 
   useEffect(() => {

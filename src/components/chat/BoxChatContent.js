@@ -1,10 +1,12 @@
 import { Divider } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsFirstTimeMessage } from "../../store/chat/slice";
 import MessageItem from "./MessageItem";
 
 const BoxChatContent = () => {
   const { messages } = useSelector((state) => state.chat);
+  const dispatch = useDispatch();
 
   // Hàm chuyển định dạng ngày tháng năm
   const convertDateToHumanReadable = (date, format) => {

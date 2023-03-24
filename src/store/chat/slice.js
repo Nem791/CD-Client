@@ -13,6 +13,8 @@ const chatSlice = createSlice({
     invitationComing: undefined,
     isStartGame: false,
     isYourTurn: {},
+    isGameOver: false,
+    isFirstTimeMessage: false,
   },
   reducers: {
     setChatRooms: (state, action) => ({
@@ -55,6 +57,14 @@ const chatSlice = createSlice({
       ...state,
       isYourTurn: action.payload,
     }),
+    setIsGameOver: (state, action) => ({
+      ...state,
+      isGameOver: action.payload,
+    }),
+    setIsFirstTimeMessage: (state, action) => ({
+      ...state,
+      isFirstTimeMessage: action.payload,
+    }),
   },
 });
 
@@ -69,6 +79,8 @@ export const {
   setInvitationComing,
   setIsStartGame,
   setIsYourTurn,
+  setIsGameOver,
+  setIsFirstTimeMessage,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

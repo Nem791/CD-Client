@@ -10,11 +10,11 @@ const BoxChatInput = ({
   value = "",
 }) => {
   const { user } = useAuthStateChanged();
-  const { isInvite, isYourTurn } = useSelector((state) => state.chat);
-  console.log("isYourTurn", isYourTurn);
-  const isTurn = isYourTurn?._id === user._id ? true : false;
-  console.log("isYourTurn?._id", isYourTurn?._id);
-  console.log("user._id", user._id);
+  const { isInvite, isYourTurn, isGameOver } = useSelector(
+    (state) => state.chat
+  );
+
+  const isTurn = isYourTurn?.player === user._id ? true : false;
 
   return (
     <div className="p-[20px] border-t-[1px] flex items-center">
@@ -22,7 +22,9 @@ const BoxChatInput = ({
         type="text"
         placeholder={`${
           isInvite
-            ? isTurn
+            ? isGameOver
+              ? "Ended game"
+              : isTurn
               ? "Enter your message"
               : "Wait your turn"
             : "Please invite your partner to play this game"
@@ -31,9 +33,11 @@ const BoxChatInput = ({
         value={value}
         onChange={onChange}
         onKeyDown={onKeyDown}
-        disabled={!isInvite || !isTurn}
+        disabled={!isInvite || !isTurn || isGameOver}
         style={{
-          cursor: `${!isInvite || !isTurn ? "not-allowed" : "text"} `,
+          cursor: `${
+            !isInvite || !isTurn || isGameOver ? "not-allowed" : "text"
+          } `,
         }}
       />
       <SendIcon className="ml-[10px] cursor-pointer"></SendIcon>

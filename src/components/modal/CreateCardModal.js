@@ -19,6 +19,7 @@ import {
   createCard,
   updateCard,
 } from "../../realtimeCommunication/socketConnection";
+import { socket } from "../../App";
 
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import { useParams } from "react-router-dom";
@@ -108,9 +109,11 @@ const CreateCardModal = ({ closeModel }) => {
             meaningUsers: values.definition,
             images: cardInfo?.images,
           };
-          updateCard({ cardDataUpdate, cardId, setId });
+          socket?.emit("update-card", { cardDataUpdate, cardId, setId });
+          window.location.reload();
         } else if (imageCover) {
-          createCard({ cardData, setId });
+          socket?.emit("create-card", { cardData, setId });
+          window.location.reload();
         } else {
           dispatch(setShowAlert(true));
           dispatch(setMessage("You must choose image for the card"));

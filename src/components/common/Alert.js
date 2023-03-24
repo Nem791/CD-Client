@@ -13,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShowAlert } from "../../store/alert/alertSlice";
 import { motion } from "framer-motion";
 import { responseInvitation } from "../../realtimeCommunication/socketConnection";
+import { Button } from "@mui/material";
+import { setShowCardBox } from "../../store/show/showSlice";
 
 const Alert = ({ show, message = "", type = "notice" }) => {
   const dispatch = useDispatch();
@@ -30,6 +32,11 @@ const Alert = ({ show, message = "", type = "notice" }) => {
     const senderId = invitationComing[0]?.senderId[0]?._id ?? "";
     const receiverId = invitationComing[0]?.receiverId ?? "";
     responseInvitation({ accept: false, senderId, receiverId });
+  };
+
+  const gameOverHandel = () => {
+    dispatch(setShowCardBox(true));
+    window.location.reload();
   };
 
   return ReactDOM.createPortal(
@@ -58,23 +65,7 @@ const Alert = ({ show, message = "", type = "notice" }) => {
           className={`absolute translate-y-[-50%] left-[20px] top-[50%] w-[30px] h-[30px]`}
         ></XCircleIcon>
       )}
-      {type !== "invite" ? (
-        <>
-          <span className={`msg py-[0px] px-[20px] text-[18px]`}>
-            {message}
-          </span>
-          <div
-            className={`close-btn absolute  py-[20px] px-[18px] right-0 top-[50%] translate-y-[-50%] cursor-pointer`}
-            onClick={handleAlertClose}
-          >
-            <XMarkIcon
-              className={`w-[22px] h-[22px] leading-[40px]`}
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-            ></XMarkIcon>
-          </div>
-        </>
-      ) : (
+      {type === "invite" ? (
         <>
           <span className={`msg py-[0px] px-[20px] text-[18px]`}>
             {message}
@@ -109,6 +100,35 @@ const Alert = ({ show, message = "", type = "notice" }) => {
                 }}
               />
             </motion.div>
+          </div>
+        </>
+      ) : type === "winner" ? (
+        <>
+          <span className={`msg py-[0px] px-[20px] text-[18px]`}>
+            {message}
+          </span>
+          <Button
+            variant="contained"
+            style={{ color: "white", backgroundColor: "#8eb397" }}
+            onClick={gameOverHandel}
+          >
+            Ok
+          </Button>
+        </>
+      ) : (
+        <>
+          <span className={`msg py-[0px] px-[20px] text-[18px]`}>
+            {message}
+          </span>
+          <div
+            className={`close-btn absolute  py-[20px] px-[18px] right-0 top-[50%] translate-y-[-50%] cursor-pointer`}
+            onClick={handleAlertClose}
+          >
+            <XMarkIcon
+              className={`w-[22px] h-[22px] leading-[40px]`}
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+            ></XMarkIcon>
           </div>
         </>
       )}

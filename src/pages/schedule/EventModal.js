@@ -3,16 +3,12 @@ import DragHandleRoundedIcon from "@mui/icons-material/DragHandleRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  setSavedEvent,
-  setShowEventModal,
-} from "../../store/schedule/scheduleSlice";
+import { setShowEventModal } from "../../store/schedule/scheduleSlice";
 import ScheduleIcon from "@mui/icons-material/Schedule";
 import SegmentIcon from "@mui/icons-material/Segment";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import CheckIcon from "@mui/icons-material/Check";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { domain } from "../../shared/utils/common";
 
 import { useParams } from "react-router-dom";
 
@@ -21,12 +17,14 @@ import {
   deleteSchedule,
   updateSchedule,
 } from "../../realtimeCommunication/socketConnection";
+import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 
 const labelsClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 
 const EventModal = () => {
   const { daySelected, selectedEvent } = useSelector((state) => state.schedule);
   const { userId } = useParams();
+  const { user } = useAuthStateChanged();
 
   const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
   const [description, setDiscription] = useState(
@@ -52,11 +50,11 @@ const EventModal = () => {
 
     if (selectedEvent) {
       const selectedEventId = selectedEvent._id;
-      updateSchedule({ calendarEvent, selectedEventId });
+      updateSchedule({ calendarEvent, selectedEventId, userId: user?._id });
       dispatch(setShowEventModal(false));
     } else {
       try {
-        createSchedule(calendarEvent);
+        createSchedule({ userId: user?._id, calendarEvent });
         dispatch(setShowEventModal(false));
       } catch (err) {
         dispatch(setShowEventModal(false));
@@ -79,7 +77,7 @@ const EventModal = () => {
                     // );
                     const selectedEventId = selectedEvent._id;
 
-                    deleteSchedule(selectedEventId);
+                    deleteSchedule({ userId: user?._id, selectedEventId });
                     dispatch(setShowEventModal(false));
                   } catch (err) {
                     console.log(err);

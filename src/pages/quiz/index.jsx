@@ -38,23 +38,22 @@ const Quiz = () => {
   const [intervalId, setIntervalId] = useState();
   const [recommendQuizzes, setRecommendQuizzes] = useState();
   const { handleSubmit, getValues, setValue } = useForm();
-
+  const [testInterval , setTestIntervale] = useState([]);
+  const [isFinish , setIsFinish] = useState(false)
+  const getRecommendQuiz = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/quiz/recommend/${quizId}`
+      );
+      setRecommendQuizzes(response.data.data.quizzes);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const sendAnswer = async (formData) => {
     const userId = store.getState().auth.user?._id;
     const questionIds = Object.keys(formData);
     const formDataValues = Object.values(formData);
-
-    const getRecommendQuiz = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/api/v1/quiz/recommend/${quizId}`
-        );
-        setRecommendQuizzes(response.data.data.quizzes);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     const answerList = questionsList.map((item, index) => {
       return {
         question: questionIds[index],
@@ -64,14 +63,14 @@ const Quiz = () => {
       };
     });
     try {
-      const response = axios.put(
+      await axios.put(
         `http://localhost:3000/api/v1/review-question`,
         {
           data: answerList,
         }
       );
       await getRecommendQuiz();
-      console.log(response);
+      setIsFinish(true);
     } catch (error) {
       console.log(error);
     }
@@ -111,19 +110,41 @@ const Quiz = () => {
         })
       );
     }, 1000);
+    let array = testInterval
+    array.push(id)
+    setTestIntervale(array)
     setIntervalId(id);
   };
-
+  console.log({intervalId , testInterval} )
   useEffect(() => {
     if (!quizId) return;
     getQuizess();
   }, [quizId]);
+
+  // useEffect(() => {
+  //   if(!isFinish && testInterval.length >1){
+  //     const lastId = testInterval[testInterval.length-1]
+  //     const filteredIdArray = testInterval.filter(item => item!==lastId)
+  //     clearInterval(testInterval[testInterval.length-1])
+  //     setTestIntervale(filteredIdArray)
+  //     return;
+  //   }
+  //   if(isFinish){
+  //     testInterval.forEach(element => {
+  //       clearInterval(element)
+  //     });
+  //     setTestIntervale([])
+  //   }
+
+
+  // },[testInterval , isFinish])
 
   useEffect(() => {
     if (typeof currentQuestIndex === "undefined") return;
     if (currentQuestIndex === questionsList.length) {
       const data = getValues();
       onSubmit(data);
+      return;
     }
     countTime();
   }, [currentQuestIndex]);

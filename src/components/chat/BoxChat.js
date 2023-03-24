@@ -18,17 +18,19 @@ import {
   setType,
 } from "../../store/alert/alertSlice";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
+import { setIsFirstTimeMessage } from "../../store/chat/slice";
 
 const BoxChat = () => {
   const [message, setMessageChat] = useState("");
 
   const { user } = useAuthStateChanged();
   const { showCardBox } = useSelector((state) => state.show);
-  const { chosenChatDetails, messages } = useSelector((state) => state.chat);
+  const { chosenChatDetails, messages, isFirstTimeMessage } = useSelector(
+    (state) => state.chat
+  );
   const [time, setTime] = useState(15);
-  const [gameOver, setGameOver] = useState(false);
+
   const [turn, setTurn] = useState(1);
-  const [startGame, setStartGame] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -43,58 +45,17 @@ const BoxChat = () => {
     }
   }, 200);
 
-  // useEffect(() => {
-  //   if (messages?.length === 0) {
-  //     setTurn(1);
-  //     return;
-  //   }
-
-  //   const maxTurn = messages?.reduce(
-  //     (max, obj) => (obj.turn > max ? obj.turn : max),
-  //     -Infinity
-  //   );
-
-  //   setTurn(maxTurn);
-  // }, [messages?.length]);
-
-  // useEffect(() => {
-  //   if (startGame && time > 0) {
-  //     const timer = setInterval(() => {
-  //       setTime((prevTime) => prevTime - 1);
-  //     }, 1000);
-
-  //     // if(messages.)
-
-  //     return () => clearInterval(timer);
-  //   } else if (time <= 0) {
-  //     setGameOver(true);
-  //     setStartGame(false);
-  //   }
-  // }, [time, startGame]);
-
-  // useEffect(() => {
-  //   if (gameOver) {
-  //     // Gui them participants
-  //     sendDirectMessage({
-  //       roomChatId: chosenChatDetails.id,
-  //       content: "Game over 🏳️",
-  //       turn: turn + 1,
-  //     });
-  //   }
-  //   setGameOver(false);
-  // }, [gameOver]);
+  console.log("turn", turn);
 
   const handleSendMessage = async () => {
-    const filteredData = messages?.filter((msg) => {
-      return msg.content !== "Game over 🏳️";
-    });
-
     try {
       if (message.length > 0) {
-        // const lastItem = filteredData[filteredData.length - 1]; // Lấy phần tử cuối cùng
-        // const lastChar = lastItem?.content?.charAt(lastItem.content.length - 1);
+        const lastItem = messages[messages.length - 1]; // Lấy phần tử cuối cùng
+        const lastChar = lastItem
+          .at(-1)
+          ?.content?.charAt(lastItem.at(-1)?.content?.length - 1);
 
-        // const firstCharMessage = message.charAt(0);
+        const firstCharMessage = message.charAt(0);
 
         const getDefinitionCard = await axios.get(
           `https://api.dictionaryapi.dev/api/v2/entries/en_US/${message}`,
@@ -105,29 +66,24 @@ const BoxChat = () => {
         );
 
         if (getDefinitionCard?.data) {
-          // if (
-          //   filteredData[filteredData?.length - 1]?.author?._id === user?._id
-          // ) {
-          //   dispatch(setShowAlert(true));
-          //   dispatch(setMessage("Bạn phải chờ đến lượt của mình nhé"));
-          //   dispatch(setType("notice"));
-          //   setMessageChat("");
-          //   return;
-          // }
-          // if (lastChar !== firstCharMessage && filteredData?.length > 0) {
-          //   dispatch(setShowAlert(true));
-          //   dispatch(
-          //     setMessage(
-          //       "Ký tự đầu tiên của từ phải trùng với ký tự cuối cùng của từ trước đó"
-          //     )
-          //   );
-          //   dispatch(setType("notice"));
-          //   setMessageChat("");
-          //   return;
-          // }
-          // setStartGame(true);
-          // setTime(15);
+          if (
+            lastChar !== firstCharMessage &&
+            messages?.length > 0 &&
+            !isFirstTimeMessage
+          ) {
+            dispatch(setShowAlert(true));
+            dispatch(
+              setMessage(
+                "The first letter of a word must match the last letter of the previous word"
+              )
+            );
+            dispatch(setType("notice"));
+            setMessageChat("");
+            return;
+          }
+          dispatch(setIsFirstTimeMessage(false));
           sendDirectMessage({
+            userId: user?._id,
             roomChatId: chosenChatDetails?.id,
             participants: chosenChatDetails?.participants,
             content: message,
@@ -140,7 +96,7 @@ const BoxChat = () => {
     } catch (err) {
       console.log(err);
       dispatch(setShowAlert(true));
-      dispatch(setMessage("Từ của bạn không chính xác"));
+      dispatch(setMessage("Your word is not correct"));
       dispatch(setType("notice"));
 
       setMessageChat("");

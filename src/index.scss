@@ -321,6 +321,17 @@ html {
   color: #303545;
 }
 
+// Winner
+
+.alert.winner {
+  background-color: white;
+  border-left-color: #303545;
+}
+
+.alert.winner > * {
+  color: #303545;
+}
+
 // Làm text thành 3 dòng và dấu 3 chấm
 .text-short {
   max-width: 130px;

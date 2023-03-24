@@ -53,9 +53,11 @@ const SetPage = () => {
 
   const { user } = useAuthStateChanged();
 
-  useEffect(() => {
-    connectWithSocketServer(user, dispatch);
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   if (!user) return;
+  //   connectWithSocketServer(user, dispatch);
+  //   return () => {};
+  // }, [user, dispatch]);
 
   useEffect(() => {
     joinSet(setId);

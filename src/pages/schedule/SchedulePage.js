@@ -25,9 +25,9 @@ const SchedulePage = () => {
 
   const [currentMonth, setCurrentMonth] = useState(getMonth());
 
-  useEffect(() => {
-    connectWithSocketServer(user, dispatch);
-  }, [user, dispatch]);
+  // useEffect(() => {
+  //   connectWithSocketServer(user, dispatch);
+  // }, [user, dispatch]);
 
   useEffect(() => {
     joinSchedule(userId);
