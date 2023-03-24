@@ -19,11 +19,10 @@ import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 const BoxChatHeader = ({ time }) => {
   const dispatch = useDispatch();
   const { friends, onlineUsers } = useSelector((state) => state.friend);
-  const { chosenChatDetails, roomId, isInvite } = useSelector(
+  const { chosenChatDetails, roomId, isInvite, isStartGame } = useSelector(
     (state) => state.chat
   );
 
-  console.log("chosenChatDetails", chosenChatDetails);
   const { user } = useAuthStateChanged();
 
   const checkOnlineUsers = (friends = [], onlineUsers = []) => {
@@ -103,37 +102,40 @@ const BoxChatHeader = ({ time }) => {
               );
             }
           )}
-          {isInvite ? (
-            <Button
-              variant="contained"
-              style={{
-                color: "#303545",
-                textTransform: "none",
-                marginLeft: "auto",
-                backgroundColor: "#ffcd1f",
-                fontWeight: "bold",
-                marginLeft: "20px",
-              }}
-              onClick={handleCancelInviteToPlay}
-            >
-              Cancel Invite
-            </Button>
-          ) : (
-            <Button
-              variant="contained"
-              style={{
-                color: "#303545",
-                textTransform: "none",
-                marginLeft: "auto",
-                backgroundColor: "#ffcd1f",
-                fontWeight: "bold",
-                marginLeft: "20px",
-              }}
-              onClick={handleInviteToPlay}
-            >
-              Invite
-            </Button>
-          )}
+
+          {!isStartGame ? (
+            isInvite ? (
+              <Button
+                variant="contained"
+                style={{
+                  color: "#303545",
+                  textTransform: "none",
+                  marginLeft: "auto",
+                  backgroundColor: "#ffcd1f",
+                  fontWeight: "bold",
+                  marginLeft: "20px",
+                }}
+                onClick={handleCancelInviteToPlay}
+              >
+                Cancel Invite
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                style={{
+                  color: "#303545",
+                  textTransform: "none",
+                  marginLeft: "auto",
+                  backgroundColor: "#ffcd1f",
+                  fontWeight: "bold",
+                  marginLeft: "20px",
+                }}
+                onClick={handleInviteToPlay}
+              >
+                Invite
+              </Button>
+            )
+          ) : null}
         </div>
       </div>
       <div className="text-right font-semibold text-white">Time: {time}</div>

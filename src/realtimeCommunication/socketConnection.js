@@ -7,7 +7,11 @@ import {
 } from "../store/card/slice";
 import {
   setChatRooms,
+  setChosenChatDetails,
   setInvitationComing,
+  setIsInvite,
+  setIsStartGame,
+  setIsYourTurn,
   setMessages,
   setRoomId,
 } from "../store/chat/slice";
@@ -72,6 +76,7 @@ export const connectWithSocketServer = (user, dispatch) => {
   });
 
   socket.on("direct-chat-history", (data) => {
+    console.log("data-nam-loz", data);
     // updateDirectChatHistoryIfActive(data);
     const messageConvert = data?.conversations?.map((conversation, index) => {
       return conversation?.messages.map((msg) => {
@@ -111,11 +116,12 @@ export const connectWithSocketServer = (user, dispatch) => {
   });
 
   socket.on("notify-reject-invite", (data) => {
-    console.log("nam1", data);
     dispatch(setShowAlert(false));
     setTimeout(() => {
       dispatch(setShowAlert(true));
-      dispatch(setMessage(`${data.receiverName} has declined your invitation`));
+      dispatch(
+        setMessage(`${data?.receiverName} has declined your invitation`)
+      );
       dispatch(setType("notice"));
     }, 500);
   });
@@ -125,7 +131,21 @@ export const connectWithSocketServer = (user, dispatch) => {
   });
 
   socket.on("initiate-game", (data) => {
+    console.log("data-cuu-nam", data);
+    const { _id: conversationId } = data?.newConversation;
+    const { receiverId, senderId } = data?.participants;
+    const participants = [senderId[0], receiverId[0]];
     if (data) {
+      dispatch(setIsYourTurn(senderId[0]));
+      dispatch(setIsStartGame(true));
+      dispatch(setIsInvite(true));
+      dispatch(
+        setChosenChatDetails({
+          id: conversationId,
+          name: participants[1].name,
+          participants: participants ?? [],
+        })
+      );
       dispatch(setShowIconChat(true));
       dispatch(setShowCardBox(true));
       dispatch(setShowAlert(false));
@@ -165,10 +185,12 @@ export const updateCard = (data) => {
 
 // Chat
 export const sendDirectMessage = (data) => {
+  console.log("timer", data);
   socket?.emit("direct-message", data);
 };
 
 export const getDirectChatHistory = (data) => {
+  console.log("data", data);
   socket?.emit("direct-chat-history", data);
 };
 

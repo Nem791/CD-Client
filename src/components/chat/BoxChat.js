@@ -43,46 +43,46 @@ const BoxChat = () => {
     }
   }, 200);
 
-  useEffect(() => {
-    if (messages?.length === 0) {
-      setTurn(1);
-      return;
-    }
+  // useEffect(() => {
+  //   if (messages?.length === 0) {
+  //     setTurn(1);
+  //     return;
+  //   }
 
-    const maxTurn = messages?.reduce(
-      (max, obj) => (obj.turn > max ? obj.turn : max),
-      -Infinity
-    );
+  //   const maxTurn = messages?.reduce(
+  //     (max, obj) => (obj.turn > max ? obj.turn : max),
+  //     -Infinity
+  //   );
 
-    setTurn(maxTurn);
-  }, [messages?.length]);
+  //   setTurn(maxTurn);
+  // }, [messages?.length]);
 
-  useEffect(() => {
-    if (startGame && time > 0) {
-      const timer = setInterval(() => {
-        setTime((prevTime) => prevTime - 1);
-      }, 1000);
+  // useEffect(() => {
+  //   if (startGame && time > 0) {
+  //     const timer = setInterval(() => {
+  //       setTime((prevTime) => prevTime - 1);
+  //     }, 1000);
 
-      // if(messages.)
+  //     // if(messages.)
 
-      return () => clearInterval(timer);
-    } else if (time <= 0) {
-      setGameOver(true);
-      setStartGame(false);
-    }
-  }, [time, startGame]);
+  //     return () => clearInterval(timer);
+  //   } else if (time <= 0) {
+  //     setGameOver(true);
+  //     setStartGame(false);
+  //   }
+  // }, [time, startGame]);
 
-  useEffect(() => {
-    if (gameOver) {
-      // Gui them participants
-      sendDirectMessage({
-        roomChatId: chosenChatDetails.id,
-        content: "Game over 🏳️",
-        turn: turn + 1,
-      });
-    }
-    setGameOver(false);
-  }, [gameOver]);
+  // useEffect(() => {
+  //   if (gameOver) {
+  //     // Gui them participants
+  //     sendDirectMessage({
+  //       roomChatId: chosenChatDetails.id,
+  //       content: "Game over 🏳️",
+  //       turn: turn + 1,
+  //     });
+  //   }
+  //   setGameOver(false);
+  // }, [gameOver]);
 
   const handleSendMessage = async () => {
     const filteredData = messages?.filter((msg) => {
@@ -91,10 +91,10 @@ const BoxChat = () => {
 
     try {
       if (message.length > 0) {
-        const lastItem = filteredData[filteredData.length - 1]; // Lấy phần tử cuối cùng
-        const lastChar = lastItem?.content?.charAt(lastItem.content.length - 1);
+        // const lastItem = filteredData[filteredData.length - 1]; // Lấy phần tử cuối cùng
+        // const lastChar = lastItem?.content?.charAt(lastItem.content.length - 1);
 
-        const firstCharMessage = message.charAt(0);
+        // const firstCharMessage = message.charAt(0);
 
         const getDefinitionCard = await axios.get(
           `https://api.dictionaryapi.dev/api/v2/entries/en_US/${message}`,
@@ -105,31 +105,31 @@ const BoxChat = () => {
         );
 
         if (getDefinitionCard?.data) {
-          if (
-            filteredData[filteredData?.length - 1]?.author?._id === user?._id
-          ) {
-            dispatch(setShowAlert(true));
-            dispatch(setMessage("Bạn phải chờ đến lượt của mình nhé"));
-            dispatch(setType("notice"));
-            setMessageChat("");
-            return;
-          } else {
-          }
-          if (lastChar !== firstCharMessage && filteredData?.length > 0) {
-            dispatch(setShowAlert(true));
-            dispatch(
-              setMessage(
-                "Ký tự đầu tiên của từ phải trùng với ký tự cuối cùng của từ trước đó"
-              )
-            );
-            dispatch(setType("notice"));
-            setMessageChat("");
-            return;
-          }
-          setStartGame(true);
-          setTime(15);
+          // if (
+          //   filteredData[filteredData?.length - 1]?.author?._id === user?._id
+          // ) {
+          //   dispatch(setShowAlert(true));
+          //   dispatch(setMessage("Bạn phải chờ đến lượt của mình nhé"));
+          //   dispatch(setType("notice"));
+          //   setMessageChat("");
+          //   return;
+          // }
+          // if (lastChar !== firstCharMessage && filteredData?.length > 0) {
+          //   dispatch(setShowAlert(true));
+          //   dispatch(
+          //     setMessage(
+          //       "Ký tự đầu tiên của từ phải trùng với ký tự cuối cùng của từ trước đó"
+          //     )
+          //   );
+          //   dispatch(setType("notice"));
+          //   setMessageChat("");
+          //   return;
+          // }
+          // setStartGame(true);
+          // setTime(15);
           sendDirectMessage({
-            roomChatId: chosenChatDetails.id,
+            roomChatId: chosenChatDetails?.id,
+            participants: chosenChatDetails?.participants,
             content: message,
             turn,
           });
@@ -150,6 +150,8 @@ const BoxChat = () => {
   const handleClose = () => {
     dispatch(setShowCardBox(false));
   };
+
+  console.log("chosenChatDetails", chosenChatDetails);
 
   useEffect(() => {
     getDirectChatHistory({

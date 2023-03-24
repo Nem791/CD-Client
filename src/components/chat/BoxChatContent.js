@@ -24,7 +24,7 @@ const BoxChatContent = () => {
         return msg?.map((item, index2) => {
           const sameAuthor =
             index2 > 0 &&
-            msg[index2]?.author._id === msg[index2 - 1]?.author._id;
+            msg[index2]?.author?._id === msg[index2 - 1]?.author?._id;
           const sameDay =
             index2 > 0 &&
             convertDateToHumanReadable(new Date(item.date), "dd/mm/yy") ===
