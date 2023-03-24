@@ -15,6 +15,7 @@ import {
 } from "../../realtimeCommunication/socketConnection";
 import { setIsInvite } from "../../store/chat/slice";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
+import { socket } from "../../App";
 
 const BoxChatHeader = ({ time }) => {
   const dispatch = useDispatch();
@@ -41,7 +42,8 @@ const BoxChatHeader = ({ time }) => {
       ?.isOnline;
 
     if (isYourPartnerOnline) {
-      inviteToPlay({ roomId });
+      // inviteToPlay({ roomId });
+      socket.emit("invite-to-play", { roomId });
       dispatch(setIsInvite(true));
       dispatch(setShowAlert(true));
       dispatch(setMessage("Waiting for your partner accept invitation!"));
