@@ -21,13 +21,14 @@ import {
   setShowAlert,
   setType,
 } from "../../store/alert/alertSlice";
-import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection";
+// import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection";
 import FriendInvitation from "../box/FriendInvitation";
 import MessageList from "../box/MessageList";
 import { setShowInvitationBox } from "../../store/show/showSlice";
 
 import { domain } from "../../shared/utils/common";
 import { InputModal } from "../input";
+import { socket } from "../../App";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -88,17 +89,23 @@ const Header = () => {
     }
   };
 
+  const fakeEmit = () => {
+    socket.emit("room-join", { data: "asdasd" });
+  };
+
+  fakeEmit();
+
   const handleAlert = () => {
     dispatch(setShowAlert(true));
     dispatch(setMessage("You are not logged in! Please log in to get access."));
     dispatch(setType("notice"));
   };
 
-  useEffect(() => {
-    if (isLogin) {
-      connectWithSocketServer(user, dispatch);
-    }
-  }, [isLogin, user, dispatch]);
+  // useEffect(() => {
+  //   if (isLogin) {
+  //     connectWithSocketServer(user, dispatch);
+  //   }
+  // }, [isLogin, user, dispatch]);
 
   const onSubmitHandler = async (values) => {
     if (isValid) {
