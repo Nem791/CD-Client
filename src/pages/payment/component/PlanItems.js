@@ -6,23 +6,41 @@ import NavigateNextRoundedIcon from "@mui/icons-material/NavigateNextRounded";
 import { Button, Divider } from "@mui/material";
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import RocketLaunchRoundedIcon from "@mui/icons-material/RocketLaunchRounded";
+import axios from "axios";
+import { store } from "../../../store/configureStore";
 
-const PlanItems = ({ isPopular = false, type }) => {
+const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
   const info = {
     basic: {
       message: "Basic",
-      price: 5,
+      price: 1000,
       info: ["Get started with messaging"],
     },
     pro: {
       message: "Pro",
-      price: 25,
+      price: 1500,
     },
     enterprise: {
       message: "Enterprise",
-      price: 15,
+      price: 2000,
     },
   };
+  const userId = store.getState().auth.user?._id;
+
+  const payLearningPlan = async () => {
+    const planInfo = info[type];
+    try {
+      const res = await axios.post(`http://localhost:3000/api/v1/transaction`, {
+        unit_amount: planInfo.price,
+        name: planInfo.message,
+        user: userId,
+      });
+      setIsModalOpening(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <motion.div
       whileHover={{ scale: 1.1 }}
@@ -134,6 +152,7 @@ const PlanItems = ({ isPopular = false, type }) => {
             fontFamily: "Poppins",
             letterSpacing: "2px",
           }}
+          onClick={payLearningPlan}
         >
           Choose plan <NavigateNextRoundedIcon style={{ fontSize: "20px" }} />
         </Button>
