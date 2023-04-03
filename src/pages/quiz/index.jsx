@@ -6,6 +6,7 @@ import {
   CardActions,
   CardContent,
   Chip,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -37,15 +38,17 @@ const Quiz = () => {
   const [workingTime, setWorkingTime] = useState();
   const [intervalId, setIntervalId] = useState();
   const [recommendQuizzes, setRecommendQuizzes] = useState();
+  const [loading, setLoading] = useState(true);
   const { handleSubmit, getValues, setValue } = useForm();
-  const [testInterval , setTestIntervale] = useState([]);
-  const [isFinish , setIsFinish] = useState(false)
+  const [testInterval, setTestIntervale] = useState([]);
+  const [isFinish, setIsFinish] = useState(false);
   const getRecommendQuiz = async () => {
     try {
       const response = await axios.get(
         `http://localhost:3000/api/v1/quiz/recommend/${quizId}`
       );
       setRecommendQuizzes(response.data.data.quizzes);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -63,12 +66,9 @@ const Quiz = () => {
       };
     });
     try {
-      await axios.put(
-        `http://localhost:3000/api/v1/review-question`,
-        {
-          data: answerList,
-        }
-      );
+      await axios.put(`http://localhost:3000/api/v1/review-question`, {
+        data: answerList,
+      });
       await getRecommendQuiz();
       setIsFinish(true);
     } catch (error) {
@@ -110,12 +110,12 @@ const Quiz = () => {
         })
       );
     }, 1000);
-    let array = testInterval
-    array.push(id)
-    setTestIntervale(array)
+    let array = testInterval;
+    array.push(id);
+    setTestIntervale(array);
     setIntervalId(id);
   };
-  console.log({intervalId , testInterval} )
+  console.log({ intervalId, testInterval });
   useEffect(() => {
     if (!quizId) return;
     getQuizess();
@@ -135,7 +135,6 @@ const Quiz = () => {
   //     });
   //     setTestIntervale([])
   //   }
-
 
   // },[testInterval , isFinish])
 
@@ -178,7 +177,7 @@ const Quiz = () => {
                     <Typography sx={{ fontSize: 15, fontWeight: "bold" }}>
                       {ques.question}
                     </Typography>
-                    <div className="grid grid-cols-2 gap-x-6">
+                    <div className=" gap-x-6">
                       {ques.options.map((item) => {
                         return (
                           <div
@@ -208,6 +207,11 @@ const Quiz = () => {
                 <div className="text-sm font-bold">
                   Here is some relative quize
                 </div>
+                {loading && (
+                  <div className="flex justify-center items-center h-[200px]">
+                    <CircularProgress size={80} />
+                  </div>
+                )}
                 {recommendQuizzes?.map((item) => {
                   return (
                     <div
@@ -234,20 +238,20 @@ const Quiz = () => {
                 const ansewr = Object.values(getValues());
                 const key = Object.keys(getValues());
                 if (!key.includes(ques._id))
-                  return <QuestionMarkCircleIcon width={30} height={30} />;
+                  return <QuestionMarkCircleIcon width={50} height={50} />;
                 if (ansewr.includes(ques.answer))
                   return (
                     <CheckCircleIcon
-                      width={30}
-                      height={30}
+                      width={50}
+                      height={50}
                       className="text-green-500"
                     />
                   );
                 if (!ansewr.includes(ques.answer))
                   return (
                     <XCircleIcon
-                      width={30}
-                      height={30}
+                      width={50}
+                      height={50}
                       className="text-red-500"
                     />
                   );

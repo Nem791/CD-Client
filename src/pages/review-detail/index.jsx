@@ -135,7 +135,7 @@ const DetailReview = () => {
                     <Typography sx={{ fontSize: 15, fontWeight: "bold" }}>
                       {ques.question}
                     </Typography>
-                    <div className="grid grid-cols-2 gap-x-6">
+                    <div className="gap-x-6">
                       {ques.options.map((item) => {
                         return (
                           <div
@@ -203,7 +203,7 @@ const DetailReview = () => {
                 const ansewr = Object.values(getValues());
                 const key = Object.keys(getValues());
                 if (!key.includes(ques._id))
-                  return <QuestionMarkCircleIcon width={30} height={30} />;
+                  return <QuestionMarkCircleIcon width={50} height={50} />;
                 if (ansewr.includes(ques.answer))
                   return (
                     <CheckCircleIcon

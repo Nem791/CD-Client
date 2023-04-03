@@ -1,27 +1,27 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React from "react";
 
-const SetItem = () => {
+const SetItem = (props) => {
   return (
     <div className="w-[240px] h-[340px] bg-[#eff5f2] rounded-lg flex flex-col items-center justify-center relative cursor-pointer">
       <div>
         <img
-          src="https://images.unsplash.com/photo-1670239510546-5a59f3039d86?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+          src={props.image}
           alt="img-set"
           className="w-[200px] h-[220px] object-cover rounded-lg"
         />
       </div>
       <div className="text-center max-w-[180px] ">
         <p className="text-[18px] font-semibold mt-[20px] text-short2">
-          Vocabuldary Food
+          {props.name}
         </p>
-        <p className="mt-[8px] text-[#bbc1cd]">Vocabuldary Food</p>
+        <p className="mt-[8px] text-[#bbc1cd]">{props.description}</p>
       </div>
       <div className="absolute top-[-20px] left-[-20px]">
         <Box sx={{ position: "relative", display: "inline-flex" }}>
           <CircularProgress
             variant="determinate"
-            value={70}
+            value={props.numCards || 0}
             className="bg-[#eff5e1] rounded-full shadow-thin"
             color="success"
             style={{ color: "#9eb8ac" }}
@@ -40,7 +40,7 @@ const SetItem = () => {
             }}
           >
             <Typography variant="caption" component="div">
-              <span className="font-bold text-[16px]">20%</span>
+              <span className="font-bold text-[16px]">{props.numCards}%</span>
             </Typography>
           </Box>
         </Box>
