@@ -1,8 +1,28 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import setIcon from "../../../assets/img/profile/set.png";
 import SetItem from "./SetItem";
 
 const MySet = () => {
+  const { userId } = useParams();
+  const [questions, setQuestions] = useState();
+  const getAllsets = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/v1/sets/get-all-sets/${userId}`
+      );
+      setQuestions(res.data.data.sets);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllsets();
+  }, []);
+  console.log(questions);
+
   return (
     <div>
       <div>
@@ -22,13 +42,10 @@ const MySet = () => {
         <p className="mb-[20px] font-bold text-[18px]">Average Score</p>
       </div>
       <div className="mt-[40px] grid grid-cols-3 gap-x-[18px] gap-y-[32px]">
-        <SetItem></SetItem>
-        <SetItem></SetItem>
-        <SetItem></SetItem>
-        <SetItem></SetItem>
-        <SetItem></SetItem>
-        <SetItem></SetItem>
-        <SetItem></SetItem>
+        {questions?.map((item) => {
+          const { name, description, numCards, image } = item;
+          return <SetItem {...item} />;
+        })}
       </div>
     </div>
   );
