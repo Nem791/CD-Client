@@ -1,6 +1,7 @@
 .schedule-container {
   .react-calendar {
     width: 100%;
+    max-width: 700px;
   }
   .react-calendar__tile--active {
     color: #303545;
