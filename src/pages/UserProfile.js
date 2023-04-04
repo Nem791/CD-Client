@@ -7,9 +7,9 @@ import NavRight from "../components/nav/NavRight";
 
 const UserProfile = () => {
   return (
-    <div className="bg-[#f6f7fb]">
+    <div className="bg-[#f6f7fb] min-h-[95vh]">
       <Header></Header>
-      <div className="pt-[64px] w-full flex h-full">
+      <div className="pt-[64px] w-full min-h-[95vh] flex h-full">
         {/* Left */}
         <NavLeft></NavLeft>
 

@@ -6,7 +6,9 @@ const StaticInfoItem = ({
   children,
   bgIcons,
   colorIcons,
+  number,
 }) => {
+  console.log(number);
   return (
     <div className="flex items-center inline-block p-[10px] border-[1px] solid border-[#f8f8f8] rounded-xl shadow-thin">
       <div
@@ -16,7 +18,9 @@ const StaticInfoItem = ({
       </div>
       <div className="flex flex-col ml-[14px]">
         <span className={`text-[13px] text-[#bdbdbd]`}>{labels}</span>
-        <span className="font-semibold text-[16px]">50 {subLabel}</span>
+        <span className="font-semibold text-[16px]">
+          {number} {subLabel}
+        </span>
       </div>
     </div>
   );
