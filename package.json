@@ -24,7 +24,7 @@
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-calendar": "^4.0.0",
+    "react-calendar": "^4.2.0",
     "react-card-flip": "^1.1.5",
     "react-chartjs-2": "^5.0.1",
     "react-collapsible": "^2.10.0",
