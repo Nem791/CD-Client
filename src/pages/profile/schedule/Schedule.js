@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./schedule.scss";
+import { FireIcon } from "@heroicons/react/24/solid";
+
 const Schedule = () => {
   const { userId } = useParams();
   const [userSteak, setUserSteak] = useState();
@@ -24,13 +26,31 @@ const Schedule = () => {
   return (
     <div className="schedule-container">
       {/* 7daysteak */}
-      <div>
-        <div className="flex">
+      <div className="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
+        Streak days
+      </div>
+      <div className=" text-gray-300 font-mono text-sm py-5">
+        Streak Learning is sequential learning, which means that learners are
+        required to go through the sessions in a designated sequence (order)
+      </div>
+      <div className="p-5">
+        <div className="flex justify-center">
           <div>
-            <div>You are a rock You are on</div>
-            <div>{userSteak?.streaks?.length} day steak</div>
+            <div className="text-lg font-mono italic">
+              You are a rock You are on
+            </div>
+            <div>
+              <span className="text-lg ">{userSteak?.streaks?.length}</span> day
+              steak
+            </div>
           </div>
-          <div>fire....!</div>
+          <div>
+            <FireIcon
+              className="text-red-500"
+              width={80}
+              height={80}
+            ></FireIcon>
+          </div>
         </div>
         <div>7days</div>
       </div>

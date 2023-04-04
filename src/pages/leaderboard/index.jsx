@@ -33,7 +33,7 @@ const LeaderBoardPage = () => {
     <>
       <Header />
       <div className="pt-[64px]">
-        <h4 class="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
+        <h4 className="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
           Leader Board
         </h4>
         <div className="w-[80%] mx-auto">
