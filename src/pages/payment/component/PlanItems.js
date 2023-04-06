@@ -35,7 +35,10 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
         name: planInfo.message,
         user: userId,
       });
-      setIsModalOpening(true);
+      const link = res.data.data.transaction
+      //console.log(res)
+      window.location.href = link
+      // setIsModalOpening(true);
     } catch (error) {
       console.log(error);
     }

@@ -23,7 +23,7 @@ import Header from "../../components/common/Header";
 import { useForm } from "react-hook-form";
 import { store } from "../../store/configureStore";
 import Paper from "@mui/material/Paper";
-
+import clsx from "clsx";
 import {
   DocumentArrowUpIcon,
   QuestionMarkCircleIcon,
@@ -115,28 +115,11 @@ const Quiz = () => {
     setTestIntervale(array);
     setIntervalId(id);
   };
-  console.log({ intervalId, testInterval });
+
   useEffect(() => {
     if (!quizId) return;
     getQuizess();
   }, [quizId]);
-
-  // useEffect(() => {
-  //   if(!isFinish && testInterval.length >1){
-  //     const lastId = testInterval[testInterval.length-1]
-  //     const filteredIdArray = testInterval.filter(item => item!==lastId)
-  //     clearInterval(testInterval[testInterval.length-1])
-  //     setTestIntervale(filteredIdArray)
-  //     return;
-  //   }
-  //   if(isFinish){
-  //     testInterval.forEach(element => {
-  //       clearInterval(element)
-  //     });
-  //     setTestIntervale([])
-  //   }
-
-  // },[testInterval , isFinish])
 
   useEffect(() => {
     if (typeof currentQuestIndex === "undefined") return;
@@ -161,9 +144,17 @@ const Quiz = () => {
             English quiz
           </Typography>
         </div>
-        <div className=" grid grid-cols-4 mx-auto min-w-[776px] w-[50%] ">
-          <div className="px-6 py-4 col-span-3">
+        <div className=" grid grid-cols-7 mx-auto min-w-[776px] w-[75%] ">
+          <div className="px-6 py-4 col-span-4">
             <form onSubmit={handleSubmit(onSubmit)}>
+              <div
+                className={
+                  ("text-blue-500 font-mono text-lg",
+                  `${currentQuestIndex !== questionsList.length && "hidden"}`)
+                }
+              >
+                Congratuation you tried your best ! 
+              </div>
               {questionsList.map((ques, index) => {
                 return (
                   <div
@@ -199,64 +190,105 @@ const Quiz = () => {
                 );
               })}
             </form>
+
             {currentQuestIndex === questionsList.length && (
-              <div className=" px-8 pb-8">
-                <div className="text-blue-500 font-mono text-lg">
-                  Congratuation you tried your best !
-                </div>
-                <div className="text-sm font-bold">
-                  Here is some relative quize
-                </div>
-                {loading && (
-                  <div className="flex justify-center items-center h-[200px]">
-                    <CircularProgress size={80} />
-                  </div>
-                )}
-                {recommendQuizzes?.map((item) => {
+              <div className="max-h-[600px] overflow-y-auto">
+                {questionsList.map((ques, index) => {
+                  const formData = getValues();
+                  const formDataValues = Object.values(formData);
                   return (
-                    <div
-                      onClick={() => navigate(`/quiz/${item._id}`)}
-                      className="flex items-center border-2 border-gray-300 cursor-pointer hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
-                    >
-                      <div className=""></div>
-                      <div>{item.title}</div>
+                    <div className="w-full 	">
+                      <Typography sx={{ fontSize: 15, fontWeight: "bold" }}>
+                        {ques.question}
+                      </Typography>
+                      <div className=" gap-x-6">
+                        {ques.options.map((item) => {
+                          console.log(item, ques.ansewr);
+                          return (
+                            <div
+                              className={clsx(
+                                "border-2 py-4 rounded-md my-4 px-4 min-w-[144px] w-full",
+                                {
+                                  "border-green-500": item === ques.answer,
+                                  "border-red-300":
+                                    item === formDataValues[index] &&
+                                    item !== ques.answer,
+                                }
+                              )}
+                              key={item}
+                            >
+                              <div
+                                className="text-gray-500 min-w-[144px] w-full"
+                                style={{ fontSize: 13, fontWeight: "bold" }}
+                              >
+                                {item}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}
               </div>
             )}
           </div>
-          <div className="tracking px-6 py-4  ">
+          <div className="tracking px-6 py-4 col-span-3 ">
             <Typography
               sx={{ fontSize: 15, fontWeight: "bold" }}
               color="primary"
             >
               Quiz result
             </Typography>
-            <div className="grid grid-cols-3">
-              {questionsList.map((ques) => {
-                const ansewr = Object.values(getValues());
-                const key = Object.keys(getValues());
-                if (!key.includes(ques._id))
-                  return <QuestionMarkCircleIcon width={50} height={50} />;
-                if (ansewr.includes(ques.answer))
-                  return (
-                    <CheckCircleIcon
-                      width={50}
-                      height={50}
-                      className="text-green-500"
-                    />
-                  );
-                if (!ansewr.includes(ques.answer))
-                  return (
-                    <XCircleIcon
-                      width={50}
-                      height={50}
-                      className="text-red-500"
-                    />
-                  );
-                return <QuestionMarkCircleIcon />;
-              })}
+            <div className="">
+              <div className="grid grid-cols-3 w-[55%]">
+                {questionsList.map((ques) => {
+                  const ansewr = Object.values(getValues());
+                  const key = Object.keys(getValues());
+                  if (!key.includes(ques._id))
+                    return <QuestionMarkCircleIcon width={50} height={50} />;
+                  if (ansewr.includes(ques.answer))
+                    return (
+                      <CheckCircleIcon
+                        width={50}
+                        height={50}
+                        className="text-green-500"
+                      />
+                    );
+                  if (!ansewr.includes(ques.answer))
+                    return (
+                      <XCircleIcon
+                        width={50}
+                        height={50}
+                        className="text-red-500"
+                      />
+                    );
+                  return <QuestionMarkCircleIcon />;
+                })}
+              </div>
+              {currentQuestIndex === questionsList.length && (
+                <div className="pb-8">
+                  <div className="text-sm font-bold">
+                    Here is some relative quize
+                  </div>
+                  {loading && (
+                    <div className="flex justify-center items-center h-[200px]">
+                      <CircularProgress size={80} />
+                    </div>
+                  )}
+                  {recommendQuizzes?.map((item) => {
+                    return (
+                      <div
+                        onClick={() => navigate(`/quiz/${item._id}`)}
+                        className="flex items-center border-2 border-gray-300 cursor-pointer hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
+                      >
+                        <div className=""></div>
+                        <div>{item.title}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>
