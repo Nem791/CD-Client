@@ -47,7 +47,7 @@ const QuizzesPage = () => {
           <Grid container spacing={4}>
             {catergori?.map((item) => {
               return (
-                <Grid xs={3} key={item._id}>
+                <Grid xs={4} key={item._id}>
                   <Card sx={{ minWidth: 275 }}>
                     <CardContent>
                       <div className="flex justify-between items-center mb-3">
@@ -63,12 +63,18 @@ const QuizzesPage = () => {
                           <Chip label={tag} key={tag} color="warning" />
                         ))}
                       </div>
+                      <div className="flex items-center">
+                        
                       <Typography sx={{ fontSize: 14 }} color="text.secondary">
                         <div className="font-medium leading-tight text-primary">
                           Description
                         </div>
                         <div className="quiz-describle">{item.description}</div>
                       </Typography>
+                      <div className="">
+                        <img src={item.img} alt='' className="w-[100px] h-[100px] max-w-xs  object-cover"/>
+                      </div>
+                      </div>
                     </CardContent>
                     <CardActions>
                       <Button
