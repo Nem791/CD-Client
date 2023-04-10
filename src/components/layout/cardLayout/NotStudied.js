@@ -15,8 +15,8 @@ const NotStudied = () => {
         You haven't studied these terms yet.
       </p>
       <div className="mt-[20px] grid gap-y-[10px]">
-        {cardNoStudied.map((subcard) => (
-          <SubCard key={subcard._id} subcard={subcard}></SubCard>
+        {cardNoStudied?.map((subcard) => (
+          <SubCard key={subcard?._id} subcard={subcard}></SubCard>
         ))}
       </div>
     </>

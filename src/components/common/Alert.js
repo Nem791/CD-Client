@@ -15,9 +15,11 @@ import { motion } from "framer-motion";
 import { responseInvitation } from "../../realtimeCommunication/socketConnection";
 import { Button } from "@mui/material";
 import { setShowCardBox } from "../../store/show/showSlice";
+import { useNavigate } from "react-router-dom";
 
 const Alert = ({ show, message = "", type = "notice" }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { invitationComing } = useSelector((state) => state.chat);
   const handleAlertClose = () => {
     dispatch(setShowAlert(false));
@@ -36,7 +38,10 @@ const Alert = ({ show, message = "", type = "notice" }) => {
 
   const gameOverHandel = () => {
     dispatch(setShowCardBox(true));
-    window.location.reload();
+    // window.requestAnimationFrame(function () {
+    //   window.location.reload();
+    // });
+    navigate(0);
   };
 
   return ReactDOM.createPortal(

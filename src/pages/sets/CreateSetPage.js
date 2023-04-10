@@ -6,7 +6,7 @@ import * as yup from "yup";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getCardList, setSetId } from "../../store/card/slice";
+import { getCardList, setCardList, setSetId } from "../../store/card/slice";
 import {
   deleteCard,
   joinSet,
@@ -48,6 +48,13 @@ const CreateSetPage = () => {
 
   useEffect(() => {
     dispatch(getCardList(setId));
+    (async () => {
+      const response = await axios.get(
+        `${domain}/api/v1/sets/${setId}/getAllCard`
+      );
+      const { cardList } = response.data.data;
+      dispatch(setCardList(cardList));
+    })();
   }, [dispatch, setId]);
 
   useEffect(() => {
@@ -79,19 +86,32 @@ const CreateSetPage = () => {
     if (isValid) {
       try {
         if (imageCover) {
-          const sets = await axios.patch(`${domain}/api/v1/sets/${setId}`, {
-            name: values.setname,
-            description: values.description,
-            createdBy: user._id,
-            numCards: cardList.length,
-            image: imageCover,
-            slug: slugify(values.setname),
-          });
+          const formData = new FormData();
+          formData.append("filename", imageCover);
+          formData.append("name", values.setname);
+          formData.append("description", values.description);
+          formData.append("createdBy", user._id);
+          formData.append("numCards", cardList.length);
+          formData.append("slug", values.setname);
+
+          const sets = await axios.patch(
+            `${domain}/api/v1/sets/${setId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
           reset();
           fileRef.current.value = null;
           const resetFile = setImageCover;
           resetFile(null);
           navigate(`/set/${setId}`);
+        } else {
+          dispatch(setShowAlert(true));
+          dispatch(setMessage("You must choose image for the card"));
+          dispatch(setType("error"));
         }
       } catch (err) {
         console.log(err);
@@ -120,9 +140,7 @@ const CreateSetPage = () => {
             <h1 className="text-[28px] font-bold tracking-[1px]">
               Create a new set
             </h1>
-            <SmallButton
-              className={"bg-[#8fb397] hover:bg-[#4b8063] text-white"}
-            >
+            <SmallButton className={"bg-primary hover:bg-secondary text-white"}>
               Create
             </SmallButton>
           </div>
@@ -150,7 +168,7 @@ const CreateSetPage = () => {
                 ref={fileRef}
                 type="file"
                 id="coverImage"
-                className="mt-[10px] file:bg-[#8fb397] file:hover:bg-[#4b8063] file:border-none file:outline-none file:text-white file:px-[18px] file:py-[8px] file:rounded-full"
+                className="mt-[10px] file:bg-primary file:hover:bg-secondary file:border-none file:outline-none file:text-white file:px-[18px] file:py-[8px] file:rounded-full"
                 onChange={getImageUrl}
               />
               <label className="block text-[14px] font-semibold text-[#939bb4] uppercase tracking-[1px] mt-[10px] mb-[18px]">
@@ -166,12 +184,12 @@ const CreateSetPage = () => {
         </div>
         <div className="mt-[20px] grid gap-y-[10px]">
           <ButtonSubmit
-            className="bg-[#8fb397] hover:bg-[#4b8063] text-white"
+            className="bg-primary hover:bg-secondary text-white"
             onClick={handleShowModel}
           >
             Create card
           </ButtonSubmit>
-          {cardList.map((card, index) => (
+          {cardList?.map((card, index) => (
             <CardDemo
               setId={setId}
               key={card._id}

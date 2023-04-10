@@ -26,7 +26,6 @@ import {
   setShowTestModel,
 } from "../store/show/showSlice";
 import {
-  connectWithSocketServer,
   getCard,
   getNotStudied,
   getStudied,
@@ -50,14 +49,6 @@ const SetPage = () => {
   const { showTestModel, showReview, showCreateCard } = useSelector(
     (state) => state.show
   );
-
-  const { user } = useAuthStateChanged();
-
-  // useEffect(() => {
-  //   if (!user) return;
-  //   connectWithSocketServer(user, dispatch);
-  //   return () => {};
-  // }, [user, dispatch]);
 
   useEffect(() => {
     joinSet(setId);

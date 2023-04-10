@@ -30,7 +30,10 @@ const ReviewModal = () => {
         className="p-4 resize-none border-[1px] max-w-[320px] w-full rounded-lg mt-[12px] outline-none"
         placeholder="Write your review..."
       ></textarea>
-      <ButtonSubmit type="submit" className="font-bold max-w-[320px] w-full">
+      <ButtonSubmit
+        type="submit"
+        className="font-bold max-w-[320px] w-full bg-primary"
+      >
         Send Review
       </ButtonSubmit>
     </div>

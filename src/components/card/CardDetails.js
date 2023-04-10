@@ -11,13 +11,15 @@ const CardDetails = ({ show = false }) => {
 
   const { cardDetail } = useSelector((state) => state.cardDetail);
 
+  console.log("cardDetail", cardDetail);
+
   const closeCard = () => {
     dispatch(setCardShow(false));
   };
   return ReactDOM.createPortal(
     <>
       <div
-        className={`fixed w-full h-full z-40 visible opacity-100 transition ease-in duration-200 ${
+        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full z-40 visible opacity-100 transition ease-in duration-200 ${
           show ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
@@ -30,13 +32,23 @@ const CardDetails = ({ show = false }) => {
             ))}
           </div>
           <div className="grid grid-row-1 w-[35%]">
-            <div className="bg-white p-[40px] w-full rounded-xl">
-              <img
-                src={cardDetail.images}
-                alt="word-img"
-                className="w-full h-[250px] object-cover"
-              />
-            </div>
+            {cardDetail?.mimeType === "image" && (
+              <div className="bg-white p-[40px] w-full rounded-xl">
+                <img
+                  src={cardDetail?.fileUrl}
+                  alt="word-img"
+                  className="w-full h-[250px] object-cover"
+                />
+              </div>
+            )}
+            {cardDetail?.mimeType === "video" && (
+              <div className="bg-white p-[40px] w-full rounded-xl">
+                <video className="w-[400px] h-[225px] rounded-xl" controls>
+                  <source src={cardDetail?.fileUrl} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            )}
             <div
               className="bg-white p-[10px] w-max rounded-xl mt-[10px] flex items-center font-bold cursor-pointer"
               onClick={closeCard}

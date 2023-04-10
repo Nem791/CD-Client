@@ -20,7 +20,7 @@ const Modal = ({
           onClick={handleClose}
         ></div>
         <div className="max-w-[600px] w-full absolute bg-white z-50 rounded-lg">
-          <div className="bg-[#4b8063] p-8 w-full flex justify-between items-center rounded-t-lg">
+          <div className="bg-primary p-8 w-full flex justify-between items-center rounded-t-lg">
             <h1 className="text-[30px] font-bold text-white">{title}</h1>
             <div>
               <CloseRoundedIcon

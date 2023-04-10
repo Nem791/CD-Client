@@ -7,21 +7,18 @@ import SetItem from "./SetItem";
 const MySet = () => {
   const { userId } = useParams();
   const [questions, setQuestions] = useState();
-  const getAllsets = async () => {
-    try {
-      const res = await axios.get(
-        `http://localhost:3000/api/v1/sets/get-all-sets/${userId}`
-      );
-      setQuestions(res.data.data.sets);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    getAllsets();
-  }, []);
-  console.log(questions);
+    (async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/v1/sets/get-all-sets/${userId}`
+        );
+        setQuestions(res.data.data.sets);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [userId]);
 
   return (
     <div>

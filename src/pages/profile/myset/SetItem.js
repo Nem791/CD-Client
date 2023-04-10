@@ -1,9 +1,26 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getCardList } from "../../../store/card/slice";
 
 const SetItem = (props) => {
+  console.log("props", props);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getCardList(props._id));
+  }, [dispatch, props?._id]);
+
+  const navigateToSetPage = () => {
+    navigate(`/set/${props?._id}`);
+  };
   return (
-    <div className="w-[240px] h-[340px] bg-[#eff5f2] rounded-lg flex flex-col items-center justify-center relative cursor-pointer">
+    <div
+      className="w-[240px] h-[340px] bg-[#fff2e2] rounded-lg flex flex-col items-center justify-center relative cursor-pointer"
+      onClick={navigateToSetPage}
+    >
       <div>
         <img
           src={props.image}
@@ -21,10 +38,10 @@ const SetItem = (props) => {
         <Box sx={{ position: "relative", display: "inline-flex" }}>
           <CircularProgress
             variant="determinate"
-            value={props.numCards || 0}
-            className="bg-[#eff5e1] rounded-full shadow-thin"
+            value={(0.5 * 100).toFixed(1)}
+            className="bg-[#ffd884] rounded-full shadow-thin"
             color="success"
-            style={{ color: "#9eb8ac" }}
+            style={{ color: "#eaa334" }}
             size={50}
           />
           <Box

@@ -8,6 +8,7 @@ import {
 } from "../../store/cardDetailShow/cardDetailSlice";
 
 const CardBack = ({ onClick, cardInfo }) => {
+  console.log("cardInfo", cardInfo);
   const dispatch = useDispatch();
   const playAudio = useRef({});
   const speakRef = useRef("");
@@ -80,21 +81,31 @@ const CardBack = ({ onClick, cardInfo }) => {
         </div>
         <div className="h-[420px] flex flex-col items-center justify-center">
           <div className="leading-8 text-[28px] text-[#303545]">
-            {cardInfo.meaningUsers}
+            {cardInfo?.meaningUsers}
           </div>
-          <div className="text-[#bebebe] mt-2">{cardInfo.pronounce}</div>
+          <div className="text-[#bebebe] mt-2">{cardInfo?.pronounce}</div>
           <div className="font-semibold text-[#8eb397]">
-            {cardInfo.meanings[0].partOfSpeech}
+            {cardInfo?.meanings[0]?.partOfSpeech}
           </div>
         </div>
       </div>
-      <div className="max-w-[50%] w-full">
-        <img
-          src={cardInfo.images}
-          alt="img-word"
-          className="h-full w-full object-cover rounded-r-xl"
-        />
-      </div>
+      {cardInfo?.mimeType === "image" && (
+        <div className="max-w-[50%] w-full">
+          <img
+            src={cardInfo?.fileUrl}
+            alt="img-word"
+            className="h-full w-full object-cover rounded-r-xl"
+          />
+        </div>
+      )}
+      {cardInfo?.mimeType === "video" && (
+        <div className="max-w-[50%] w-full">
+          <video className="h-full w-full object-cover rounded-r-xl" controls>
+            <source src={cardInfo?.fileUrl} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      )}
     </div>
   );
 };

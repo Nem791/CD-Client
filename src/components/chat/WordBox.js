@@ -63,7 +63,7 @@ const WordBox = () => {
             className="hover:bg-[#eff5f2] border-[1px] rounded-lg p-5 inline-block cursor-pointer"
             ref={speakRef}
           >
-            <SpeakerWaveIcon className="w-6 h-6 text-[#9eb8ac]"></SpeakerWaveIcon>
+            <SpeakerWaveIcon className="w-6 h-6 text-primary"></SpeakerWaveIcon>
           </div>
         </div>
         <div className="mt-8 font-semibold text-[15px]">Means</div>

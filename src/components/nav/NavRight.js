@@ -19,7 +19,7 @@ const NavRight = () => {
       <div className="flex items-center mt-[10px]">
         <p className="text-[18px] font-semibold">{user.name}</p>
         <VerifiedUserIcon
-          className="ml-[5px] text-[#8eb397]"
+          className="ml-[5px] text-primary"
           fontSize="small"
         ></VerifiedUserIcon>
       </div>

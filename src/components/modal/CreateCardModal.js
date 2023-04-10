@@ -24,6 +24,9 @@ import { socket } from "../../App";
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import { useParams } from "react-router-dom";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
+import { getCardList } from "../../store/card/slice";
+import { domain } from "../../shared/utils/common";
+import { setCardList } from "../../store/card/slice";
 
 const CreateCardModal = ({ closeModel }) => {
   const { setId } = useParams();
@@ -86,19 +89,35 @@ const CreateCardModal = ({ closeModel }) => {
           return meanObj;
         });
 
-        const cardData = {
-          word: searchWord,
-          meaningUsers: values.definition,
-          meanings: meanArr,
-          synonyms: meanings.synonyms || [],
-          antonyms: meanings.antonyms || [],
-          pronounce: phonetic || "",
-          audio: audio || "",
-          slug: slugify(word),
-          createdBy: user.id,
-          setId: setId,
-          images: imageCover,
-        };
+        console.log("meanArr", meanArr);
+
+        const formData = new FormData();
+        formData.append("filename", imageCover);
+        formData.append("word", searchWord);
+        meanArr?.forEach((mean) => {
+          formData.append("meanings[]", JSON.stringify(mean));
+        });
+        formData.append("meaningUsers", values.definition);
+        formData.append("synonyms", meanings.synonyms || []);
+        formData.append("antonyms", meanings.antonyms || []);
+        formData.append("pronounce", phonetic || "");
+        formData.append("audio", audio || "");
+        formData.append("slug", slugify(word));
+        formData.append("createdBy", user.id);
+        formData.append("setId", setId);
+
+        // const cardData = {
+        //   word: searchWord,
+        //   meaningUsers: values.definition,
+        //   meanings: meanArr,
+        //   synonyms: meanings.synonyms || [],
+        //   antonyms: meanings.antonyms || [],
+        //   pronounce: phonetic || "",
+        //   audio: audio || "",
+        //   slug: slugify(word),
+        //   createdBy: user.id,
+        //   setId: setId,
+        // };
 
         if (cardInfo) {
           const resetFile = setImageCover;
@@ -107,13 +126,26 @@ const CreateCardModal = ({ closeModel }) => {
           const cardDataUpdate = {
             word: values.term,
             meaningUsers: values.definition,
-            images: cardInfo?.images,
+            fileUrl: cardInfo?.images,
           };
           socket?.emit("update-card", { cardDataUpdate, cardId, setId });
-          window.location.reload();
+          await axios.patch(`${domain}/api/v1/cards`, {});
+          const response = await axios.get(
+            `${domain}/api/v1/sets/${setId}/getAllCard`
+          );
+          const { cardList } = response.data.data;
+          dispatch(setCardList(cardList));
         } else if (imageCover) {
-          socket?.emit("create-card", { cardData, setId });
-          window.location.reload();
+          await axios.post(`${domain}/api/v1/cards`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          const response = await axios.get(
+            `${domain}/api/v1/sets/${setId}/getAllCard`
+          );
+          const { cardList } = response.data.data;
+          dispatch(setCardList(cardList));
         } else {
           dispatch(setShowAlert(true));
           dispatch(setMessage("You must choose image for the card"));
@@ -161,7 +193,8 @@ const CreateCardModal = ({ closeModel }) => {
           <input
             type="file"
             id="coverImage"
-            className="mt-[10px] file:bg-[#8fb397] file:hover:bg-[#4b8063] file:border-none file:outline-none file:text-white file:px-[18px] file:py-[8px] file:rounded-full"
+            name="filename"
+            className="mt-[10px] file:bg-primary file:hover:bg-secondary file:border-none file:outline-none file:text-white file:px-[18px] file:py-[8px] file:rounded-full cursor-pointer"
             onChange={getImageUrl}
             ref={fileRef}
           />
@@ -169,15 +202,6 @@ const CreateCardModal = ({ closeModel }) => {
             Upload your class cover image.
           </label>
         </div>
-        <img
-          src={
-            imageCover ||
-            cardInfo?.images ||
-            "https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg"
-          }
-          alt="img-demo"
-          className="w-[100px] h-[100px] object-cover"
-        />
       </div>
       <ButtonModal>
         {isSubmitting && imageCover ? (

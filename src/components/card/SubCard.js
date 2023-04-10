@@ -13,17 +13,25 @@ import {
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setShowCreateCard } from "../../store/show/showSlice";
-import { setCardInfo } from "../../store/card/slice";
+import { setCardInfo, setCardList } from "../../store/card/slice";
+import axios from "axios";
+import { domain } from "../../shared/utils/common";
 
 const SubCard = ({ subcard = [] }) => {
+  console.log("subcard", subcard);
   const { setId } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     joinSet(setId);
   }, [setId]);
-  const handleDeleteCard = () => {
+  const handleDeleteCard = async () => {
     deleteCard({ cardId: subcard?._id, setId });
+    const response = await axios.get(
+      `${domain}/api/v1/sets/${setId}/getAllCard`
+    );
+    const { cardList } = response.data.data;
+    dispatch(setCardList(cardList));
   };
 
   const handleUpdateCard = () => {
@@ -31,13 +39,18 @@ const SubCard = ({ subcard = [] }) => {
     dispatch(setShowCreateCard(true));
   };
 
-  const handleLearned = () => {
+  const handleLearned = async () => {
     const cardId = subcard._id;
     const cardDataUpdate = {
       isLearned: !subcard?.isLearned,
     };
 
     updateCard({ cardDataUpdate, cardId, setId });
+    const response = await axios.get(
+      `${domain}/api/v1/sets/${setId}/getAllCard`
+    );
+    const { cardList } = response.data.data;
+    dispatch(setCardList(cardList));
   };
   return (
     <div className="p-[16px] shadow-flashcard bg-white rounded-lg cursor-pointer">
@@ -49,13 +62,25 @@ const SubCard = ({ subcard = [] }) => {
           <div className="px-[32px] text-[16px] text-[#1a1d28] w-[40%]">
             {subcard?.meaningUsers}
           </div>
-          <div>
-            <img
-              src={subcard?.images?.length > 0 ? subcard?.images : defaultImg}
-              alt="word-img"
-              className="w-[100px] h-[100px] object-cover"
-            />
-          </div>
+          {subcard?.mimeType === "image" && (
+            <div>
+              <img
+                src={
+                  subcard?.fileUrl?.length > 0 ? subcard?.fileUrl : defaultImg
+                }
+                alt="word-img"
+                className="w-[200px] h-[200px] object-cover"
+              />
+            </div>
+          )}
+          {subcard?.mimeType === "video" && (
+            <div className="bg-white w-full rounded-xl">
+              <video className="w-[200px] h-[200px] object-cover" controls>
+                <source src={subcard?.fileUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          )}
         </div>
         <div className="flex items-center justify-end text-[#586380] w-[20%]">
           <div
