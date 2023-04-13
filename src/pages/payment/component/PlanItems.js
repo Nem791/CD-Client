@@ -35,9 +35,9 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
         name: planInfo.message,
         user: userId,
       });
-      const link = res.data.data.transaction
+      const link = res.data.data.transaction;
       //console.log(res)
-      window.location.href = link
+      window.location.href = link;
       // setIsModalOpening(true);
     } catch (error) {
       console.log(error);
@@ -51,11 +51,12 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
       className={`relative border-[2px] w-[300px] h-[320px] rounded-lg shadow-flashcard cursor-pointer p-5 ${
         isPopular ? "bg-[#1a1c29]" : ""
       }`}
+      onClick={payLearningPlan}
     >
       <div className="flex gap-4">
         <div
           className={`w-[70px] h-[70px] ${
-            isPopular ? "bg-[#ffcd1f]" : "bg-[#8eb397]"
+            isPopular ? "bg-[#ffcd1f]" : "bg-primary"
           } flex justify-center items-center rounded-lg`}
         >
           {type === "basic" ? (
@@ -150,12 +151,11 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
           disableRipple={true}
           style={{
             marginTop: "30px",
-            backgroundColor: `${isPopular ? "#ffcd1f" : "#8eb397"}`,
+            backgroundColor: `${isPopular ? "#ffcd1f" : "#ffbd64"}`,
             textTransform: "none",
             fontFamily: "Poppins",
             letterSpacing: "2px",
           }}
-          onClick={payLearningPlan}
         >
           Choose plan <NavigateNextRoundedIcon style={{ fontSize: "20px" }} />
         </Button>

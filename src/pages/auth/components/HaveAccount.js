@@ -6,7 +6,7 @@ const HaveAccount = ({ text, link, to }) => {
     <p className="text-center text-lg mb-10">
       {text}{" "}
       <Link
-        className="underline font-medium cursor-pointer text-[#90b498]"
+        className="underline font-medium cursor-pointer text-primary"
         to={to}
       >
         {link}

@@ -152,6 +152,14 @@ function App() {
       console.log("nam-loz", data);
     });
 
+    socket.on("streak-added", (data) => {
+      console.log("data", data);
+      dispatch(setShowAlert(true));
+      dispatch(
+        setMessage(`You're now on a ${data.streaks.length + 1} day streak.`)
+      );
+      dispatch(setType("winner"));
+    });
     socket.on("initiate-game", (data) => {
       const { _id: conversationId } = data?.newConversation;
       const { receiverId, senderId } = data?.participants;

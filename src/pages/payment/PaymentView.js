@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Header from "../../components/common/Header";
-import logo from "../../assets/img/home/logo.png";
+import logo from "../../assets/img/home/logo-wordup.png";
 import PlanItems from "./component/PlanItems";
 import { Button, Modal, Typography } from "@mui/material";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
@@ -29,7 +29,7 @@ const PaymentView = () => {
         {/* Logo and Title */}
         <div className="flex items-center justify-center gap-6 mt-10">
           <div className="">
-            <img src={logo} alt="logo" className="h-[80px]" />
+            <img src={logo} alt="logo" className="h-[280px]" />
           </div>
           <div>
             <p className="font-semibold text-[40px] mt-[18px]">

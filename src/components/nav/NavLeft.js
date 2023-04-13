@@ -29,7 +29,7 @@ const NavLeft = () => {
         <Link to={`/profile/${userId}/schedule`}>
           <div className="p-[20px] flex items-center font-semibold text-[16px] hover:bg-[#ffd884] rounded-xl cursor-pointer">
             <CalendarMonthIcon></CalendarMonthIcon>
-            <span className="ml-[20px]">Your Schedule</span>
+            <span className="ml-[20px]">Streaks</span>
           </div>
         </Link>
       </div>

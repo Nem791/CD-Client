@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
-import useAuthStateChanged from "../../hooks/useAuthStateChanged";
-import {
-  connectWithSocketServer,
-  joinSchedule,
-} from "../../realtimeCommunication/socketConnection";
+import { joinSchedule } from "../../realtimeCommunication/socketConnection";
 
 import { getSchedule, setMonthIndex } from "../../store/schedule/scheduleSlice";
 
@@ -18,7 +13,6 @@ import SideBar from "./SideBar";
 const SchedulePage = () => {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  const { user } = useAuthStateChanged();
   const { monthIndex, smallCalendarMonth, showEventModal } = useSelector(
     (state) => state.schedule
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import iconChat from "../../assets/img/icon/icon-chat.png";
 import { motion } from "framer-motion";
 import BoxChat from "./BoxChat";
 import { useDispatch } from "react-redux";
@@ -26,7 +25,7 @@ const IconChat = () => {
         }}
       >
         <img
-          src={iconChat}
+          src={`https://img.icons8.com/plasticine/100/null/chat--v1.png`}
           alt="icon-chat"
           className="w-[40px] h-[40px] pointer-events-none"
         />

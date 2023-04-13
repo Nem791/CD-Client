@@ -1,15 +1,21 @@
 import React from "react";
 
-import logo from "../../../assets/img/home/logo.png";
-import authGirl from "../../../assets/img/auth/auth-girl.png";
+import logo from "../../../assets/img/home/logo-wordup-verticle.png";
+import authGirl from "../../../assets/img/auth/auth-girl-blue.png";
 const AuthLeft = () => {
   return (
-    <div className="w-full bg-[#4b8063] p-[48px] lg:h-screen text-center">
-      <div className="bg-white rounded-full inline-flex p-3 mb-4 justify-center items-center">
-        <img src={logo} alt="logo" className="lg:h-[48px] h-[40px]" />
-      </div>
-      <div className="lg:max-w-[80%] text-white lg:ml-[72px] lg:text-[40px] text-[35px] mb-[20px] f-calistoga leading-10 text-center">
-        Let's Learning Something New Today
+    <div className="w-full bg-primary p-[48px] lg:h-screen">
+      <div className="flex items-center">
+        <div className="bg-white inline-flex mb-4 rounded-md justify-center items-center">
+          <img
+            src={logo}
+            alt="logo"
+            className="lg:h-[100px] h-[40px] object-cover"
+          />
+        </div>
+        <div className="lg:max-w-[80%] text-white lg:text-[40px] text-[35px] mb-[20px] f-calistoga leading-10 ml-4">
+          Let's Learning Something New Today
+        </div>
       </div>
       <div>
         <img src={authGirl} alt="auth-girl" />

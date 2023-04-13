@@ -15,16 +15,11 @@ import {
   setType,
 } from "../../store/alert/alertSlice";
 
-import {
-  createCard,
-  updateCard,
-} from "../../realtimeCommunication/socketConnection";
 import { socket } from "../../App";
 
 import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 import { useParams } from "react-router-dom";
 import useGetImageUrl from "../../hooks/useGetImageUrl";
-import { getCardList } from "../../store/card/slice";
 import { domain } from "../../shared/utils/common";
 import { setCardList } from "../../store/card/slice";
 
@@ -88,8 +83,6 @@ const CreateCardModal = ({ closeModel }) => {
 
           return meanObj;
         });
-
-        console.log("meanArr", meanArr);
 
         const formData = new FormData();
         formData.append("filename", imageCover);

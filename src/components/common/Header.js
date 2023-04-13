@@ -160,6 +160,7 @@ const Header = () => {
                 <Link to={link.to}>{link.title}</Link>
               </li>
             ))}
+            <MessageList></MessageList>
             <li>
               <SmallButton
                 className="text-white bg-primary hover:bg-secondary relative"
@@ -185,7 +186,7 @@ const Header = () => {
           {isLogin && (
             <>
               <FriendInvitation></FriendInvitation>
-              <MessageList></MessageList>
+
               <Notification></Notification>
               <SmallButton
                 className="bg-[#ffcd1f] hover:bg-[#ffdc62]"

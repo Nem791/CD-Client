@@ -29,7 +29,7 @@ const Schedule = () => {
     <div className="schedule-container">
       {/* 7daysteak */}
       <div className="mt-0 mb-2 text-3xl font-bold leading-tight text-primary text-center py-4">
-        Streak days
+        Learning streaks
       </div>
       <div className=" text-gray-500 font-mono text-sm p-5">
         Streak Learning is sequential learning, which means that learners are

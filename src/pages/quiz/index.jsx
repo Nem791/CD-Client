@@ -153,7 +153,7 @@ const Quiz = () => {
                   `${currentQuestIndex !== questionsList.length && "hidden"}`)
                 }
               >
-                Congratuation you tried your best ! 
+                Congratuation you tried your best !
               </div>
               {questionsList.map((ques, index) => {
                 return (
@@ -203,7 +203,6 @@ const Quiz = () => {
                       </Typography>
                       <div className=" gap-x-6">
                         {ques.options.map((item) => {
-                          console.log(item, ques.ansewr);
                           return (
                             <div
                               className={clsx(

@@ -23,7 +23,7 @@ const MessageListBox = ({ isOpen, onClick = () => {} }) => {
     >
       <p className="px-[10px] py-[15px] flex items-center justify-center border-b-[2px]">
         <span className=" flex items-center justify-center font-semibold">
-          Your Message
+          Your partners
         </span>
       </p>
       <div className="px-[10px] max-h-[300px] overflow-x-auto">

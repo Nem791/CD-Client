@@ -48,6 +48,8 @@ const EventModal = () => {
       createdBy: userId,
     };
 
+    console.log("calendarEvent", calendarEvent);
+
     if (selectedEvent) {
       const selectedEventId = selectedEvent._id;
       updateSchedule({ calendarEvent, selectedEventId, userId: user?._id });

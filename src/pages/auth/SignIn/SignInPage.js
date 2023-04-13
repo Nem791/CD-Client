@@ -29,20 +29,20 @@ const SignInPage = () => {
   return (
     <Layout>
       <AuthRight
-        title="Log in to Mindcard"
+        title="Log in"
         subtitle="Welcome back! login with your data that you entered during registration"
       >
         <div className="px-[120px]">
           <div>
             <ButtonSocial
               title="Login with Facebook"
-              imgSrc="https://img.icons8.com/bubbles/50/000000/facebook-new.png"
+              imgSrc="https://img.icons8.com/fluency/48/null/facebook.png"
               alt="facebook-login"
               onClick={signInWithFacebook}
             ></ButtonSocial>
             <ButtonSocial
               title="Login with Google"
-              imgSrc="https://img.icons8.com/clouds/100/000000/google-logo.png"
+              imgSrc="https://img.icons8.com/fluency/48/null/google-logo.png"
               alt="google-login"
               onClick={signInWithGoogle}
             ></ButtonSocial>
@@ -94,7 +94,7 @@ const SignInPage = () => {
             to={"/sign-up"}
           ></HaveAccount>
           <LineText className="hidden"></LineText>
-          <p className="text-center text-[#c8c8c8] font-semibold text-[17px] mb-10 pt-[18px] hover:text-[#90b498] transition-all linear">
+          <p className="text-center text-[#c8c8c8] font-semibold text-[17px] mb-10 pt-[18px] hover:text-secondary transition-all linear">
             <Link to={"/forgotPassword"}>Forgot your password?</Link>
           </p>
         </div>
