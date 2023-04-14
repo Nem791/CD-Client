@@ -1,17 +1,21 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "./schedule.scss";
 import { FireIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
+import useAuthStateChanged from "../../../hooks/useAuthStateChanged";
+import { Box, Button } from "@mui/material";
 
 const Schedule = () => {
   const { userId } = useParams();
+  const { user } = useAuthStateChanged();
   const [userSteak, setUserSteak] = useState();
   const [calendarValue, setCalendarValue] = useState(new Date());
   const arrayDaysSteak = new Array(7).fill("test");
+  const navigate = useNavigate();
 
   const getSteak = async () => {
     const res = await axios.get(
@@ -35,85 +39,106 @@ const Schedule = () => {
         Streak Learning is sequential learning, which means that learners are
         required to go through the sessions in a designated sequence (order)
       </div>
-      <div className="p-5 shadow-lg my-4 rounded-md">
-        <div className="flex justify-center py-2 ">
-          <div>
-            <div className="text-2xl font-mono font-bold italic text-red-300">
-              You are a rock You are on
-            </div>
-            <div className="text-sm text-gray-300 text-center">
-              <span className="text-3xl px-2 text-yellow-700">
-                {userSteak?.streaks?.length}
-              </span>{" "}
-              day steak
-            </div>
-          </div>
-          <div>
-            <FireIcon
-              className="text-red-500"
-              width={80}
-              height={80}
-            ></FireIcon>
-          </div>
-        </div>
-        <div className="flex justify-center">
-          {arrayDaysSteak.map((_, index) => {
-            console.log({ index, _ });
-            return (
-              <div className="flex items-center">
-                <CheckCircleIcon
-                  width={50}
-                  height={50}
-                  className={clsx(
-                    index <= userSteak?.streaks.length - 1
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  )}
-                ></CheckCircleIcon>
-                {index < arrayDaysSteak.length - 1 && (
-                  <div className="border border-black w-3" />
-                )}
+      {user.paidAmount > 0 ? (
+        <>
+          <div className="p-5 shadow-lg my-4 rounded-md">
+            <div className="flex justify-center py-2 ">
+              <div>
+                <div className="text-2xl font-mono font-bold italic text-red-300">
+                  You are a rock You are on
+                </div>
+                <div className="text-sm text-gray-300 text-center">
+                  <span className="text-3xl px-2 text-yellow-700">
+                    {userSteak?.streaks?.length}
+                  </span>{" "}
+                  day steak
+                </div>
               </div>
-            );
-          })}
-        </div>
-      </div>
-      {/* calender steak */}
-      <div>
-        <div className="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
-          Calendar
-        </div>
-        <div className="flex justify-center">
-          <Calendar
-            // onChange={setCalendarValue}
-            value={calendarValue}
-            tileContent={(tileArg) => {
-              const isSeek = userSteak?.streaks.some((steakString) => {
+              <div>
+                <FireIcon
+                  className="text-red-500"
+                  width={80}
+                  height={80}
+                ></FireIcon>
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              {arrayDaysSteak.map((_, index) => {
+                console.log({ index, _ });
                 return (
-                  new Date(steakString).toISOString() ===
-                  tileArg.date.toISOString()
+                  <div className="flex items-center">
+                    <CheckCircleIcon
+                      width={50}
+                      height={50}
+                      className={clsx(
+                        index <= userSteak?.streaks.length - 1
+                          ? "text-green-500"
+                          : "text-gray-500"
+                      )}
+                    ></CheckCircleIcon>
+                    {index < arrayDaysSteak.length - 1 && (
+                      <div className="border border-black w-3" />
+                    )}
+                  </div>
                 );
-              });
-              if (isSeek) {
-                return <div>Done!</div>;
-              }
-              return <div></div>;
-            }}
-            tileClassName={(tileArg) => {
-              const isSeek = userSteak?.streaks.some((steakString) => {
-                return (
-                  new Date(steakString).toISOString() ===
-                  tileArg.date.toISOString()
-                );
-              });
-              if (isSeek) {
-                return "seekinggggggg";
-              }
-              return "";
-            }}
-          />
+              })}
+            </div>
+          </div>
+          {/* calender steak */}
+          <div>
+            <div className="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
+              Calendar
+            </div>
+            <div className="flex justify-center">
+              <Calendar
+                // onChange={setCalendarValue}
+                value={calendarValue}
+                tileContent={(tileArg) => {
+                  const isSeek = userSteak?.streaks.some((steakString) => {
+                    return (
+                      new Date(steakString).toISOString() ===
+                      tileArg.date.toISOString()
+                    );
+                  });
+                  if (isSeek) {
+                    return <div>Done!</div>;
+                  }
+                  return <div></div>;
+                }}
+                tileClassName={(tileArg) => {
+                  const isSeek = userSteak?.streaks.some((steakString) => {
+                    return (
+                      new Date(steakString).toISOString() ===
+                      tileArg.date.toISOString()
+                    );
+                  });
+                  if (isSeek) {
+                    return "seekinggggggg";
+                  }
+                  return "";
+                }}
+              />
+            </div>
+          </div>
+        </>
+      ) : (
+        <div
+          className="flex justify-center items-center flex-col"
+          style={{ border: "1px dashed grey" }}
+        >
+          <div className="text-lg text-center text-red-400">
+            You have to pay to see your streaking
+          </div>
+          <Button
+            size="large"
+            color="warning"
+            onClick={() => navigate("/payment")}
+          >
+            Payment
+          </Button>
         </div>
-      </div>
+      )}
     </div>
   );
 };
