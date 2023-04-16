@@ -8,14 +8,15 @@ import useAuthStateChanged from "../../../hooks/useAuthStateChanged";
 import { setQuestions, setTest } from "../../../store/test/testSlice";
 import { domain } from "../../../shared/utils/common";
 const MultipleChoice = ({ questionMulty }) => {
+  console.log(questionMulty);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { setId } = useParams();
+  const { setId } = useParams();
   // const { user } = useAuthStateChanged();
   const handleCreateTest = async () => {
     try {
       const { data } = await axios.post(
-        `${domain}/api/v1/quiz/create-quiz/643bae9f87163684d33dcd04`
+        `${domain}/api/v1/quiz/create-quiz/${setId}`
       );
       console.log(data);
       navigate(`/quiz/${data.data.tests._id}`);
