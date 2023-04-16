@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import setIcon from "../../../assets/img/profile/set.png";
 import SetItem from "./SetItem";
+import CheckIcon from "@mui/icons-material/Check";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 
 const MySet = () => {
   const { userId } = useParams();
@@ -34,13 +36,18 @@ const MySet = () => {
         <div className="text-[#b6b9c1] text-[16px] mt-[5px]">
           Let's learn something new today!
         </div>
+        <div className="text-[#020202] text-[16px] mt-[5px]">
+          <CheckIcon />: Approved Sets
+          <br />
+          <PendingActionsIcon />: Waiting for approval by admin
+        </div>
       </div>
       <div className="mt-[20px]">
         <p className="mb-[20px] font-bold text-[18px]">Average Score</p>
       </div>
       <div className="mt-[40px] grid grid-cols-3 gap-x-[18px] gap-y-[32px]">
         {questions?.map((item) => {
-          const { name, description, numCards, image } = item;
+          const { name, description, approved, image } = item;
           return <SetItem {...item} />;
         })}
       </div>

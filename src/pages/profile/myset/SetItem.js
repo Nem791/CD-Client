@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getCardList } from "../../../store/card/slice";
+import CheckIcon from "@mui/icons-material/Check";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 
 const SetItem = (props) => {
   console.log("props", props);
@@ -57,7 +59,9 @@ const SetItem = (props) => {
             }}
           >
             <Typography variant="caption" component="div">
-              <span className="font-bold text-[16px]">{props.numCards}%</span>
+              <span className="font-bold text-[16px]">
+                {props.approved ? <CheckIcon /> : <PendingActionsIcon />}
+              </span>
             </Typography>
           </Box>
         </Box>
