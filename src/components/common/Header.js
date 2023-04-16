@@ -62,6 +62,11 @@ const Header = () => {
       to: `/review-set`,
       title: "Review",
     },
+    {
+      id: 6,
+      to: `/sets`,
+      title: "Sets",
+    },
   ];
 
   let navigate = useNavigate();
