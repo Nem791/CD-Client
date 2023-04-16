@@ -36,16 +36,17 @@ const Essay = ({ questionEssay }) => {
   };
   return (
     <div
-      className="max-w-[268px] w-full border-[1px] border-[#e35959] rounded-xl cursor-pointer"
+      className="max-w-[268px] w-full border-[1px] border-[#e35959] rounded-xl"
       onClick={handleCreateTest}
+      style={{ cursor: "no-drop", opacity: 0.6 }}
     >
       <img
         src={essay}
         alt="essay"
-        className="hover:scale-110 transition-all linear"
+        // className="hover:scale-110 transition-all linear"
       />
-      <h1 className="text-center bg-[#e35959] p-[10px] text-white font-semibold text-[16px] rounded-b-lg">
-        Essay
+      <h1 className="text-center bg-[#808080] p-[10px] text-white font-semibold text-[16px] rounded-b-lg">
+        Essay (Coming soon)
       </h1>
     </div>
   );

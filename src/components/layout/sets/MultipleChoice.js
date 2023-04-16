@@ -10,26 +10,15 @@ import { domain } from "../../../shared/utils/common";
 const MultipleChoice = ({ questionMulty }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setId } = useParams();
-  const { user } = useAuthStateChanged();
+  // const { setId } = useParams();
+  // const { user } = useAuthStateChanged();
   const handleCreateTest = async () => {
     try {
-      const test = await axios.post(`${domain}/api/v1/test`, {
-        type: "multiple-choice",
-        user: user._id,
-        set: setId,
-      });
-
-      const testId = test.data.data.tests._id;
-      const question = await axios.post(`${domain}/api/v1/questions`, {
-        questionMulty,
-        testId: test.data.data.tests._id,
-        type: "multiple-choice",
-      });
-
-      dispatch(setQuestions(question.data.data.questions));
-      dispatch(setTest(test.data.data.tests));
-      navigate(`/set/${setId}/multiple-choice/${testId}`);
+      const { data } = await axios.post(
+        `${domain}/api/v1/quiz/create-quiz/643bae9f87163684d33dcd04`
+      );
+      console.log(data);
+      navigate(`/quiz/${data.data.tests._id}`);
     } catch (err) {
       console.log(err);
     }
