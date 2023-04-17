@@ -30,6 +30,7 @@ import { getIsLogin } from "./store/auth/slice";
 import PaymentSuccess from "./pages/payment-success/PaymentSuccess";
 import ReviewQuizzes from "./pages/review-set";
 import DetailReview from "./pages/review-detail";
+import AdminPage from "./pages/admin";
 
 const Router = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,7 @@ const Router = () => {
         <Route path="/leaderboard" element={<LeaderBoardPage />} />
         <Route path="/leaderboard/:quizId" element={<DetalLeaderBoard />} />
       </>
+      <Route path="/admin" element={<AdminPage />}></Route>
 
       {isLogin && (
         <>
