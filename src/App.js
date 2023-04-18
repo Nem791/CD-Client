@@ -8,6 +8,7 @@ import IconChat from "./components/chat/IconChat";
 import { io } from "socket.io-client";
 import useAuthStateChanged from "./hooks/useAuthStateChanged";
 import { setPendingMemberInvitations } from "./store/member/memberSlice";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   setFriends,
   setOnlineUsers,
@@ -199,13 +200,16 @@ function App() {
       socket.off("connect", onConnect);
     };
   }, [isLogin]);
+  const queryClient = new QueryClient();
 
   return (
-    <div className="relative">
-      <Router></Router>
-      <Alert show={showAlert} message={message} type={type}></Alert>
-      {showIconChat && <IconChat></IconChat>}
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <div className="relative">
+        <Router></Router>
+        <Alert show={showAlert} message={message} type={type}></Alert>
+        {showIconChat && <IconChat></IconChat>}
+      </div>
+    </QueryClientProvider>
   );
 }
 
