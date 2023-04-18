@@ -83,7 +83,6 @@ const UserList = () => {
                 >
                   <TableCell component="th" scope="row">
                     <div className="flex gap-2">
-                      <div>{row.name}</div>
                       <div>
                         <img
                           src={row.avatarUrl}
@@ -91,6 +90,7 @@ const UserList = () => {
                           className="w-5 h-5 rounded-full"
                         />
                       </div>
+                      <div>{row.name}</div>
                     </div>
                   </TableCell>
                   <TableCell align="left">{row.email}</TableCell>

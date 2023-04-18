@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Chip,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Button, Card, CardActions, CardContent, Grid } from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
@@ -27,69 +19,99 @@ const Setlist = () => {
     const { data } = await axios.patch(
       `http://localhost:3000/api/v1/sets/approve/${setId}`
     );
-    return data
-  }
+    return data;
+  };
+  const deleteSet = async (setId) => {
+    const { data } = await axios.delete(
+      `http://localhost:3000/api/v1/sets/approve/${setId}`
+    );
+    return data;
+  };
+
+  const { mutate, isSuccess } = useMutation({
+    mutationFn: approveSet,
+  });
+  const { mutate: removeSet, isSuccess: isDeleteSucesss } = useMutation({
+    mutationFn: deleteSet,
+  });
   const { data } = useQuery({
-    queryKey: ["sets"],
+    queryKey: ["sets", isSuccess],
     queryFn: getSet,
   });
-  const {mutate} = useMutation({
-    mutationFn : approveSet
-  }) 
-  
+
   console.log(data);
   return (
     <div>
-      <h4 className="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center py-4">
+      <h4 className="mt-0 mb-2 pb-4 text-2xl font-medium leading-tight text-primary text-center py-4">
         All Sets
       </h4>
-      <div className="w-[75%] mx-auto">
-        {/* <Grid container spacing={4}>
-          {data?.map((item) => {
-              return (
-                <Grid xs={4} key={item._id}>
-                  <Card sx={{ minWidth: 275 }}>
-                    <CardContent>
-                      <div className="flex justify-between items-center mb-3">
-                        <Typography
-                          sx={{ fontSize: 15 }}
-                          color="text.primary"
-                          gutterBottom
-                          noWrap
-                        >
-                          {item.title}
-                        </Typography>
-                        {item.tags.map((tag) => (
-                          <Chip label={tag} key={tag} color="warning" />
-                        ))}
-                      </div>
-                      <div className="flex items-center">
-                        
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                        <div className="font-medium leading-tight text-primary">
-                          Description
-                        </div>
-                        <div className="quiz-describle">{item.description}</div>
-                      </Typography>
-                      <div className="">
-                        <img src={item.img} alt='' className="w-[100px] h-[100px] max-w-xs  object-cover"/>
-                      </div>
-                      </div>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        fullWidth
-                        size="medium"
-                        onClick={() => {}}
-                      >
-                        Do quizz!
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
-        </Grid> */}
+      <div className=" mx-auto py-6 px-2 grid grid-cols-3 gap-6">
+        {data?.map((item) => {
+          return (
+            <div key={item._id}>
+              <Card>
+                <div className="flex justify-between ">
+                  <div className="font-medium leading-tight text-primary p-2">
+                    <div>
+                      Name : <span className="text-gray-500">{item.name}</span>
+                    </div>
+                    <div>
+                      Owner :{" "}
+                      <span className="text-gray-500">
+                        {item?.createdBy?.name}
+                      </span>
+                    </div>
+                    <div>
+                      Created time :{" "}
+                      <span className="text-gray-500">
+                        {new Date(item.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <div>
+                      Description :
+                      <span className="text-gray-500">{item.description}</span>
+                    </div>
+                  </div>
+                  <div className="">
+                    <img
+                      src={item?.image}
+                      alt=""
+                      className="w-[100px] h-[100px] max-w-xs  object-cover"
+                    />
+                  </div>
+                </div>
+                <CardActions>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    size="medium"
+                    onClick={() => {
+                      mutate(item._id);
+                    }}
+                    disabled={item?.approved}
+                  >
+                    {!item?.approved ? "Approve" : "Approved"}
+                  </Button>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="error"
+                    size="medium"
+                    onClick={() => {
+                      removeSet(item._id);
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </CardActions>
+              </Card>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

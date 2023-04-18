@@ -23,7 +23,7 @@ export const sidebarConfig = [
     title: "User List",
     key: siderbarKey.user,
     icon: (
-      <UserCircleIcon  className="w-8 h-8 text-[#586380] hover:opacity-[0.5] cursor-pointer" />
+      <UserCircleIcon className="w-8 h-8 text-[#586380] hover:opacity-[0.5] cursor-pointer" />
     ),
     component: UserList,
   },
@@ -48,16 +48,19 @@ export const sidebarConfig = [
 export const AdminPage = () => {
   const [currentPage, setCurrentPage] = useState(siderbarKey.user);
   const { user } = useAuthStateChanged();
+  console.log({ user: user.role });
   if (!user) {
     return <Navigate to="/sign-in" />;
   }
-  // if (user?.role !== "admin") {
+  // if (user && user.role !== "admin") {
+  //   console.log({ user: user.role });
   //   return <Navigate to="/" />;
   // }
+
   return (
     <div>
       <Header />
-      <div className="pt-[64px] flex w-[80%] mx-auto">
+      <div className="pt-[64px] flex  mx-auto">
         <div className="  w-[300px] h-screen transition-transform -translate-x-full sm:translate-x-0 flex">
           <div className="h-full px-3 w-[300px] py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
             <div className="space-y-2 font-medium">
@@ -65,7 +68,10 @@ export const AdminPage = () => {
                 return (
                   <div
                     key={item.title}
-                    className={clsx("flex cursor-pointer p-4 rounded-lg"  , item.key === currentPage && 'bg-slate-300   ') }
+                    className={clsx(
+                      "flex cursor-pointer p-4 rounded-lg",
+                      item.key === currentPage && "bg-slate-300   "
+                    )}
                     onClick={() => {
                       console.log("helllo");
                       setCurrentPage(item.key);
