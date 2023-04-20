@@ -4,9 +4,12 @@ import logo from "../../assets/img/home/logo-wordup-verticle.png";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import useAuthStateChanged from "../../hooks/useAuthStateChanged";
 const NavLeft = () => {
   const { userId } = useParams();
-
+  const { user } = useAuthStateChanged();
+  console.log("user", user);
   return (
     <div className="p-[40px] max-w-[20%] w-full h-full">
       <Link to="/" className="items-center">
@@ -32,6 +35,14 @@ const NavLeft = () => {
             <span className="ml-[20px]">Streaks</span>
           </div>
         </Link>
+        {user.role === "admin" && (
+          <Link to={`/admin`}>
+            <div className="p-[20px] flex items-center font-semibold text-[16px] hover:bg-[#ffd884] rounded-xl cursor-pointer">
+              <AdminPanelSettingsIcon></AdminPanelSettingsIcon>
+              <span className="ml-[20px]">Admin</span>
+            </div>
+          </Link>
+        )}
       </div>
     </div>
   );
