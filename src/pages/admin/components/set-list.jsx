@@ -1,14 +1,36 @@
-import { Button, Card, CardActions, CardContent, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  Modal,
+  Typography,
+} from "@mui/material";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 // Xem list User (GET): http://localhost:3000/api/v1/admin/users
 // Promote User lên Admin (PATCH): http://localhost:3000/api/v1/admin/users/promote-user/6411dea7be5aad470acee95a
 // Upgrade User lên Premium: http://localhost:3000/api/v1/admin/users/upgrade-user/6411dea7be5aad470acee95a
 // Admin Set API
 // Approve (PATCH): http://localhost:3000/api/v1/sets/approve/641df266947729d86f55c5fa
 // Get List Set (GET): http://localhost:3000/api/v1/sets/get-all-sets
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  borderRadius: 2,
+  p: 2,
+};
 const Setlist = () => {
+  const [modalInfo, setModalInfo] = useState({
+    isOpening: false,
+    setId: "",
+  });
   const getSet = async () => {
     const { data } = await axios.get(
       `http://localhost:3000/api/v1/sets/get-all-sets`
@@ -23,19 +45,49 @@ const Setlist = () => {
   };
   const deleteSet = async (setId) => {
     const { data } = await axios.delete(
-      `http://localhost:3000/api/v1/sets/approve/${setId}`
+      `http://localhost:3000/api/v1/sets/${setId}`
     );
     return data;
   };
 
+  const handleConfirm = () => {
+    if (modalInfo.type === "approve") {
+      mutate(modalInfo.setId);
+    }
+    if (modalInfo.type === "delete") {
+      removeSet(modalInfo.setId);
+    }
+  };
+  const handleCancel = () => {
+    setModalInfo({
+      isOpening: false,
+      setId: "",
+      type: "approve",
+    });
+  };
+
   const { mutate, isSuccess } = useMutation({
     mutationFn: approveSet,
+    onSuccess: () => {
+      setModalInfo({
+        isOpening: false,
+        setId: "",
+      });
+    },
   });
+
   const { mutate: removeSet, isSuccess: isDeleteSucesss } = useMutation({
     mutationFn: deleteSet,
+    onSuccess: () => {
+      setModalInfo({
+        isOpening: false,
+        setId: "",
+      });
+    },
   });
+
   const { data } = useQuery({
-    queryKey: ["sets", isSuccess],
+    queryKey: ["sets", isSuccess, isDeleteSucesss],
     queryFn: getSet,
   });
 
@@ -90,7 +142,11 @@ const Setlist = () => {
                     variant="outlined"
                     size="medium"
                     onClick={() => {
-                      mutate(item._id);
+                      setModalInfo({
+                        isOpening: true,
+                        setId: item._id,
+                        type: "approve",
+                      });
                     }}
                     disabled={item?.approved}
                   >
@@ -102,7 +158,11 @@ const Setlist = () => {
                     color="error"
                     size="medium"
                     onClick={() => {
-                      removeSet(item._id);
+                      setModalInfo({
+                        isOpening: true,
+                        setId: item._id,
+                        type: "delete",
+                      });
                     }}
                   >
                     Delete
@@ -113,6 +173,22 @@ const Setlist = () => {
           );
         })}
       </div>
+      <Modal open={modalInfo.isOpening}>
+        <Box sx={style}>
+          <div className="text-lg font-medium leading-tight">Confirm</div>
+          <div className="font-medium leading-tight p-4 text-red-300">
+            Are you sure want to do this
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outlined" onClick={handleConfirm}>
+              Confirm
+            </Button>
+            <Button color="error" variant="outlined" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -139,7 +139,7 @@ const DetailReview = () => {
                       {ques.options.map((item) => {
                         return (
                           <div
-                            className=" border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full"
+                            className=" border-2 border-gray-300 hover:border-indigo-600 py-4 rounded-md my-4 px-4 min-w-[144px] w-full cursor-pointer"
                             key={item}
                             onClick={() => handleSetValue(ques._id, item)}
                           >

@@ -8,7 +8,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { Button, Modal } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -18,9 +18,23 @@ import LoadingButton from "@mui/lab/LoadingButton";
 // Admin Set API
 // Approve (PATCH): http://localhost:3000/api/v1/sets/approve/641df266947729d86f55c5fa
 // Get List Set (GET): http://localhost:3000/api/v1/sets/get-all-sets
-
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  boxShadow: 24,
+  p: 2,
+  borderRadius: 2,
+};
 const UserList = () => {
   const [users, setUsers] = useState();
+  const [modalInfo, setModalInfo] = useState({
+    isOpening: false,
+    userId: "",
+  });
   const getUsers = async () => {
     const { data } = await axios.get(
       "http://localhost:3000/api/v1/admin/users"
@@ -45,13 +59,48 @@ const UserList = () => {
     isLoading,
     isSuccess,
     mutate,
-  } = useMutation({ mutationFn: promoteUser });
+  } = useMutation({
+    mutationFn: promoteUser,
+    onSuccess: () => {
+      setModalInfo({
+        isOpening: false,
+        userId: "",
+        type: "admin",
+      });
+    },
+  });
+
   const {
     data: upgradeData,
     isLoading: isUpgrading,
     isSuccess: upgradeSuccess,
     mutate: update,
-  } = useMutation({ mutationFn: upgradeUser });
+  } = useMutation({
+    mutationFn: upgradeUser,
+    onSuccess: () => {
+      setModalInfo({
+        isOpening: false,
+        userId: "",
+        type: "premium",
+      });
+    },
+  });
+
+  const handleConfirm = () => {
+    if (modalInfo.type === "admin") {
+      mutate(modalInfo.userId);
+    }
+    if (modalInfo.type === "premium") {
+      update(modalInfo.userId);
+    }
+  };
+  const handleCancel = () => {
+    setModalInfo({
+      isOpening: false,
+      userId: "",
+      type: "admin",
+    });
+  };
 
   useEffect(() => {
     getUsers();
@@ -105,7 +154,13 @@ const UserList = () => {
                         variant="outlined"
                         color="success"
                         disabled={row.role === "admin"}
-                        onClick={() => mutate(row._id)}
+                        onClick={() =>
+                          setModalInfo({
+                            isOpening: true,
+                            userId: row._id,
+                            type: "admin",
+                          })
+                        }
                         isLoading={isLoading}
                         endIcon={
                           <>
@@ -121,7 +176,13 @@ const UserList = () => {
                         color="warning"
                         isLoading={isUpgrading}
                         disabled={row.paidAmount > 0}
-                        onClick={() => update(row._id)}
+                        onClick={() =>
+                          setModalInfo({
+                            isOpening: true,
+                            userId: row._id,
+                            type: "premium",
+                          })
+                        }
                       >
                         Update Premium
                       </LoadingButton>
@@ -133,6 +194,26 @@ const UserList = () => {
           </Table>
         </TableContainer>
       </div>
+      <Modal open={modalInfo.isOpening}>
+        <Box sx={style}>
+          <div className="text-lg font-medium leading-tight">Confirm</div>
+          <div className="font-medium leading-tight p-4 text-red-300">
+            Are you sure want to do this
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button
+              variant="outlined"
+              onClick={handleConfirm}
+              isLoading={isUpgrading || isLoading}
+            >
+              Confirm
+            </Button>
+            <Button color="error" variant="outlined" onClick={handleCancel}>
+              Cancel
+            </Button>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -37,7 +37,9 @@ const ReviewQuizzes = () => {
           {reviewQuizzes.length > 0 && (
             <div className="flex gap-4">
               <div className="flex-1">
-                <div className="text-xl font-semibold text-indigo-500">Why Review Information?</div>
+                <div className="text-xl font-semibold text-indigo-500">
+                  Why Review Information?
+                </div>
                 <div className="p-2 ">
                   Review strategies are techniques for reengaging with
                   information that you have already learned, so that it stays
@@ -45,34 +47,39 @@ const ReviewQuizzes = () => {
                   learning for a specific purpose – for instance, revising for
                   an assessment or exam.
                 </div>
-                <div className="text-xl font-semibold text-indigo-500">When you should review your quiz?</div>
+                <div className="text-xl font-semibold text-indigo-500">
+                  When you should review your quiz?
+                </div>
                 <div className="p-2 ">
-                    Memory expert and psychologist Hermann Ebbinghaus' most famous
+                  Memory expert and psychologist Hermann Ebbinghaus' most famous
                   discovery – the "Forgetting Curve" – shows how new information
                   can fade from memory over time, unless you take the time to
                   review it. Ebbinghaus' research also revealed that each time
                   you review information, you can wait a little longer before
                   doing so again.
                 </div>
-                <div className="text-xl font-semibold text-indigo-500">Our Solution</div>
+                <div className="text-xl font-semibold text-indigo-500">
+                  Our Solution
+                </div>
                 <div className="p-2">
-                    We have special algorithm to detect when is best time to review your quiz.
-                    We already generate your question beside and sort it
+                  We have special algorithm to detect when is best time to
+                  review your quiz. We already generate your question beside and
+                  sort it
                 </div>
               </div>
               <div className="flex-1 overflow-y-auto h-[700px]">
                 {reviewQuizzes?.map((item) => {
+                  // console.log(item.quiz[0]?.title, "123123123123131");
                   return (
                     <div className="p-3">
                       <Card sx={{ minWidth: 275 }}>
                         <CardContent>
-                          <div className="text-lg text-center font-mono font-bold">Anonymous Quiz!</div>
+                          <div className="text-lg text-center font-mono font-bold">
+                            {item.quiz[0]?.title ?? "Set Title"}
+                          </div>
                           <div className="flex justify-between items-center py-4">
-                            <div className="italic">
-                              Best time to review
-                            </div>
+                            <div className="italic">Best time to review</div>
                             <div>{`${item.name}`}</div>
-                              
                           </div>
                           <Button
                             fullWidth

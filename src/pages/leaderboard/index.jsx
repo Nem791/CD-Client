@@ -40,24 +40,48 @@ const LeaderBoardPage = () => {
           <Grid container spacing={4}>
             {catergori?.map((item) => {
               return (
-                <Grid xs={3} key={item._id}>
+                <Grid xs={4} key={item._id}>
                   <Card sx={{ minWidth: 275 }}>
                     <CardContent>
-                      <div className="font-mono  text-gray-800 font-semibold min-h-[48px]">
-                        {item.title}
+                      <div className="flex justify-between items-center mb-3">
+                        <Typography
+                          sx={{ fontSize: 15 }}
+                          color="text.primary"
+                          gutterBottom
+                          noWrap
+                        >
+                          {item.title}
+                        </Typography>
+                        {/* {item.tags.map((tag) => (
+                        <Chip label={tag} key={tag} color="warning" />
+                      ))} */}
                       </div>
-                      <div className="ld-description-container">
-                        <span className="font-semibold text-gray-300 text-sm">
-                          Description :
-                        </span>
-                        <span>{item.description}</span>
+                      <div className="flex items-center justify-between">
+                        <Typography
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                        >
+                          <div className="font-medium leading-tight text-primary">
+                            Description
+                          </div>
+                          <div className="quiz-describle">
+                            {item.description}
+                          </div>
+                        </Typography>
+                        <div className="">
+                          <img
+                            src={item.img}
+                            alt=""
+                            className="w-[100px] h-[100px] max-w-xs  object-cover"
+                          />
+                        </div>
                       </div>
                     </CardContent>
                     <CardActions>
                       <Button
                         fullWidth
-                        size="small"
-                        onClick={() => navigate(`/leaderboard/${item._id}`)}
+                        size="medium"
+                        onClick={() => navigate(`/quiz/${item._id}`)}
                       >
                         More Detail!
                       </Button>

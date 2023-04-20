@@ -63,17 +63,25 @@ const QuizzesPage = () => {
                           <Chip label={tag} key={tag} color="warning" />
                         ))}
                       </div>
-                      <div className="flex items-center">
-                        
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                        <div className="font-medium leading-tight text-primary">
-                          Description
+                      <div className="flex items-center justify-between">
+                        <Typography
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                        >
+                          <div className="font-medium leading-tight text-primary">
+                            Description
+                          </div>
+                          <div className="quiz-describle">
+                            {item.description}
+                          </div>
+                        </Typography>
+                        <div className="">
+                          <img
+                            src={item.img}
+                            alt=""
+                            className="w-[100px] h-[100px] max-w-xs  object-cover"
+                          />
                         </div>
-                        <div className="quiz-describle">{item.description}</div>
-                      </Typography>
-                      <div className="">
-                        <img src={item.img} alt='' className="w-[100px] h-[100px] max-w-xs  object-cover"/>
-                      </div>
                       </div>
                     </CardContent>
                     <CardActions>

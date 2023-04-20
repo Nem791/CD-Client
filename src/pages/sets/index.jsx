@@ -69,7 +69,7 @@ const SetsPage = () => {
                           color="warning"
                         />
                       </div>
-                      <div className="flex items-center">
+                      <div className="flex items-center justify-between">
                         <Typography
                           sx={{ fontSize: 14 }}
                           color="text.secondary"
