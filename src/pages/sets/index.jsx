@@ -96,7 +96,7 @@ const SetsPage = () => {
                         size="medium"
                         onClick={() => navigate(`/set/${item._id}`)}
                       >
-                        Access set
+                        View
                       </Button>
                     </CardActions>
                   </Card>

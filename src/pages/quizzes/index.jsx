@@ -41,7 +41,7 @@ const QuizzesPage = () => {
       <Header />
       <div className="pt-[64px]">
         <h4 class="mt-0 mb-2 text-2xl font-medium leading-tight text-primary text-center">
-          Quiz Time!
+          Quiz List!
         </h4>
         <div className="w-[75%] mx-auto">
           <Grid container spacing={4}>
@@ -64,16 +64,24 @@ const QuizzesPage = () => {
                         ))}
                       </div>
                       <div className="flex items-center">
-                        
-                      <Typography sx={{ fontSize: 14 }} color="text.secondary">
-                        <div className="font-medium leading-tight text-primary">
-                          Description
+                        <Typography
+                          sx={{ fontSize: 14 }}
+                          color="text.secondary"
+                        >
+                          <div className="font-medium leading-tight text-primary">
+                            Description
+                          </div>
+                          <div className="quiz-describle">
+                            {item.description}
+                          </div>
+                        </Typography>
+                        <div className="">
+                          <img
+                            src={item.img}
+                            alt=""
+                            className="w-[100px] h-[100px] max-w-xs  object-cover"
+                          />
                         </div>
-                        <div className="quiz-describle">{item.description}</div>
-                      </Typography>
-                      <div className="">
-                        <img src={item.img} alt='' className="w-[100px] h-[100px] max-w-xs  object-cover"/>
-                      </div>
                       </div>
                     </CardContent>
                     <CardActions>
