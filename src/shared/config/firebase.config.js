@@ -1,8 +1,8 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyDMHNyFkHeLY2usk-80Ont9gngEC8RM2iY",
-  authDomain: "mindcard-7253b.firebaseapp.com",
-  projectId: "mindcard-7253b",
-  storageBucket: "mindcard-7253b.appspot.com",
-  messagingSenderId: "885407868413",
-  appId: "1:885407868413:web:eef8a01b76a42e91f8a594",
+  apiKey: "AIzaSyBzUSVGJnNVhJGUqXBVg1i73jODq92Z0TA",
+  authDomain: "flashcard-uploads.firebaseapp.com",
+  projectId: "flashcard-uploads",
+  storageBucket: "flashcard-uploads.appspot.com",
+  messagingSenderId: "58873052864",
+  appId: "1:58873052864:web:f10a52d712e2f72438f725",
 };
