@@ -154,9 +154,9 @@ const CreateCardModal = ({ closeModel }) => {
         const close = closeModel;
         close();
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data.title);
         dispatch(setShowAlert(true));
-        dispatch(setMessage("Something wrong."));
+        dispatch(setMessage(err.response?.data?.title));
         dispatch(setType("error"));
       }
     }
