@@ -71,7 +71,7 @@ const DetailReview = () => {
       );
       setQuestionsList(res.data.data[0].questionInfo);
       setData(res.data.data[0]);
-      setWorkingTime(new Array(res.data.data[0].questionInfo).fill(0));
+      setWorkingTime(new Array(res.data.data[0].questionInfo.length).fill(0));
       setCurrentQuestIndex(0);
     } catch (error) {
       console.log(error);
