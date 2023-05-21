@@ -30,11 +30,14 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
   const payLearningPlan = async () => {
     const planInfo = info[type];
     try {
-      const res = await axios.post(`http://localhost:3000/api/v1/transaction`, {
-        unit_amount: planInfo.price,
-        name: planInfo.message,
-        user: userId,
-      });
+      const res = await axios.post(
+        `https://wordupset.fly.dev/api/v1/transaction`,
+        {
+          unit_amount: planInfo.price,
+          name: planInfo.message,
+          user: userId,
+        }
+      );
       const link = res.data.data.transaction;
       //console.log(res)
       window.location.href = link;

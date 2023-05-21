@@ -32,7 +32,7 @@ const Dashboard = () => {
   const getInfomation = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/sets/profile/info/${userId}`
+        `https://wordupset.fly.dev/api/v1/sets/profile/info/${userId}`
       );
       // console.log(res.data);
       setInformation(res.data.data[0]);

@@ -1,4 +1,8 @@
-import { ShieldCheckIcon, UserIcon , ChevronDoubleUpIcon } from "@heroicons/react/24/outline";
+import {
+  ShieldCheckIcon,
+  UserIcon,
+  ChevronDoubleUpIcon,
+} from "@heroicons/react/24/outline";
 import {
   Paper,
   Table,
@@ -13,7 +17,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Header from "../../components/common/Header";
 
-
 const DetalLeaderBoard = () => {
   const params = useParams();
   const [loading, setLoading] = useState(false);
@@ -22,7 +25,7 @@ const DetalLeaderBoard = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/leaderboard/${leaderboardId}`
+        `https://wordupset.fly.dev/api/v1/leaderboard/${leaderboardId}`
       );
       setLeaderboardDatae(res.data.data.leaderboard);
     } catch (error) {
@@ -37,7 +40,7 @@ const DetalLeaderBoard = () => {
 
   console.log(leaderboardData);
 
-  if (loading ||!leaderboardData) return <>Loading...</>;
+  if (loading || !leaderboardData) return <>Loading...</>;
 
   return (
     <div>
@@ -54,32 +57,43 @@ const DetalLeaderBoard = () => {
                 <TableRow>
                   <TableCell>
                     <div className="flex justify-center p-2">
-                      <ChevronDoubleUpIcon className="w-5 h-5 mr-2" /> {" "}<div>Rank</div>
+                      <ChevronDoubleUpIcon className="w-5 h-5 mr-2" />{" "}
+                      <div>Rank</div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center">
-                      <UserIcon className="w-5 h-5 mr-2" />{" "} <div>Name</div>
+                      <UserIcon className="w-5 h-5 mr-2" /> <div>Name</div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex justify-center">
-                      <ShieldCheckIcon className="w-5 h-5 mr-2" />{" "} <div>Score</div>
+                      <ShieldCheckIcon className="w-5 h-5 mr-2" />{" "}
+                      <div>Score</div>
                     </div>
                   </TableCell>
-                 
                 </TableRow>
               </TableHead>
               <TableBody>
-                {leaderboardData.map((row,index) => (
+                {leaderboardData.map((row, index) => (
                   <TableRow
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
                     <TableCell component="th" scope="row" align="center">
-                      {index+1}
+                      {index + 1}
                     </TableCell>
-                    <TableCell align="center"><div className={`${index === 0 && 'text-xl text-yellow-600 font-bold'} ${index === 1 && 'text-lg text-gray-400 font-semibold'} ${index === 2 && ' text-red-300 font-semibold'}` } >{row.user.name}</div></TableCell>
+                    <TableCell align="center">
+                      <div
+                        className={`${
+                          index === 0 && "text-xl text-yellow-600 font-bold"
+                        } ${
+                          index === 1 && "text-lg text-gray-400 font-semibold"
+                        } ${index === 2 && " text-red-300 font-semibold"}`}
+                      >
+                        {row.user.name}
+                      </div>
+                    </TableCell>
                     <TableCell align="center">{row.maxScore}</TableCell>
                   </TableRow>
                 ))}

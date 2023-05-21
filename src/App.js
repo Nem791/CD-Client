@@ -37,7 +37,7 @@ import { setMessage, setShowAlert, setType } from "./store/alert/alertSlice";
 import { setShowCardBox, setShowIconChat } from "./store/show/showSlice";
 
 axios.defaults.withCredentials = true;
-export const socket = io(`http://localhost:3000`, {
+export const socket = io(`https://wordupset.fly.dev`, {
   autoConnect: true,
 });
 
