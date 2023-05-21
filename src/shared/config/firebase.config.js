@@ -1,8 +1,9 @@
 export const firebaseConfig = {
-  apiKey: "AIzaSyBzUSVGJnNVhJGUqXBVg1i73jODq92Z0TA",
-  authDomain: "flashcard-uploads.firebaseapp.com",
-  projectId: "flashcard-uploads",
-  storageBucket: "flashcard-uploads.appspot.com",
-  messagingSenderId: "58873052864",
-  appId: "1:58873052864:web:f10a52d712e2f72438f725",
+  apiKey: "AIzaSyAMoR9Vyjra7hc5GF82VOOmzHwu3v9qTgA",
+  authDomain: "nckh-card.firebaseapp.com",
+  projectId: "nckh-card",
+  storageBucket: "nckh-card.appspot.com",
+  messagingSenderId: "9842784329",
+  appId: "1:9842784329:web:373556be6ee5338e952798",
+  measurementId: "G-FJD4JBGYNG",
 };

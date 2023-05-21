@@ -13,7 +13,7 @@ const MySet = () => {
     (async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/v1/sets/get-all-sets/${userId}`
+          `https://wordupset.fly.dev/api/v1/sets/get-all-sets/${userId}`
         );
         setQuestions(res.data.data.sets);
       } catch (error) {

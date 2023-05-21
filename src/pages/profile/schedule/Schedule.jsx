@@ -19,7 +19,7 @@ const Schedule = () => {
 
   const getSteak = async () => {
     const res = await axios.get(
-      `http://localhost:3000/api/v1/schedule/user-streak/${userId}`
+      `https://wordupset.fly.dev/api/v1/schedule/user-streak/${userId}`
     );
     setUserSteak(res.data.data.data);
     console.log(res);

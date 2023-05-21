@@ -12,12 +12,12 @@ import { Box, Button, Modal, Typography } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import LoadingButton from "@mui/lab/LoadingButton";
-// Xem list User (GET): http://localhost:3000/api/v1/admin/users
-// Promote User lên Admin (PATCH): http://localhost:3000/api/v1/admin/users/promote-user/6411dea7be5aad470acee95a
-// Upgrade User lên Premium: http://localhost:3000/api/v1/admin/users/upgrade-user/6411dea7be5aad470acee95a
+// Xem list User (GET): https://wordupset.fly.dev/api/v1/admin/users
+// Promote User lên Admin (PATCH): https://wordupset.fly.dev/api/v1/admin/users/promote-user/6411dea7be5aad470acee95a
+// Upgrade User lên Premium: https://wordupset.fly.dev/api/v1/admin/users/upgrade-user/6411dea7be5aad470acee95a
 // Admin Set API
-// Approve (PATCH): http://localhost:3000/api/v1/sets/approve/641df266947729d86f55c5fa
-// Get List Set (GET): http://localhost:3000/api/v1/sets/get-all-sets
+// Approve (PATCH): https://wordupset.fly.dev/api/v1/sets/approve/641df266947729d86f55c5fa
+// Get List Set (GET): https://wordupset.fly.dev/api/v1/sets/get-all-sets
 const style = {
   position: "absolute",
   top: "50%",
@@ -37,20 +37,20 @@ const UserList = () => {
   });
   const getUsers = async () => {
     const { data } = await axios.get(
-      "http://localhost:3000/api/v1/admin/users"
+      "https://wordupset.fly.dev/api/v1/admin/users"
     );
     const userList = data.data.data;
     setUsers(userList);
   };
   const promoteUser = async (userId) => {
     const { data } = await axios.patch(
-      `http://localhost:3000/api/v1/admin/users/promote-user/${userId}`
+      `https://wordupset.fly.dev/api/v1/admin/users/promote-user/${userId}`
     );
     return data;
   };
   const upgradeUser = async (userId) => {
     const { data } = await axios.patch(
-      `http://localhost:3000/api/v1/admin/users/upgrade-user/${userId}`
+      `https://wordupset.fly.dev/api/v1/admin/users/upgrade-user/${userId}`
     );
     return data;
   };
