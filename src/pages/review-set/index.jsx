@@ -17,7 +17,7 @@ const ReviewQuizzes = () => {
   const getReviewQuizzes = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3000/api/v1/review-question"
+        "http://word-up.fly.dev/api/v1/review-question"
       );
       setReviewQuizzes(res.data.data);
     } catch (error) {}

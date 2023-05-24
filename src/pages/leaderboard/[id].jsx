@@ -25,7 +25,7 @@ const DetalLeaderBoard = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `https://wordupset.fly.dev/api/v1/leaderboard/${leaderboardId}`
+        `https://word-up.fly.dev/api/v1/leaderboard/${leaderboardId}`
       );
       setLeaderboardDatae(res.data.data.leaderboard);
     } catch (error) {

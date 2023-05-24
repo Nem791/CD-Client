@@ -9,12 +9,12 @@ import {
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
-// Xem list User (GET): https://wordupset.fly.dev/api/v1/admin/users
-// Promote User lên Admin (PATCH): https://wordupset.fly.dev/api/v1/admin/users/promote-user/6411dea7be5aad470acee95a
-// Upgrade User lên Premium: https://wordupset.fly.dev/api/v1/admin/users/upgrade-user/6411dea7be5aad470acee95a
+// Xem list User (GET): https://word-up.fly.dev/api/v1/admin/users
+// Promote User lên Admin (PATCH): https://word-up.fly.dev/api/v1/admin/users/promote-user/6411dea7be5aad470acee95a
+// Upgrade User lên Premium: https://word-up.fly.dev/api/v1/admin/users/upgrade-user/6411dea7be5aad470acee95a
 // Admin Set API
-// Approve (PATCH): https://wordupset.fly.dev/api/v1/sets/approve/641df266947729d86f55c5fa
-// Get List Set (GET): https://wordupset.fly.dev/api/v1/sets/get-all-sets
+// Approve (PATCH): https://word-up.fly.dev/api/v1/sets/approve/641df266947729d86f55c5fa
+// Get List Set (GET): https://word-up.fly.dev/api/v1/sets/get-all-sets
 const style = {
   position: "absolute",
   top: "50%",
@@ -33,19 +33,19 @@ const Setlist = () => {
   });
   const getSet = async () => {
     const { data } = await axios.get(
-      `https://wordupset.fly.dev/api/v1/sets/get-all-sets`
+      `https://word-up.fly.dev/api/v1/sets/get-all-sets`
     );
     return data.data.sets;
   };
   const approveSet = async (setId) => {
     const { data } = await axios.patch(
-      `https://wordupset.fly.dev/api/v1/sets/approve/${setId}`
+      `https://word-up.fly.dev/api/v1/sets/approve/${setId}`
     );
     return data;
   };
   const deleteSet = async (setId) => {
     const { data } = await axios.delete(
-      `https://wordupset.fly.dev/api/v1/sets/${setId}`
+      `https://word-up.fly.dev/api/v1/sets/${setId}`
     );
     return data;
   };

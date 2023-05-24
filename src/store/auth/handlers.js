@@ -5,6 +5,7 @@ import { setIsLogin, setUser } from "./slice";
 export default function* handleGetIsLoggin() {
   try {
     const response = yield call(requestGetUser);
+    console.log(response);
 
     const { isLogin, user } = response.data;
     yield put(setIsLogin(isLogin));

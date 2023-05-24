@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import useToggleValue from "../../../hooks/useToggleValue";
+import { useCookies } from "react-cookie";
+
 import {
   setMessage,
   setShowAlert,
@@ -23,6 +25,7 @@ const useSignInPage = () => {
     useToggleValue();
 
   const { auth } = useFireBase();
+  const [cookies, setCookie] = useCookies(["jwt"]);
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -91,6 +94,9 @@ const useSignInPage = () => {
       );
 
       if (newUser) {
+        console.log(newUser);
+        setCookie("jwt", newUser.data.token, { path: "/" });
+        localStorage.setItem("jwt", newUser.data.token);
         navigate("/home");
       }
     } catch (err) {

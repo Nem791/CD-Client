@@ -31,7 +31,7 @@ const PlanItems = ({ isPopular = false, type, setIsModalOpening }) => {
     const planInfo = info[type];
     try {
       const res = await axios.post(
-        `https://wordupset.fly.dev/api/v1/transaction`,
+        `https://word-up.fly.dev/api/v1/transaction`,
         {
           unit_amount: planInfo.price,
           name: planInfo.message,
