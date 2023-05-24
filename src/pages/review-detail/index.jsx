@@ -46,7 +46,7 @@ const DetailReview = () => {
       };
     });
     try {
-      await axios.put(`http://localhost:3000/api/v1/review-question`, {
+      await axios.put(`http://word-up.fly.dev/api/v1/review-question`, {
         data: answerList,
       });
     } catch (error) {}
@@ -67,7 +67,7 @@ const DetailReview = () => {
   const getQuizess = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/v1/review-question/${reviewId}`
+        `http://word-up.fly.dev/api/v1/review-question/${reviewId}`
       );
       setQuestionsList(res.data.data[0].questionInfo);
       setData(res.data.data[0]);

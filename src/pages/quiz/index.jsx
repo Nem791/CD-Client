@@ -45,7 +45,7 @@ const Quiz = () => {
   const getRecommendQuiz = async () => {
     try {
       const response = await axios.get(
-        `https://wordupset.fly.dev/api/v1/quiz/recommend/${quizId}`
+        `https://word-up.fly.dev/api/v1/quiz/recommend/${quizId}`
       );
       setRecommendQuizzes(response.data.data.quizzes);
       setLoading(false);
@@ -66,7 +66,7 @@ const Quiz = () => {
       };
     });
     try {
-      await axios.put(`https://wordupset.fly.dev/api/v1/review-question`, {
+      await axios.put(`https://word-up.fly.dev/api/v1/review-question`, {
         data: answerList,
       });
       await getRecommendQuiz();
@@ -91,7 +91,7 @@ const Quiz = () => {
   const getQuizess = async () => {
     try {
       const res = await axios.get(
-        `https://wordupset.fly.dev/api/v1/quiz/${quizId}`
+        `https://word-up.fly.dev/api/v1/quiz/${quizId}`
       );
       setQuestionsList(res.data.data.test);
       setWorkingTime(new Array(res.data.data.test.length).fill(0));

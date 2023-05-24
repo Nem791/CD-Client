@@ -1,3 +1,3 @@
-const domain = "https://wordupset.fly.dev";
+const domain = "https://word-up.fly.dev";
 
 export { domain };

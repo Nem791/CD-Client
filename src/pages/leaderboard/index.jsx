@@ -14,7 +14,7 @@ const LeaderBoardPage = () => {
   const getLeaderBoardData = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("https://wordupset.fly.dev/api/v1/quiz");
+      const res = await axios.get("https://word-up.fly.dev/api/v1/quiz");
       setCategori(res.data.data.quizzes);
       console.log(res);
     } catch (error) {
