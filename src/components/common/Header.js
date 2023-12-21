@@ -87,6 +87,7 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       await axios.get(`${domain}/api/v1/users/logout`);
+      localStorage.removeItem("jwt");
       // refresh lại trang
       navigate(0);
     } catch (err) {

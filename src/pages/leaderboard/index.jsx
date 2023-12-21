@@ -81,7 +81,7 @@ const LeaderBoardPage = () => {
                       <Button
                         fullWidth
                         size="medium"
-                        onClick={() => navigate(`/quiz/${item._id}`)}
+                        onClick={() => navigate(`/leaderboard/${item._id}`)}
                       >
                         More Detail!
                       </Button>
