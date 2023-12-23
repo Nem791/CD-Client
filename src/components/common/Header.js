@@ -34,6 +34,8 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isLogin, user } = useAuthStateChanged();
 
+  console.log("isLogin", isLogin);
+
   const { showInvitationBox } = useSelector((state) => state.show);
 
   const ListLink = [

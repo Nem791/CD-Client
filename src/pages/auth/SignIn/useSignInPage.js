@@ -68,6 +68,8 @@ const useSignInPage = () => {
         });
 
         if (user) {
+          setCookie("jwt", user.data.token, { path: "/" });
+          localStorage.setItem("jwt", user.data.token);
           navigate("/home");
         }
       } catch (err) {
@@ -81,7 +83,6 @@ const useSignInPage = () => {
     try {
       const response = await signInWithPopup(auth, provider);
       const user = response?.user;
-      console.log(user);
 
       const newUser = await axios.post(
         `${domain}/api/v1/users/signUpWithGoogle`,
@@ -94,7 +95,6 @@ const useSignInPage = () => {
       );
 
       if (newUser) {
-        console.log(newUser);
         setCookie("jwt", newUser.data.token, { path: "/" });
         localStorage.setItem("jwt", newUser.data.token);
         navigate("/home");
