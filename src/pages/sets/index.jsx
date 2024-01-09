@@ -22,7 +22,7 @@ const SetsPage = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        "http://word-up.fly.dev/api/v1/sets/get-all-approved-sets"
+        "https://word-up.fly.dev/api/v1/sets/get-all-approved-sets"
       );
       setCategori(res.data.data.sets);
       console.log(res);
