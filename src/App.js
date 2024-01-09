@@ -192,7 +192,7 @@ function App() {
       socket.on("game-over", (data) => {
         dispatch(setIsGameOver(true));
         dispatch(setShowAlert(true));
-        dispatch(setMessage(`${data?.winner?.name} is winner!!!`));
+        dispatch(setMessage(`${data?.winner?.name} is the winner!!!`));
         dispatch(setType("winner"));
       });
     });
